@@ -46,6 +46,7 @@ public enum GrammaticalDependency {
     acl ("clausal modifier"),
     advmod ("adverbial modifier"),
     neg ("negation modifier"),
+    npmod ("noun phrase adverbial modifier"),
     npadvmod ("noun phrase adverbial modifier"),
     tmod ("temporal modifier"),
     mwe ("multi-word expression"),

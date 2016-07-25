@@ -34,11 +34,15 @@ public class DefaultGrammarService implements GrammarService {
             
             try {
                 String relation = edge.getRelation().toString();
+                if (relation.contains(":")) {
+                    relation = relation.substring(relation.indexOf(':') + 1, relation.length());
+                }
+                
                 if (relation.equals("case")) {
                     dependency = GrammaticalDependency.casemarker;
                 }
                 else {
-                    dependency = GrammaticalDependency.valueOf(edge.getRelation().toString());
+                    dependency = GrammaticalDependency.valueOf(relation);
                 } 
             } catch (IllegalArgumentException e) {
                 dependency = GrammaticalDependency.unknown;

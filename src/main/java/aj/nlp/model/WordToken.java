@@ -7,6 +7,7 @@ package aj.nlp.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.stream.XMLStreamWriter;
 
 /**
  *
@@ -45,7 +46,7 @@ public class WordToken extends Token {
     
     @Override
     public String toString() {
-        return getText();
+        return text;
     }
 
     /**
@@ -105,6 +106,11 @@ public class WordToken extends Token {
 
     @Override
     public String getName() {
-        return lemma;
+        return text;
+    }
+
+    @Override
+    public void writeXML(XMLStreamWriter xw) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

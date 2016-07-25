@@ -7,6 +7,7 @@ package aj.nlp.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.stream.XMLStreamWriter;
 
 /**
  *
@@ -134,5 +135,10 @@ public class PhraseToken extends Token {
     
     private static String capitalizeFirstLetter(String input) {
         return input.substring(0, 1).toUpperCase() + input.substring(1);
+    }
+
+    @Override
+    public void writeXML(XMLStreamWriter xw) {
+        
     }
 }

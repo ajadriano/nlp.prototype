@@ -11,6 +11,7 @@ import aj.nlp.model.SentenceToken;
 import aj.nlp.model.WordToken;
 import aj.nlp.service.LanguageProcessor;
 import aj.nlp.service.implementation.DefaultLanguageProcessor;
+import aj.nlp.service.implementation.DefaultTokenSerializer;
 import edu.stanford.nlp.hcoref.CorefCoreAnnotations.CorefChainAnnotation;
 import edu.stanford.nlp.hcoref.data.CorefChain;
 import edu.stanford.nlp.hcoref.data.CorefChain.CorefMention;
@@ -103,15 +104,13 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
-        jPanel4 = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTree2 = new javax.swing.JTree();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTextArea5 = new javax.swing.JTextArea();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea4 = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -205,40 +204,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab2", jPanel2);
 
-        jList2.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                jList2ValueChanged(evt);
-            }
-        });
-        jScrollPane6.setViewportView(jList2);
-
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jScrollPane7.setViewportView(jTextArea4);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("tab3", jPanel3);
-
         treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         jTree2.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jTree2.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
@@ -252,24 +217,47 @@ public class NewJFrame extends javax.swing.JFrame {
         jTextArea5.setRows(5);
         jScrollPane9.setViewportView(jTextArea5);
 
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("tab3", jPanel3);
+
+        jTextArea4.setColumns(20);
+        jTextArea4.setRows(5);
+        jScrollPane6.setViewportView(jTextArea4);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane9)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -374,6 +362,10 @@ public class NewJFrame extends javax.swing.JFrame {
                 sentenceTokenNode.setUserObject(sentenceToken);
                 rootNode2.add(sentenceTokenNode);
                 addNodes(sentenceToken, sentenceTokenNode);
+                
+                DefaultTokenSerializer serializer = new DefaultTokenSerializer();
+                String xml = serializer.serialize(sentenceToken);
+                jTextArea4.setText(xml);
             }
             
             MultiValuedMap<String, GrammarToken> map = new HashSetValuedHashMap<>();
@@ -474,29 +466,6 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     
     
-    private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree1ValueChanged
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
-        if (node == null) return;
-        POSToken token = (POSToken)node.getUserObject();
-        jTextArea2.setText(token.getClasses());
-    }//GEN-LAST:event_jTree1ValueChanged
-
-    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        /*DefaultListModel model = (DefaultListModel)jList1.getModel();
-        Token token = (Token) model.get(jList1.getSelectedIndex());
-        jTextArea3.setText(token.getClasses());*/
-    }//GEN-LAST:event_jList1ValueChanged
-
-    private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList2ValueChanged
-        DefaultListModel model = (DefaultListModel)jList2.getModel();
-        GrammarToken token = (GrammarToken) model.get(jList2.getSelectedIndex());
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append("Source - ").append(token.getSource()).append("\n");
-        
-        jTextArea4.setText(sb.toString());
-    }//GEN-LAST:event_jList2ValueChanged
-
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         try {
             File file = new File("example.owl");
@@ -522,54 +491,67 @@ public class NewJFrame extends javax.swing.JFrame {
         if (obj instanceof aj.nlp.model.Token) {
             aj.nlp.model.Token wordToken = (aj.nlp.model.Token)obj;
             StringBuilder sb = new StringBuilder();
-            
+
             sb.append("Index - ");
             sb.append(wordToken.getIndex());
             sb.append("\n");
-            
+
             sb.append("Name - ");
             sb.append(wordToken.getName());
             sb.append("\n");
-            
+
             sb.append("Part of speech - ");
             sb.append(wordToken.getPartOfSpeech().getDescription());
             sb.append("\n");
-            
+
             sb.append("Lemma - ");
             sb.append(wordToken.getLemma());
             sb.append("\n");
-            
+
             sb.append("Named Entity - ");
             sb.append(wordToken.getNamedEntityTag());
             sb.append("\n");
-            
+
             if (wordToken.getFunctionTag().isPresent()) {
                 sb.append("Function tag - ");
                 sb.append(wordToken.getFunctionTag().get().getDescription());
                 sb.append("\n");
             }
-            
+
             sb.append("Text - ");
             sb.append(wordToken.getText());
             sb.append("\n");
-            
+
             sb.append("Grammar\n");
-            
+
             if (wordToken.isGrammarRoot()) {
                 sb.append("ROOT\n");
             }
-            
+
             for (GrammaticalRelation<aj.nlp.model.Token> relation : wordToken.getGrammaticalRelations()) {
                 sb.append(relation.getDependency().getDescription());
                 sb.append(" - ");
                 sb.append(relation.getSource().getText());
-                sb.append("\n");              
+                sb.append("\n");
             }
-            
+
             jTextArea5.setText(sb.toString());
         }
-        
+
     }//GEN-LAST:event_jTree2ValueChanged
+
+    private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree1ValueChanged
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
+        if (node == null) return;
+        POSToken token = (POSToken)node.getUserObject();
+        jTextArea2.setText(token.getClasses());
+    }//GEN-LAST:event_jTree1ValueChanged
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        /*DefaultListModel model = (DefaultListModel)jList1.getModel();
+        Token token = (Token) model.get(jList1.getSelectedIndex());
+        jTextArea3.setText(token.getClasses());*/
+    }//GEN-LAST:event_jList1ValueChanged
 
     private void setAdjacentNodes(List<POSToken> tokens) {
         if (tokens == null) {
@@ -676,7 +658,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -687,7 +668,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;

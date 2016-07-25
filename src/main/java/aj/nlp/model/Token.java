@@ -8,6 +8,7 @@ package aj.nlp.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.xml.stream.XMLStreamWriter;
 
 /**
  *
@@ -69,6 +70,7 @@ public abstract class Token {
         return functionTag;
     }
     
+    public abstract void writeXML(XMLStreamWriter xw);
     public abstract String getName();
     public abstract NamedEntityTag getNamedEntityTag();
     public abstract String getLemma(); 
