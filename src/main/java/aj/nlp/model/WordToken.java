@@ -7,7 +7,10 @@ package aj.nlp.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.stream.XMLStreamWriter;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -40,6 +43,7 @@ public class WordToken extends Token {
     /**
      * @return the grammaticalRelations
      */
+    @Override
     public List<GrammaticalRelation<Token>> getGrammaticalRelations() {
         return grammaticalRelations;
     }
@@ -100,6 +104,7 @@ public class WordToken extends Token {
     /**
      * @return the namedEntityTag
      */
+    @Override
     public NamedEntityTag getNamedEntityTag() {
         return namedEntityTag;
     }
@@ -110,7 +115,21 @@ public class WordToken extends Token {
     }
 
     @Override
-    public void writeXML(XMLStreamWriter xw) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void writeXML(Document document, Node parentNode)  {
+        Element element = document.createElement(StringEscapeUtils.escapeXml11(this.getPartOfSpeech().toString()));
+        element.setAttribute("text", text);
+        element.setAttribute("lemma", lemma);
+        element.setAttribute("id", Integer.toString(getIndex()));
+        
+        if (namedEntityTag != NamedEntityTag.O && namedEntityTag != NamedEntityTag.UNKNOWN) {           
+            element.setAttribute("entity", namedEntityTag.toString());
+        }
+        
+        for (GrammaticalRelation<Token> relation : getGrammaticalRelations()) {
+            element.setAttribute(relation.getDependency().toString(), Integer.toString(relation.getSource().getIndex()));
+        }
+        
+        element.setUserData("token", this, null);
+        parentNode.appendChild(element);
     }
 }

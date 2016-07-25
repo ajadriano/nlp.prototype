@@ -46,6 +46,10 @@ public final class EnumHelper {
         PartOfSpeech pos;
         
         try {
+            if (partOfSpeech.equals("PRP$")) {
+                return PartOfSpeech.PRPS;
+            }
+            
             pos = PartOfSpeech.valueOf(partOfSpeech);
         } catch (IllegalArgumentException e) {
             pos = PartOfSpeech.X;

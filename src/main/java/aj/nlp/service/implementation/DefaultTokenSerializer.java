@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -34,12 +35,13 @@ public class DefaultTokenSerializer implements TokenSerializer {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("root");
-            doc.appendChild(rootElement);
-            
+            Document doc = docBuilder.newDocument();        
+            token.writeXML(doc, doc);
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(sw);
             transformer.transform(source, result);

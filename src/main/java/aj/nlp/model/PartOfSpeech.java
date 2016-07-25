@@ -30,7 +30,7 @@ public enum PartOfSpeech {
     PDT ("Predeterminer"),
     POS ("Possessive ending"),
     PRP ("Personal pronoun"),
-    PRP$ ("Possessive pronoun"),
+    PRPS ("Possessive pronoun"),
     RB ("Adverb"),
     RBR ("Adverb, comparative"),
     RBS ("Adverb, superlative"),

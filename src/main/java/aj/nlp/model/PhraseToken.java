@@ -8,6 +8,9 @@ package aj.nlp.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.stream.XMLStreamWriter;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -138,7 +141,13 @@ public class PhraseToken extends Token {
     }
 
     @Override
-    public void writeXML(XMLStreamWriter xw) {
+    public void writeXML(Document document, Node parentNode) {
+        Element element = document.createElement(this.getPartOfSpeech().toString());
+        for (Token token : getTokens()) {
+            token.writeXML(document, element);
+        }
         
+        element.setUserData("token", this, null);
+        parentNode.appendChild(element);
     }
 }
