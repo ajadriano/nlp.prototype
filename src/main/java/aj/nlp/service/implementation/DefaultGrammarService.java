@@ -20,11 +20,14 @@ import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
  */
 public class DefaultGrammarService implements GrammarService {
 
-    private final MultiValuedMap<Integer, GrammaticalRelation<Integer>> map;
+    private final MultiValuedMap<Integer, GrammaticalRelation<Integer>> targetMap;
+    private final MultiValuedMap<Integer, GrammaticalRelation<Integer>> sourceMap;
+    
     private final int rootIndex;
     
     public DefaultGrammarService(SemanticGraph graph) {
-        map = new HashSetValuedHashMap<>();
+        targetMap = new HashSetValuedHashMap<>();
+        sourceMap = new HashSetValuedHashMap<>();
         
         rootIndex = graph.getFirstRoot().index();
         
@@ -52,13 +55,13 @@ public class DefaultGrammarService implements GrammarService {
                         dependency,
                         edge.getTarget().index(),
                         edge.getSource().index());
-            map.put(relation.getTarget(), relation);
+            targetMap.put(relation.getTarget(), relation);
         }
     }
     
     @Override
-    public Collection<GrammaticalRelation<Integer>> getGrammaticalRelations(int token) {
-        return map.get(token);
+    public Collection<GrammaticalRelation<Integer>> getTargetGrammaticalRelations(int token) {
+        return targetMap.get(token);
     }
 
     /**

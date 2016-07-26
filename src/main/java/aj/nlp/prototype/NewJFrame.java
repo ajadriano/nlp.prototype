@@ -535,7 +535,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 sb.append("ROOT\n");
             }
 
-            for (GrammaticalRelation<aj.nlp.model.Token> relation : wordToken.getGrammaticalRelations()) {
+            for (GrammaticalRelation<aj.nlp.model.Token> relation : wordToken.getTargetGrammaticalRelations()) {
                 sb.append(relation.getDependency().getDescription());
                 sb.append(" - ");
                 sb.append(relation.getSource().getText());

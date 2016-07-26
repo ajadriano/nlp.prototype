@@ -88,10 +88,10 @@ public class PhraseToken extends Token {
     }
 
     @Override
-    public List<GrammaticalRelation<Token>> getGrammaticalRelations() {
+    public List<GrammaticalRelation<Token>> getTargetGrammaticalRelations() {
         List<GrammaticalRelation<Token>> relations = new ArrayList();
         getTokens().stream().forEach((token) -> {
-            relations.addAll(token.getGrammaticalRelations());
+            relations.addAll(token.getTargetGrammaticalRelations());
         });
         return relations;
     }

@@ -59,6 +59,7 @@ public enum GrammaticalDependency {
     parataxis ("parataxis"),
     goeswith ("goes with"),
     list ("list"),
+    dep ("dependent"),
     sdep ("semantic dependent"),
     agent ("agent"),
     acomp ("adjectival complement"),

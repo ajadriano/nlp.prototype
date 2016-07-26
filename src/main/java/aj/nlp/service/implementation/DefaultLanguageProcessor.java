@@ -68,8 +68,8 @@ public class DefaultLanguageProcessor implements LanguageProcessor {
     
     private void populateGrammarRelations(SentenceToken rootToken, List<WordToken> wordTokens) {
         for (WordToken wordToken : wordTokens) {
-            Collection<GrammaticalRelation<Integer>> relations = grammarService.getGrammaticalRelations(wordToken.getIndex());
-            List<GrammaticalRelation<Token>> list = wordToken.getGrammaticalRelations();
+            Collection<GrammaticalRelation<Integer>> relations = grammarService.getTargetGrammaticalRelations(wordToken.getIndex());
+            List<GrammaticalRelation<Token>> list = wordToken.getTargetGrammaticalRelations();
             for (GrammaticalRelation<Integer> relation : relations) {
                 Token source = rootToken.getToken(relation.getSource());
                 if (source != null) {
@@ -162,7 +162,7 @@ public class DefaultLanguageProcessor implements LanguageProcessor {
     }
     
     private boolean isPunctuation(int index) {
-        Collection<GrammaticalRelation<Integer>> relations = grammarService.getGrammaticalRelations(index);
+        Collection<GrammaticalRelation<Integer>> relations = grammarService.getTargetGrammaticalRelations(index);
         return relations.stream().anyMatch((relation) -> (relation.getDependency() == GrammaticalDependency.punct));
     }
 }

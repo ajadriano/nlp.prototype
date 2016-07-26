@@ -48,7 +48,7 @@ public class WordToken extends Token {
      * @return the grammaticalRelations
      */
     @Override
-    public List<GrammaticalRelation<Token>> getGrammaticalRelations() {
+    public List<GrammaticalRelation<Token>> getTargetGrammaticalRelations() {
         return grammaticalRelations;
     }
     
@@ -133,7 +133,7 @@ public class WordToken extends Token {
             element.setAttribute("coref", coreference.toString());
         }
         
-        for (GrammaticalRelation<Token> relation : getGrammaticalRelations()) {
+        for (GrammaticalRelation<Token> relation : getTargetGrammaticalRelations()) {
             element.setAttribute(relation.getDependency().toString(), Integer.toString(relation.getSource().getIndex()));
         }
         

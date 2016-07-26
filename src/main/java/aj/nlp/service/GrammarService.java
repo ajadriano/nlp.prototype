@@ -21,5 +21,5 @@ public interface GrammarService {
      * @param index
      * @return
      */
-    Collection<GrammaticalRelation<Integer>> getGrammaticalRelations(int index);
+    Collection<GrammaticalRelation<Integer>> getTargetGrammaticalRelations(int index);
 }
