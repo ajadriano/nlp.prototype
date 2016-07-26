@@ -84,5 +84,6 @@ public abstract class Token {
     public abstract int getBeginIndex();
     public abstract int getEndIndex();
     public abstract List<GrammaticalRelation<Token>> getGrammaticalRelations();
+    public abstract Integer getCoreference();
     
 }

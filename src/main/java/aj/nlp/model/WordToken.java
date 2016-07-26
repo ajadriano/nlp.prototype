@@ -22,17 +22,21 @@ public class WordToken extends Token {
     private final String lemma;
     private final NamedEntityTag namedEntityTag;
     private final List<GrammaticalRelation<Token>> grammaticalRelations;
+    private final Integer coreference;
     
     private boolean grammarRoot;
     
-    public WordToken(int index, Token parentToken, String text, String lemma, NamedEntityTag namedEntityTag,
-            PartOfSpeechInfo partOfSpeechInfo) {
+    public WordToken(int index, Token parentToken, String text, String lemma, 
+            NamedEntityTag namedEntityTag,
+            PartOfSpeechInfo partOfSpeechInfo,
+            Integer coreference) {
         super(parentToken, partOfSpeechInfo);
         this.index = index;
         this.text = text;
         this.lemma = lemma;
         this.namedEntityTag = namedEntityTag;
         this.grammaticalRelations = new ArrayList<>();
+        this.coreference = coreference;
     }
 
     @Override
@@ -125,11 +129,22 @@ public class WordToken extends Token {
             element.setAttribute("entity", namedEntityTag.toString());
         }
         
+        if (coreference != null) {
+            element.setAttribute("coref", coreference.toString());
+        }
+        
         for (GrammaticalRelation<Token> relation : getGrammaticalRelations()) {
             element.setAttribute(relation.getDependency().toString(), Integer.toString(relation.getSource().getIndex()));
         }
         
         element.setUserData("token", this, null);
         parentNode.appendChild(element);
+    }
+
+    /**
+     * @return the coreference
+     */
+    public Integer getCoreference() {        
+        return coreference;
     }
 }

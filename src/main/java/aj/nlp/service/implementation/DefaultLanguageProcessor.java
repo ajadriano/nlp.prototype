@@ -22,6 +22,7 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import java.util.Collection;
 import aj.nlp.service.LanguageProcessor;
+import edu.stanford.nlp.hcoref.CorefCoreAnnotations.CorefClusterIdAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.BeginIndexAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.EndIndexAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.IndexAnnotation;
@@ -133,12 +134,14 @@ public class DefaultLanguageProcessor implements LanguageProcessor {
             if (isPunctuation(index)) {
                 return new WordToken(index, parentToken, text, coreLabel.get(LemmaAnnotation.class), 
                        EnumHelper.toNamedEntityTag(coreLabel.get(NamedEntityTagAnnotation.class)), 
-                       new PartOfSpeechInfo(PartOfSpeech.PUNCT));
+                       new PartOfSpeechInfo(PartOfSpeech.PUNCT),
+                       coreLabel.get(CorefClusterIdAnnotation.class));
             }
             else {
                 PartOfSpeechInfo info = EnumHelper.toPartOfSpeech(coreLabel.get(PartOfSpeechAnnotation.class));     
                 return new WordToken(index, parentToken, text, coreLabel.get(LemmaAnnotation.class), 
-                        EnumHelper.toNamedEntityTag(coreLabel.get(NamedEntityTagAnnotation.class)), info);
+                        EnumHelper.toNamedEntityTag(coreLabel.get(NamedEntityTagAnnotation.class)), info,
+                        coreLabel.get(CorefClusterIdAnnotation.class));
             }
         }
         return null;

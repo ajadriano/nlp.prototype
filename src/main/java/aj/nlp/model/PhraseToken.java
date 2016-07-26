@@ -114,7 +114,7 @@ public class PhraseToken extends Token {
 
     @Override
     public NamedEntityTag getNamedEntityTag() {
-        return NamedEntityTag.UNKNOWN;
+        return null;
     }
 
     @Override
@@ -149,5 +149,10 @@ public class PhraseToken extends Token {
         
         element.setUserData("token", this, null);
         parentNode.appendChild(element);
+    }
+
+    @Override
+    public Integer getCoreference() {
+        return null;
     }
 }

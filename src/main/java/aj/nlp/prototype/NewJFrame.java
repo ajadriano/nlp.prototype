@@ -124,7 +124,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setSize(new java.awt.Dimension(800, 600));
         jScrollPane2.setViewportView(jTextArea1);
 
         jButton1.setText("Parse");
@@ -508,9 +507,17 @@ public class NewJFrame extends javax.swing.JFrame {
             sb.append(wordToken.getLemma());
             sb.append("\n");
 
-            sb.append("Named Entity - ");
-            sb.append(wordToken.getNamedEntityTag());
-            sb.append("\n");
+            if (wordToken.getNamedEntityTag() != null) {
+                sb.append("Named Entity - ");
+                sb.append(wordToken.getNamedEntityTag());
+                sb.append("\n");
+            }  
+            
+            if (wordToken.getCoreference() != null) {
+                sb.append("Coreference - ");
+                sb.append(wordToken.getCoreference());
+                sb.append("\n");
+            }
 
             if (wordToken.getFunctionTag().isPresent()) {
                 sb.append("Function tag - ");
