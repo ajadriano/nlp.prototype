@@ -495,17 +495,15 @@ public class NewJFrame extends javax.swing.JFrame {
             sb.append(wordToken.getIndex());
             sb.append("\n");
 
-            sb.append("Name - ");
-            sb.append(wordToken.getName());
-            sb.append("\n");
-
             sb.append("Part of speech - ");
             sb.append(wordToken.getPartOfSpeech().getDescription());
             sb.append("\n");
 
-            sb.append("Lemma - ");
-            sb.append(wordToken.getLemma());
-            sb.append("\n");
+            if (wordToken.getLemma() != null) {
+                sb.append("Lemma - ");
+                sb.append(wordToken.getLemma());
+                sb.append("\n");
+            }            
 
             if (wordToken.getNamedEntityTag() != null) {
                 sb.append("Named Entity - ");
@@ -535,13 +533,15 @@ public class NewJFrame extends javax.swing.JFrame {
                 sb.append("ROOT\n");
             }
 
-            for (GrammaticalRelation<aj.nlp.model.Token> relation : wordToken.getTargetGrammaticalRelations()) {
-                sb.append(relation.getDependency().getDescription());
-                sb.append(" - ");
-                sb.append(relation.getSource().getText());
-                sb.append("\n");
+            if (wordToken.getTargetGrammaticalRelations() != null) {
+                for (GrammaticalRelation<aj.nlp.model.Token> relation : wordToken.getTargetGrammaticalRelations()) {
+                    sb.append(relation.getDependency().getDescription());
+                    sb.append(" - ");
+                    sb.append(relation.getSource().getText());
+                    sb.append("\n");
+                }
             }
-
+            
             jTextArea5.setText(sb.toString());
         }
 

@@ -88,12 +88,8 @@ public class PhraseToken extends Token {
     }
 
     @Override
-    public List<GrammaticalRelation<Token>> getTargetGrammaticalRelations() {
-        List<GrammaticalRelation<Token>> relations = new ArrayList();
-        getTokens().stream().forEach((token) -> {
-            relations.addAll(token.getTargetGrammaticalRelations());
-        });
-        return relations;
+    public List<GrammaticalRelation<Token>> getTargetGrammaticalRelations() {        
+        return null;
     }
 
     @Override
@@ -102,14 +98,8 @@ public class PhraseToken extends Token {
     }
 
     @Override
-    public String getLemma() {
-        StringBuilder sb = new StringBuilder();
-        
-        for (Token token : getTokens()) {
-            sb.append(token.getLemma());           
-        }
-        
-        return sb.toString();
+    public String getLemma() {        
+        return null;
     }
 
     @Override
