@@ -119,9 +119,9 @@ public class WordToken extends Token {
     }
 
     @Override
-    public void writeXML(Document document, Node parentNode)  {
+    public Element writeXML(Document document)  {
         Element element = document.createElement(StringEscapeUtils.escapeXml11(this.getPartOfSpeech().toString()));
-        element.setAttribute("text", text);
+        element.setTextContent(text);
         element.setAttribute("lemma", lemma);
         element.setAttribute("id", Integer.toString(getIndex()));
         
@@ -137,8 +137,7 @@ public class WordToken extends Token {
             element.setAttribute(relation.getDependency().toString(), Integer.toString(relation.getSource().getIndex()));
         }
         
-        element.setUserData("token", this, null);
-        parentNode.appendChild(element);
+        return element;
     }
 
     /**

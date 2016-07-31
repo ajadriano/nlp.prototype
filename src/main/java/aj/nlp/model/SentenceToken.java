@@ -35,18 +35,16 @@ public class SentenceToken extends PhraseToken {
     }
     
     @Override
-    public void writeXML(Document document, Node parentNode) {
-        Element element = document.createElement(this.getPartOfSpeech().toString());
-        
-        if (rootGrammarToken != null) {
-            element.setAttribute("root", Integer.toString(rootGrammarToken.getIndex()));
+    public Element writeXML(Document document) {
+        if (getTokens().size() > 0) {
+            Element childElement = getTokens().get(0).writeXML(document);
+            if (rootGrammarToken != null) {
+                childElement.setAttribute("root", Integer.toString(rootGrammarToken.getIndex()));
+            }
+
+            return childElement;
         }
         
-        for (Token token : getTokens()) {
-            token.writeXML(document, element);
-        }
-        
-        element.setUserData("token", this, null);
-        parentNode.appendChild(element);
+        return null;
     }
 }

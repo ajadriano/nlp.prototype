@@ -21,13 +21,11 @@ import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
 public class DefaultGrammarService implements GrammarService {
 
     private final MultiValuedMap<Integer, GrammaticalRelation<Integer>> targetMap;
-    private final MultiValuedMap<Integer, GrammaticalRelation<Integer>> sourceMap;
     
     private final int rootIndex;
     
     public DefaultGrammarService(SemanticGraph graph) {
         targetMap = new HashSetValuedHashMap<>();
-        sourceMap = new HashSetValuedHashMap<>();
         
         rootIndex = graph.getFirstRoot().index();
         

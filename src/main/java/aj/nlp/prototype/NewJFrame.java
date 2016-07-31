@@ -8,10 +8,13 @@ package aj.nlp.prototype;
 
 import aj.nlp.model.GrammaticalRelation;
 import aj.nlp.model.SentenceToken;
-import aj.nlp.model.WordToken;
 import aj.nlp.service.LanguageProcessor;
 import aj.nlp.service.implementation.DefaultLanguageProcessor;
 import aj.nlp.service.implementation.DefaultTokenSerializer;
+import aj.owl.model.Expression;
+import aj.owl.service.FunctionParser;
+import aj.owl.service.implementation.DefaultFunctionParser;
+import aj.owl.service.implementation.OwlExecutionService;
 import edu.stanford.nlp.hcoref.CorefCoreAnnotations.CorefChainAnnotation;
 import edu.stanford.nlp.hcoref.data.CorefChain;
 import edu.stanford.nlp.hcoref.data.CorefChain.CorefMention;
@@ -25,11 +28,10 @@ import edu.stanford.nlp.semgraph.SemanticGraphEdge;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,17 +43,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLOntologyStorageException;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -61,10 +53,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private StanfordCoreNLP pipeline; 
     private final PartOfSpeech pos = new PartOfSpeech();
-    private OWLOntologyManager owlManager;
-    private OWLOntology ontology;
-    private OWLDataFactory factory;
-    private IRI ontologyIRI;
+    private final OwlExecutionService executionService = new OwlExecutionService();
     
     /**
      * Creates new form NewJFrame
@@ -111,6 +100,12 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTextArea6 = new javax.swing.JTextArea();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        jTextArea7 = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -262,6 +257,52 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab4", jPanel4);
 
+        jTextArea6.setColumns(20);
+        jTextArea6.setRows(5);
+        jScrollPane7.setViewportView(jTextArea6);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("tab5", jPanel5);
+
+        jTextArea7.setColumns(20);
+        jTextArea7.setRows(5);
+        jScrollPane10.setViewportView(jTextArea7);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("tab6", jPanel6);
+
         jButton2.setText("Save");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -307,16 +348,17 @@ public class NewJFrame extends javax.swing.JFrame {
         props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
         pipeline = new StanfordCoreNLP(props);
         
-        owlManager = OWLManager.createOWLOntologyManager();
-        ontologyIRI = IRI.create("http://www.semanticweb.org/ontologies/myontology");
+        executionService.initialize();
         
+        byte[] encoded;
         try {
-            ontology = owlManager.createOntology(ontologyIRI);
-        } catch (OWLOntologyCreationException ex) {
+            encoded = Files.readAllBytes(Paths.get("default.xslt"));
+            this.jTextArea6.setText(new String(encoded, Charset.defaultCharset()));
+        } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         
-        factory = owlManager.getOWLDataFactory();
+        this.jTextArea1.setText("A driver is any person that drives a vehicle. All buses are vehicles.");
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -346,6 +388,9 @@ public class NewJFrame extends javax.swing.JFrame {
         model2.setRoot(rootNode2);
         
         List<POSToken> tokenList = new ArrayList<>();
+        List<Expression> expressions = new ArrayList();
+        StringBuilder xmls = new StringBuilder();
+        StringBuilder transformedXmls = new StringBuilder();
         
         jList1.setModel(listModel);
         
@@ -363,9 +408,21 @@ public class NewJFrame extends javax.swing.JFrame {
                 addNodes(sentenceToken, sentenceTokenNode);
                 
                 DefaultTokenSerializer serializer = new DefaultTokenSerializer();
-                String xml = serializer.serialize(sentenceToken);
-                jTextArea4.setText(xml);
+                Document xmlDocument = serializer.serialize(sentenceToken);
+                String xml = serializer.transform(xmlDocument);
+                xmls.append(xml);
+                xmls.append("\n");
+                
+                
+                String transformedXml = serializer.transform(xmlDocument, this.jTextArea6.getText());
+                
+                FunctionParser parser = new DefaultFunctionParser();
+                expressions.addAll(parser.parse(transformedXml));
+                
+                transformedXmls.append(transformedXml);
+                transformedXmls.append("\n");
             }
+            
             
             MultiValuedMap<String, GrammarToken> map = new HashSetValuedHashMap<>();
                     
@@ -384,9 +441,19 @@ public class NewJFrame extends javax.swing.JFrame {
             tokenList.add(token);
         }  
         
-        setAdjacentNodes(tokenList);
+        jTextArea4.setText(xmls.toString());
+            
+        StringBuilder sb = new StringBuilder();
+        for (Expression expression : expressions) {
+            sb.append(expression.toString());
+            sb.append("\n");
+        }
+
+        jTextArea7.setText(sb.toString());
+
+        executionService.execute(transformedXmls.toString());
         
-        updateOntology(tokenList);
+        setAdjacentNodes(tokenList);
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void addNodes(aj.nlp.model.Token parentToken, DefaultMutableTreeNode parentNode) {
@@ -398,89 +465,8 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }
     
-    private void updateOntology(List<POSToken> tokenList) {
-        for (POSToken token : tokenList) {
-            updateOntology(token);
-        }
-    }
-    
-    private void updateOntology(POSToken posToken) {
-        
-        for (POSToken token : posToken.getChildren()) {
-            if ("Simple declarative clause".equals(token.toString())) {
-                parseSimpleDeclarativeClause(token);
-            }
-        }
-    }
-    
-    private void parseSimpleDeclarativeClause(POSToken posToken) {
-        POSToken firstToken = posToken.getFirstChild();
-        if (firstToken != null && "Noun phrase".equals(firstToken.toString())) {
-            parseNounPhrase(firstToken);
-        }
-    }
-    
-    private void parseNounPhrase(POSToken posToken) {
-        StringBuilder sb = new StringBuilder();
-        for (POSToken token : posToken.getChildren()) {
-            sb.append(token.toString());
-        }
-        
-        POSToken nextToken = posToken.getNextToken();
-        if (nextToken != null && "Verb phrase".equals(nextToken.toString())) {
-            parseVerbPhrase(nextToken, factory.getOWLNamedIndividual(IRI.create(ontologyIRI + "#" + sb.toString())));
-        }        
-    }
-    
-    private void parseVerbPhrase(POSToken posToken, OWLObject owlObject) {
-        POSToken token = posToken.getFirstChild();
-        if (token.hasGrammarRelation("copula")) {
-            POSToken nextToken = token.getNextToken();
-            if (nextToken != null && "Noun phrase".equals(nextToken.toString())) {
-                parseCopularVerbComplement(nextToken, owlObject);
-            } 
-        }
-    }
-    
-    private void parseCopularVerbComplement(POSToken posToken, OWLObject owlObject) {
-        POSToken token = posToken.getFirstChild();
-        if (token.hasGrammarRelation("determiner")) {
-            
-            POSToken currentToken = token.getNextToken();
-            
-            StringBuilder sb = new StringBuilder();
-            while (currentToken != null) {
-                sb.append(currentToken.toString());
-                currentToken = currentToken.getNextToken();
-            }
-            
-            if (owlObject instanceof OWLIndividual) {
-                OWLIndividual individual = (OWLIndividual)owlObject;
-                
-                OWLClass owlClass = factory.getOWLClass(IRI.create(ontologyIRI + "#" + sb.toString()));
-                OWLClassAssertionAxiom ax = factory.getOWLClassAssertionAxiom(owlClass, individual);
-                owlManager.addAxiom(ontology, ax);
-            }
-        }
-    }
-    
-    
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        try {
-            File file = new File("example.owl");
-            file.createNewFile();
-            DataOutputStream stream = new DataOutputStream(new FileOutputStream(file));
-            owlManager.saveOntology(ontology, stream);
-            stream.close();
-            
-            
-        } catch (OWLOntologyStorageException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        executionService.commit();
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jTree2ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree2ValueChanged
@@ -669,12 +655,16 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -683,6 +673,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextArea jTextArea5;
+    private javax.swing.JTextArea jTextArea6;
+    private javax.swing.JTextArea jTextArea7;
     private javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
     // End of variables declaration//GEN-END:variables

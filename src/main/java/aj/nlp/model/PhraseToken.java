@@ -131,14 +131,14 @@ public class PhraseToken extends Token {
     }
 
     @Override
-    public void writeXML(Document document, Node parentNode) {
+    public Element writeXML(Document document) {
         Element element = document.createElement(this.getPartOfSpeech().toString());
         for (Token token : getTokens()) {
-            token.writeXML(document, element);
+            Element childElement = token.writeXML(document);
+            element.appendChild(childElement);
         }
         
-        element.setUserData("token", this, null);
-        parentNode.appendChild(element);
+        return element;
     }
 
     @Override

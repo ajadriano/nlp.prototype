@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -71,7 +72,7 @@ public abstract class Token {
         return functionTag;
     }
     
-    public abstract void writeXML(Document document, Node parentNode);
+    public abstract Element writeXML(Document document);
     public abstract String getName();
     public abstract NamedEntityTag getNamedEntityTag();
     public abstract String getLemma(); 
