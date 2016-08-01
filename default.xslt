@@ -12,10 +12,8 @@ EquivalentClasses(<xsl:apply-templates/>)
 SubClassOf(<xsl:apply-templates select="NP"/><xsl:text> </xsl:text><xsl:apply-templates select="VP"/>)
 </xsl:template>
 
-<xsl:template match="NP[DT[position() = 1 and @lemma = 'a']][*/@compound = */@id]">
-   <xsl:for-each select="*[position()>1]">
-      <xsl:value-of select="concat(upper-case(substring(.,1,1)), substring(., 2))"/>
-   </xsl:for-each>
+<xsl:template match="/SQ[VBZ[@lemma='be']][NP[position()=1]][NP[position()=2]]">
+IsSubClassOf(<xsl:apply-templates select="NP[position()=1]"/><xsl:text> </xsl:text><xsl:apply-templates select="NP[position()=2]"/>)
 </xsl:template>
 
 <xsl:template match="NP[DT[position() = 1 and @lemma = 'a']]">
@@ -49,7 +47,7 @@ ObjectIntersectionOf(<xsl:apply-templates select="NP"/> <xsl:apply-templates sel
 </xsl:template>
 
 <xsl:template match="VP[VBZ[@relcl]][NP]">
-   ObjectSomeValuesFrom(<xsl:value-of select="VBZ"/><xsl:text> </xsl:text><xsl:apply-templates select="NP"/>)
+   ObjectSomeValuesFrom(<xsl:value-of select="VBZ/@lemma"/><xsl:text> </xsl:text><xsl:apply-templates select="NP"/>)
 </xsl:template>
 
 <xsl:template match="VP[VBZ[@relcl]][NP[count(*)=2][QP[position()=1]][NNS]]">

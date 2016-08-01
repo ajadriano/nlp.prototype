@@ -42,6 +42,11 @@
             <artifactId>Saxon-HE</artifactId>
             <version>9.7.0-7</version>
         </dependency>
+        <dependency>
+            <groupId>net.sourceforge.owlapi</groupId>
+            <artifactId>jfact</artifactId>
+            <version>5.0.0</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

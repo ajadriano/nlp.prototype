@@ -20,9 +20,9 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/myontology#drives -->
+    <!-- http://www.semanticweb.org/ontologies/myontology#drive -->
 
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/myontology#drives"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/myontology#drive"/>
     
 
 
@@ -45,6 +45,24 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/myontology#BusDriver -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/myontology#BusDriver">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/myontology#Person"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/myontology#drive"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/myontology#Bus"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/myontology#Driver -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/myontology#Driver">
@@ -53,7 +71,7 @@
                 <owl:intersectionOf rdf:parseType="Collection">
                     <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/myontology#Person"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/myontology#drives"/>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/myontology#drive"/>
                         <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/myontology#Vehicle"/>
                     </owl:Restriction>
                 </owl:intersectionOf>

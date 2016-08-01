@@ -31,6 +31,9 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
+import uk.ac.manchester.cs.jfact.JFactFactory;
 
 /**
  *
@@ -64,6 +67,8 @@ public class OwlExecutionService implements ExecutionService {
         } catch (OWLOntologyCreationException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        OWLReasonerFactory reasonerFactory = new JFactFactory();
         
         factory = owlManager.getOWLDataFactory();
         variableExpressionConverter = new DefaultVariableExpressionConverter(factory, ontologyIRI);
