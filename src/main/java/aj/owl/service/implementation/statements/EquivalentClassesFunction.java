@@ -3,26 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.owl.service.implementation.functions;
+package aj.owl.service.implementation.statements;
 
-import aj.owl.model.Function;
 import java.util.Arrays;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import aj.owl.model.OWLAxiomExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class SubClassOfFunction implements Function {
-    private static SubClassOfFunction instance = null;
+public class EquivalentClassesFunction implements OWLAxiomExpression {
     
-    protected SubClassOfFunction() {
+    private static EquivalentClassesFunction instance = null;
+    
+    protected EquivalentClassesFunction() {
     }
     
-    public static SubClassOfFunction getInstance() {
+    public static EquivalentClassesFunction getInstance() {
         if(instance == null) {
-           instance = new SubClassOfFunction();
+           instance = new EquivalentClassesFunction();
         }
         return instance;
     }
@@ -34,11 +35,11 @@ public class SubClassOfFunction implements Function {
     
     @Override
     public Object execute(OWLDataFactory factory, Object... args) {                
-        return factory.getOWLSubClassOfAxiom((OWLClassExpression)args[0], (OWLClassExpression)args[1]); 
+        return factory.getOWLEquivalentClassesAxiom(Arrays.copyOf(args, args.length, OWLClassExpression[].class)); 
     }
 
     @Override
     public Integer getArgumentCount() {
-        return 2;
+        return null;
     }
 }

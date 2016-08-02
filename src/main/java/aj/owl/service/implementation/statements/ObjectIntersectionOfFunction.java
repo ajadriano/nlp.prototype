@@ -3,27 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.owl.service.implementation.functions;
+package aj.owl.service.implementation.statements;
 
-import aj.owl.model.Function;
 import java.util.Arrays;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import aj.owl.model.OWLAxiomExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class EquivalentClassesFunction implements Function {
+public class ObjectIntersectionOfFunction implements OWLAxiomExpression {
+    private static ObjectIntersectionOfFunction instance = null;
     
-    private static EquivalentClassesFunction instance = null;
-    
-    protected EquivalentClassesFunction() {
+    protected ObjectIntersectionOfFunction() {
     }
     
-    public static EquivalentClassesFunction getInstance() {
+    public static ObjectIntersectionOfFunction getInstance() {
         if(instance == null) {
-           instance = new EquivalentClassesFunction();
+           instance = new ObjectIntersectionOfFunction();
         }
         return instance;
     }
@@ -34,12 +33,12 @@ public class EquivalentClassesFunction implements Function {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {                
-        return factory.getOWLEquivalentClassesAxiom(Arrays.copyOf(args, args.length, OWLClassExpression[].class)); 
+    public Object execute(OWLDataFactory factory, Object... args) {          
+        return factory.getOWLObjectIntersectionOf(Arrays.copyOf(args, args.length, OWLClassExpression[].class)); 
     }
 
     @Override
     public Integer getArgumentCount() {
         return null;
-    }
+    }   
 }

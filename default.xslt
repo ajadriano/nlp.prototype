@@ -12,14 +12,22 @@ EquivalentClasses(<xsl:apply-templates/>)
 SubClassOf(<xsl:apply-templates select="NP"/><xsl:text> </xsl:text><xsl:apply-templates select="VP"/>)
 </xsl:template>
 
+<xsl:template match="/S[NNS[@nsubj] and VP[*[@cop and @lemma='be']]]">
+SubClassOf(<xsl:apply-templates select="NNS"/><xsl:text> </xsl:text><xsl:apply-templates select="VP"/>)
+</xsl:template>
+
 <xsl:template match="/SQ[VBZ[@lemma='be']][NP[position()=1]][NP[position()=2]]">
-IsSubClassOf(<xsl:apply-templates select="NP[position()=1]"/><xsl:text> </xsl:text><xsl:apply-templates select="NP[position()=2]"/>)
+IsDirectSubClassOf(<xsl:apply-templates select="NP[position()=1]"/><xsl:text> </xsl:text><xsl:apply-templates select="NP[position()=2]"/>)
 </xsl:template>
 
 <xsl:template match="NP[DT[position() = 1 and @lemma = 'a']]">
    <xsl:for-each select="*[position()>1]/@lemma">
       <xsl:value-of select="concat(upper-case(substring(.,1,1)), substring(., 2))"/>
    </xsl:for-each>
+</xsl:template>
+
+<xsl:template match="NNS">
+   <xsl:value-of select="concat(upper-case(substring(@lemma,1,1)), substring(@lemma, 2))"/>
 </xsl:template>
 
 <xsl:template match="NP[DT[position() = 1 and @lemma='all']]">

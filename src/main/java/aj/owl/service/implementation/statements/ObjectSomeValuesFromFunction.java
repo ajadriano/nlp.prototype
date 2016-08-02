@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.owl.service.implementation.functions;
+package aj.owl.service.implementation.statements;
 
-import aj.owl.model.Function;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import aj.owl.model.OWLAxiomExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class ObjectSomeValuesFromFunction implements Function {
+public class ObjectSomeValuesFromFunction implements OWLAxiomExpression {
         
     private static ObjectSomeValuesFromFunction instance = null;
     

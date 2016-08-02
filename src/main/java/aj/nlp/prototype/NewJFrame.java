@@ -380,7 +380,8 @@ public class NewJFrame extends javax.swing.JFrame {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         } 
         
-        this.jTextArea1.setText("A driver is any person that drives a vehicle. All buses are vehicles. A bus driver is any person that drives a bus.");
+        this.jTextArea1.setText("A driver is any person that drives a vehicle. All buses are vehicles. A bus driver is any person that drives a bus. "
+                + "Drivers are adults. A grown up is any person that is an adult.");
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -567,7 +568,13 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        executionService.execute(this.jTextArea7.getText());
+        String result = executionService.execute(this.jTextArea7.getText());
+        if (!result.isEmpty()) {
+            StringBuilder sb = new StringBuilder(jTextArea1.getText());
+            sb.append("\n");
+            sb.append(result);
+            jTextArea1.setText(sb.toString());
+        }
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked

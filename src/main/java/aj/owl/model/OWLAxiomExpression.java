@@ -11,8 +11,6 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
  *
  * @author ajadriano
  */
-public interface Function {
-    Integer getArgumentCount();
-    Class getExpectedClass(int argumentIndex);
+public interface OWLAxiomExpression extends OWLExpression {
     Object execute(OWLDataFactory factory, Object... args);
 }

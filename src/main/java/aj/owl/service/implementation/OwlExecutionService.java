@@ -7,13 +7,12 @@ package aj.owl.service.implementation;
 
 import aj.nlp.prototype.NewJFrame;
 import aj.owl.model.Expression;
-import aj.owl.model.Function;
 import aj.owl.model.FunctionExpression;
 import aj.owl.model.VariableExpression;
 import aj.owl.service.ExecutionService;
 import aj.owl.service.FunctionParser;
 import aj.owl.service.VariableExpressionConverter;
-import aj.owl.service.implementation.functions.OWLFunction;
+import aj.owl.service.implementation.statements.OWLExpressions;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,8 +31,14 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
+import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import uk.ac.manchester.cs.jfact.JFactFactory;
+import aj.owl.model.OWLExpression;
+import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.OWLQueryExpression;
+import org.semanticweb.owlapi.reasoner.InferenceType;
 
 /**
  *
@@ -47,6 +52,7 @@ public class OwlExecutionService implements ExecutionService {
     private OWLOntologyManager owlManager;
     private OWLOntology ontology;
     private OWLDataFactory factory;
+    private OWLReasoner reasoner;
     private IRI ontologyIRI;
     
     public OwlExecutionService() {
@@ -63,36 +69,55 @@ public class OwlExecutionService implements ExecutionService {
         ontologyIRI = IRI.create("http://www.semanticweb.org/ontologies/myontology");
         
         try {
-            ontology = owlManager.createOntology(ontologyIRI);
+            File f = new File("example.owl");
+            if(f.exists()) { 
+                ontology = owlManager.loadOntologyFromOntologyDocument(f);
+            }
+            else {
+                ontology = owlManager.createOntology(ontologyIRI);
+            }
+                
+            
         } catch (OWLOntologyCreationException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         OWLReasonerFactory reasonerFactory = new JFactFactory();
         
+        OWLReasonerConfiguration config = new SimpleConfiguration(50000);
+        reasoner = reasonerFactory.createReasoner(ontology, config);
+        reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
         factory = owlManager.getOWLDataFactory();
         variableExpressionConverter = new DefaultVariableExpressionConverter(factory, ontologyIRI);
     }
     
     @Override
-    public void execute(String statement) {
+    public String execute(String statement) {
         List<Expression> expressions = functionParser.parse(statement);
+        StringBuilder sb = new StringBuilder();
+        
         for (Expression expression : expressions) {
             if (expression instanceof FunctionExpression) {
-                
-                
                 Object result = execute((FunctionExpression)expression);
-                if (result != null && OWLAxiom.class.isAssignableFrom(result.getClass())) {
-                    owlManager.addAxiom(ontology, (OWLAxiom)result);
+                if (result != null) {
+                    if (OWLAxiom.class.isAssignableFrom(result.getClass())) {
+                        owlManager.addAxiom(ontology, (OWLAxiom)result);
+                    }
+                    else if (result instanceof String) {
+                        sb.append(result);
+                        sb.append("\n");
+                    }
                 }
             }
         }
+        
+        return sb.toString();
     } 
     
     private Object execute(FunctionExpression expression) {
         Object result = null;
         try {            
-            Function function = OWLFunction.valueOf(expression.getFunction()).getFunction();
+            OWLExpression function = OWLExpressions.valueOf(expression.getFunction()).getFunction();
             Integer argumentCount = function.getArgumentCount();
             List<Expression> expressionArgs = expression.getArguments();
             if (argumentCount != null && expressionArgs.size() != argumentCount) {
@@ -100,8 +125,12 @@ public class OwlExecutionService implements ExecutionService {
             }           
             
             List<Object> arguments = GetExpressionArguments(expressionArgs, function);
-            result = function.execute(factory, arguments.stream().toArray());
-            
+            if (function instanceof OWLAxiomExpression) {
+                result = ((OWLAxiomExpression)function).execute(factory, arguments.stream().toArray());
+            }
+            else if (function instanceof OWLQueryExpression) {
+                result = ((OWLQueryExpression)function).query(reasoner, arguments.stream().toArray());
+            }
             
         } catch (IllegalArgumentException e) {
             return null;
@@ -110,7 +139,7 @@ public class OwlExecutionService implements ExecutionService {
         return result;
     }
 
-    private List<Object> GetExpressionArguments(List<Expression> expressionArgs, Function function) {
+    private List<Object> GetExpressionArguments(List<Expression> expressionArgs, OWLExpression function) {
         List<Object> arguments = new ArrayList();
         int argumentIndex = 0;
         for (Expression expressionArg : expressionArgs) {
