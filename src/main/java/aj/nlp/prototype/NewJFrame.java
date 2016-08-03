@@ -8,6 +8,7 @@ package aj.nlp.prototype;
 
 import aj.nlp.model.GrammaticalRelation;
 import aj.nlp.model.SentenceToken;
+import aj.nlp.model.TextCorpus;
 import aj.nlp.service.LanguageProcessor;
 import aj.nlp.service.implementation.DefaultLanguageProcessor;
 import aj.nlp.service.implementation.DefaultTokenSerializer;
@@ -35,7 +36,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -52,8 +52,8 @@ import org.w3c.dom.Document;
 public class NewJFrame extends javax.swing.JFrame {
 
     private StanfordCoreNLP pipeline; 
-    private final PartOfSpeech pos = new PartOfSpeech();
     private final OwlExecutionService executionService = new OwlExecutionService();
+    private final LanguageProcessor processor = new DefaultLanguageProcessor();
     
     /**
      * Creates new form NewJFrame
@@ -366,11 +366,10 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        Properties props = new Properties();
-        props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
-        pipeline = new StanfordCoreNLP(props);
-        
+
+        processor.initialize();
         executionService.initialize();
+        pipeline = processor.getPipeline();
         
         byte[] encoded;
         try {
@@ -381,10 +380,28 @@ public class NewJFrame extends javax.swing.JFrame {
         } 
         
         this.jTextArea1.setText("A driver is any person that drives a vehicle. All buses are vehicles. A bus driver is any person that drives a bus. "
-                + "Drivers are adults. A grown up is any person that is an adult.");
+                + "Drivers are adults. A grown-up is any person that is an adult.");
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        
+        DefaultTreeModel model2 = (DefaultTreeModel) jTree2.getModel();
+        DefaultMutableTreeNode rootNode2 = new DefaultMutableTreeNode("top");
+        model2.setRoot(rootNode2);
+        
+        TextCorpus textCorpus = processor.parseCorpus(jTextArea1.getText());
+        
+        for (SentenceToken token : textCorpus.getSentences()) {
+            DefaultMutableTreeNode sentenceTokenNode = new DefaultMutableTreeNode();
+            sentenceTokenNode.setUserObject(token);
+            rootNode2.add(sentenceTokenNode);
+            addNodes(token, sentenceTokenNode);
+        }
+        
+        DefaultTokenSerializer serializer = new DefaultTokenSerializer();
+        Document xmlDocument = serializer.serialize(textCorpus);
+        jTextArea4.setText(serializer.transform(xmlDocument));
+        jTextArea7.setText(serializer.transform(xmlDocument, this.jTextArea6.getText()));
         
         Annotation document = new Annotation(jTextArea1.getText());
         pipeline.annotate(document);
@@ -406,14 +423,7 @@ public class NewJFrame extends javax.swing.JFrame {
         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("top");
         model.setRoot(rootNode);
         
-        DefaultTreeModel model2 = (DefaultTreeModel) jTree2.getModel();
-        DefaultMutableTreeNode rootNode2 = new DefaultMutableTreeNode("top");
-        model2.setRoot(rootNode2);
-        
         List<POSToken> tokenList = new ArrayList<>();
-        List<Expression> expressions = new ArrayList();
-        StringBuilder xmls = new StringBuilder();
-        StringBuilder transformedXmls = new StringBuilder();
         
         jList1.setModel(listModel);
         
@@ -421,30 +431,6 @@ public class NewJFrame extends javax.swing.JFrame {
             Tree tree = sentence.get(TreeCoreAnnotations.TreeAnnotation.class);
             SemanticGraph graph = sentence.get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);
             String root = graph.getFirstRoot().originalText();
-            
-            LanguageProcessor processor = new DefaultLanguageProcessor(graph);
-            SentenceToken sentenceToken = processor.assembleToken(sentence);
-            if (sentenceToken != null) {
-                DefaultMutableTreeNode sentenceTokenNode = new DefaultMutableTreeNode();
-                sentenceTokenNode.setUserObject(sentenceToken);
-                rootNode2.add(sentenceTokenNode);
-                addNodes(sentenceToken, sentenceTokenNode);
-                
-                DefaultTokenSerializer serializer = new DefaultTokenSerializer();
-                Document xmlDocument = serializer.serialize(sentenceToken);
-                String xml = serializer.transform(xmlDocument);
-                xmls.append(xml);
-                xmls.append("\n");
-                
-                
-                String transformedXml = serializer.transform(xmlDocument, this.jTextArea6.getText());
-                
-                FunctionParser parser = new DefaultFunctionParser();
-                expressions.addAll(parser.parse(transformedXml));
-                
-                transformedXmls.append(transformedXml);
-                transformedXmls.append("\n");
-            }
             
             
             MultiValuedMap<String, GrammarToken> map = new HashSetValuedHashMap<>();
@@ -463,16 +449,6 @@ public class NewJFrame extends javax.swing.JFrame {
             addNodes(tree, false, node, node, map, root, corefMap, tokens);
             tokenList.add(token);
         }  
-        
-        jTextArea4.setText(xmls.toString());
-            
-        StringBuilder sb = new StringBuilder();
-        for (Expression expression : expressions) {
-            sb.append(expression.toString());
-            sb.append("\n");
-        }
-
-        jTextArea7.setText(transformedXmls.toString());
         
         setAdjacentNodes(tokenList);
     }//GEN-LAST:event_jButton1MouseClicked

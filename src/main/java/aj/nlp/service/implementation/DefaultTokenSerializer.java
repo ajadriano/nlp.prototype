@@ -5,6 +5,7 @@
  */
 package aj.nlp.service.implementation;
 
+import aj.nlp.model.TextCorpus;
 import aj.nlp.model.Token;
 import aj.nlp.service.TokenSerializer;
 import java.io.StringReader;
@@ -33,6 +34,25 @@ import org.w3c.dom.Element;
  */
 public class DefaultTokenSerializer implements TokenSerializer {
 
+    @Override
+    public Document serialize(TextCorpus textCorpus) {
+        StringWriter sw = new StringWriter();
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        Document doc = null;
+        try {
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            doc = docBuilder.newDocument();        
+            Element element = textCorpus.writeXML(doc);
+            if (element != null) {
+                doc.appendChild(element);
+            }
+                
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(DefaultTokenSerializer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return doc;
+    }
+    
     @Override
     public Document serialize(Token token) {
         StringWriter sw = new StringWriter();
@@ -90,5 +110,5 @@ public class DefaultTokenSerializer implements TokenSerializer {
         }
         return sw.toString();
     }
-    
+
 }

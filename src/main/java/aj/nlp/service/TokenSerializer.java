@@ -5,6 +5,7 @@
  */
 package aj.nlp.service;
 
+import aj.nlp.model.TextCorpus;
 import aj.nlp.model.Token;
 import org.w3c.dom.Document;
 
@@ -13,6 +14,7 @@ import org.w3c.dom.Document;
  * @author ajadriano
  */
 public interface TokenSerializer {
+    Document serialize(TextCorpus textCorpus);
     Document serialize(Token token);
     String transform(Document doc);
     String transform(Document doc, String xslt); 
