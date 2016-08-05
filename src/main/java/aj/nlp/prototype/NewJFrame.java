@@ -373,7 +373,7 @@ public class NewJFrame extends javax.swing.JFrame {
         
         byte[] encoded;
         try {
-            encoded = Files.readAllBytes(Paths.get("default.xslt"));
+            encoded = Files.readAllBytes(Paths.get("default.xslt"));            
             this.jTextArea6.setText(new String(encoded, Charset.defaultCharset()));
         } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);

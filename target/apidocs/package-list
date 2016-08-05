@@ -1,0 +1,10 @@
+aj.nlp.model
+aj.nlp.prototype
+aj.nlp.service
+aj.nlp.service.implementation
+aj.owl.model
+aj.owl.service
+aj.owl.service.implementation
+aj.owl.service.implementation.queries
+aj.owl.service.implementation.statements
+aj.shell

@@ -131,7 +131,7 @@ public class OwlExecutionService implements ExecutionService {
             else if (function instanceof OWLQueryExpression) {
                 result = ((OWLQueryExpression)function).query(reasoner, arguments.stream().toArray());
             }
-            
+            reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
         } catch (IllegalArgumentException e) {
             return null;
         }
