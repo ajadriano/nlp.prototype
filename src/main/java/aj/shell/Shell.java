@@ -30,6 +30,8 @@ public class Shell {
         processor.initialize();
         executionService.initialize();
         
+        String operation = "exec";
+        
         byte[] encoded = Files.readAllBytes(Paths.get("default.xslt"));
         String xsl = new String(encoded, Charset.defaultCharset());
         
@@ -39,12 +41,33 @@ public class Shell {
             System.out.print("admin>");
             input = br.readLine();
             
-            if (!"quit".equals(input)) {
+            if ("debugxml".equals(input)) {
+                operation = "xml";
+                System.out.println("Debugging nlp xml.");
+            }
+            else if ("debugfunc".equals(input)) {
+                operation = "func";
+                System.out.println("Debugging functional transformation.");
+            }
+            else if ("debugexec".equals(input)) {
+                operation = "exec";
+                System.out.println("Executing statements and queries.");
+            }
+            else if (!"quit".equals(input)) {
                 DefaultTokenSerializer serializer = new DefaultTokenSerializer();
                 TextCorpus textCorpus = processor.parseCorpus(input);
                 Document xmlDocument = serializer.serialize(textCorpus);
-                System.out.println(serializer.transform(xmlDocument, xsl));
-            }                        
+                
+                if ("exec".equals(operation)) {
+                    System.out.println(executionService.execute(serializer.transform(xmlDocument, xsl)));
+                }
+                else if ("xml".equals(operation)) {
+                    System.out.println(serializer.transform(xmlDocument));
+                }
+                else if ("func".equals(operation)) {
+                    System.out.println(serializer.transform(xmlDocument, xsl));
+                }
+            }      
         } while (!"quit".equals(input));     
         
         executionService.commit();

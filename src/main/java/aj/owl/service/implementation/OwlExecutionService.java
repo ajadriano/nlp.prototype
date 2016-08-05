@@ -84,9 +84,8 @@ public class OwlExecutionService implements ExecutionService {
         
         OWLReasonerFactory reasonerFactory = new JFactFactory();
         
-        OWLReasonerConfiguration config = new SimpleConfiguration(50000);
+        OWLReasonerConfiguration config = new SimpleConfiguration(50000);        
         reasoner = reasonerFactory.createReasoner(ontology, config);
-        reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
         factory = owlManager.getOWLDataFactory();
         variableExpressionConverter = new DefaultVariableExpressionConverter(factory, ontologyIRI);
     }
@@ -102,6 +101,7 @@ public class OwlExecutionService implements ExecutionService {
                 if (result != null) {
                     if (OWLAxiom.class.isAssignableFrom(result.getClass())) {
                         owlManager.addAxiom(ontology, (OWLAxiom)result);
+                        reasoner.flush();
                     }
                     else if (result instanceof String) {
                         sb.append(result);
@@ -109,6 +109,11 @@ public class OwlExecutionService implements ExecutionService {
                     }
                 }
             }
+        }
+        
+        if (sb.toString().isEmpty())
+        {
+            return "OK";
         }
         
         return sb.toString();
@@ -131,7 +136,6 @@ public class OwlExecutionService implements ExecutionService {
             else if (function instanceof OWLQueryExpression) {
                 result = ((OWLQueryExpression)function).query(reasoner, arguments.stream().toArray());
             }
-            reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
         } catch (IllegalArgumentException e) {
             return null;
         }
