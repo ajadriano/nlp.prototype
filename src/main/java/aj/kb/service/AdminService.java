@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.owl.service;
+package aj.kb.service;
 
 /**
  *
  * @author ajadriano
  */
-public interface ExecutionService {
-    void initialize(String ontology);
-    String execute(String statement);
-    void commit();
+public interface AdminService {
+    void initialize();
+    String execute(String[] args);
 }

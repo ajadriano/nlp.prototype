@@ -368,7 +368,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
         processor.initialize();
-        executionService.initialize();
+        executionService.initialize("myontology");
         pipeline = processor.getPipeline();
         
         byte[] encoded;

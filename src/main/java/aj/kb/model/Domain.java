@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.owl.service;
+package aj.kb.model;
 
 /**
  *
  * @author ajadriano
  */
-public interface ExecutionService {
-    void initialize(String ontology);
-    String execute(String statement);
-    void commit();
+public class Domain {
+    
 }

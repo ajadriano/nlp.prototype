@@ -38,7 +38,6 @@ import uk.ac.manchester.cs.jfact.JFactFactory;
 import aj.owl.model.OWLExpression;
 import aj.owl.model.OWLAxiomExpression;
 import aj.owl.model.OWLQueryExpression;
-import org.semanticweb.owlapi.reasoner.InferenceType;
 
 /**
  *
@@ -54,6 +53,7 @@ public class OwlExecutionService implements ExecutionService {
     private OWLDataFactory factory;
     private OWLReasoner reasoner;
     private IRI ontologyIRI;
+    private String ontologyName;
     
     public OwlExecutionService() {
         this(new DefaultFunctionParser());
@@ -64,16 +64,17 @@ public class OwlExecutionService implements ExecutionService {
     }
     
     @Override
-    public void initialize() {
+    public void initialize(String ontologyName) {
+        this.ontologyName = ontologyName;
         owlManager = OWLManager.createOWLOntologyManager();
-        ontologyIRI = IRI.create("http://www.semanticweb.org/ontologies/myontology");
         
         try {
-            File f = new File("example.owl");
+            File f = new File("../domains/" + this.ontologyName + "/ontology.owl");
             if(f.exists()) { 
                 ontology = owlManager.loadOntologyFromOntologyDocument(f);
             }
             else {
+                ontologyIRI = IRI.create("http://www.semanticweb.org/ontologies/" + this.ontologyName);
                 ontology = owlManager.createOntology(ontologyIRI);
             }
                 
@@ -169,7 +170,7 @@ public class OwlExecutionService implements ExecutionService {
     @Override
     public void commit() {
         try {
-            File file = new File("example.owl");
+            File file = new File("../domains/" + this.ontologyName + "/ontology.owl");
             file.createNewFile();
             try (DataOutputStream stream = new DataOutputStream(new FileOutputStream(file))) {
                 owlManager.saveOntology(ontology, stream);
