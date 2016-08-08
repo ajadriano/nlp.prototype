@@ -12,7 +12,7 @@ import aj.owl.model.VariableExpression;
 import aj.owl.service.ExecutionService;
 import aj.owl.service.FunctionParser;
 import aj.owl.service.VariableExpressionConverter;
-import aj.owl.service.implementation.statements.OWLExpressions;
+import aj.owl.service.implementation.statements.ClassExpressions;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -123,7 +123,7 @@ public class OwlExecutionService implements ExecutionService {
     private Object execute(FunctionExpression expression) {
         Object result = null;
         try {            
-            OWLExpression function = OWLExpressions.valueOf(expression.getFunction()).getFunction();
+            OWLExpression function = ClassExpressions.valueOf(expression.getFunction()).getFunction();
             Integer argumentCount = function.getArgumentCount();
             List<Expression> expressionArgs = expression.getArguments();
             if (argumentCount != null && expressionArgs.size() < argumentCount) {
