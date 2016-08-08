@@ -69,7 +69,7 @@ public class OwlExecutionService implements ExecutionService {
         owlManager = OWLManager.createOWLOntologyManager();
         
         try {
-            File f = new File("../domains/" + this.ontologyName + "/ontology.owl");
+            File f = new File("C:\\domains\\" + this.ontologyName + "\\ontology.owl");
             if(f.exists()) { 
                 ontology = owlManager.loadOntologyFromOntologyDocument(f);
             }
@@ -126,7 +126,7 @@ public class OwlExecutionService implements ExecutionService {
             OWLExpression function = OWLExpressions.valueOf(expression.getFunction()).getFunction();
             Integer argumentCount = function.getArgumentCount();
             List<Expression> expressionArgs = expression.getArguments();
-            if (argumentCount != null && expressionArgs.size() != argumentCount) {
+            if (argumentCount != null && expressionArgs.size() < argumentCount) {
                 return result;
             }           
             
@@ -170,7 +170,7 @@ public class OwlExecutionService implements ExecutionService {
     @Override
     public void commit() {
         try {
-            File file = new File("../domains/" + this.ontologyName + "/ontology.owl");
+            File file = new File("C:\\domains\\" + this.ontologyName + "\\ontology.owl");
             file.createNewFile();
             try (DataOutputStream stream = new DataOutputStream(new FileOutputStream(file))) {
                 owlManager.saveOntology(ontology, stream);

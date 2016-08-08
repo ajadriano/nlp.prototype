@@ -37,7 +37,7 @@ public class DefaultAdminService implements AdminService {
     }
     
     public String createKnowledgeBase(String name) {
-        File file = new File("../domains/" + name);
+        File file = new File("C:\\domains\\" + name);
         if (!file.exists()) {
             file.mkdir();
             return "Domain created.";
@@ -48,7 +48,7 @@ public class DefaultAdminService implements AdminService {
     }
     
     public String loadKnowledgeBase(String name) {
-        File file = new File("../domains/" + name);
+        File file = new File("C:\\domains\\" + name);
         if (!file.exists()) {
             return "Domain does not exist.";
         }
