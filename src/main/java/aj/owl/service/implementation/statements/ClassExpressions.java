@@ -40,6 +40,14 @@ public enum ClassExpressions {
     DataMaxCardinality (DataMaxCardinalityFunction.getInstance()), 
     DataExactCardinality (DataMaxCardinalityFunction.getInstance()), 
     
+    SubObjectPropertyOf (SubObjectPropertyOfFunction.getInstance()), 
+    EquivalentObjectProperties (EquivalentObjectPropertiesFunction.getInstance()), 
+    DisjointObjectProperties (DisjointObjectPropertiesFunction.getInstance()),
+    ObjectPropertyDomain (ObjectPropertyDomainFunction.getInstance()), 
+    ObjectPropertyRange (ObjectPropertyRangeFunction.getInstance()), 
+    FunctionalObjectProperty (FunctionalObjectPropertyFunction.getInstance()), 
+    InverseFunctionalObjectProperty (InverseFunctionalObjectPropertyFunction.getInstance()), 
+    
     IsDirectSubClassOf (DirectSubClassOfQuery.getInstance());
     
     private final OWLExpression function;
