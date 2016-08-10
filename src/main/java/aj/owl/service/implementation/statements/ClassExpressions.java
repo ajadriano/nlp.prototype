@@ -47,6 +47,21 @@ public enum ClassExpressions {
     ObjectPropertyRange (ObjectPropertyRangeFunction.getInstance()), 
     FunctionalObjectProperty (FunctionalObjectPropertyFunction.getInstance()), 
     InverseFunctionalObjectProperty (InverseFunctionalObjectPropertyFunction.getInstance()), 
+    ReflexiveObjectProperty (ReflexiveObjectPropertyFunction.getInstance()),
+    IrreflexiveObjectProperty (IrreflexiveObjectPropertyFunction.getInstance()),
+    SymmetricObjectProperty (SymmetricObjectPropertyFunction.getInstance()),
+    AsymmetricObjectProperty (AsymmetricObjectPropertyFunction.getInstance()),
+    TransitiveObjectProperty (TransitiveObjectPropertyFunction.getInstance()),
+    
+    SubDataPropertyOfProperty (SubDataPropertyOfFunction.getInstance()),
+    EquivalentDataProperties (EquivalentDataPropertiesFunction.getInstance()),
+    DisjointDataProperties (DisjointDataPropertiesFunction.getInstance()),
+    DataPropertyDomain (DataPropertyDomainFunction.getInstance()),
+    DataPropertyRange (DataPropertyDomainFunction.getInstance()),
+    FunctionalDataProperty (FunctionalDataPropertyFunction.getInstance()),
+    
+    SameIndividual (SameIndividualFunction.getInstance()),
+    DifferentIndividuals (DifferentIndividualsFunction.getInstance()),
     
     IsDirectSubClassOf (DirectSubClassOfQuery.getInstance());
     
