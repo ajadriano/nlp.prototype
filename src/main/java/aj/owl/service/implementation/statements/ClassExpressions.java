@@ -62,6 +62,11 @@ public enum ClassExpressions {
     
     SameIndividual (SameIndividualFunction.getInstance()),
     DifferentIndividuals (DifferentIndividualsFunction.getInstance()),
+    ClassAssertion (ClassAssertionFunction.getInstance()),
+    ObjectPropertyAssertion (ObjectPropertyAssertionFunction.getInstance()),
+    NegativeObjectPropertyAssertion (NegativeObjectPropertyAssertionFunction.getInstance()),
+    DataPropertyAssertion (DataPropertyAssertionFunction.getInstance()),
+    NegativeDataPropertyAssertion (DataPropertyAssertionFunction.getInstance()),
     
     IsDirectSubClassOf (DirectSubClassOfQuery.getInstance());
     
