@@ -6,6 +6,7 @@
 package aj.owl.service.implementation.statements;
 
 import aj.owl.model.OWLAxiomExpression;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAnnotationSubject;
@@ -52,7 +53,7 @@ public class AnnotationAssertionFunction implements OWLAxiomExpression {
         
         return factory.getOWLAnnotationAssertionAxiom(
                 factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), 
-                (OWLAnnotationSubject)args[1], (OWLAnnotationValue)args[2]);
+                (IRI)args[1], (OWLAnnotationValue)args[2]);
     }
 
     @Override
