@@ -34,10 +34,10 @@ public class ClassAssertionFunction implements OWLExpression {
     @Override
     public Class getExpectedClass(int argumentIndex) {
         if (argumentIndex == 0) {
-            return OWLClassExpression.class;
+            return OWLIndividual.class;
         }
         else if (argumentIndex == 1) {
-            return OWLIndividual.class;
+            return OWLClassExpression.class;
         }
         
         return null;
@@ -45,7 +45,7 @@ public class ClassAssertionFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
-        return new AxiomResult(factory.getOWLClassAssertionAxiom((OWLClassExpression)args[0], (OWLIndividual)args[1]));
+        return new AxiomResult(factory.getOWLClassAssertionAxiom((OWLClassExpression)args[1], (OWLIndividual)args[0]));
     }
 
     @Override

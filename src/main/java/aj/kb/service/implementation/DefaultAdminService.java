@@ -156,7 +156,12 @@ public class DefaultAdminService implements AdminService {
             else if (!"quit".equals(input)) {  
                 TextCorpus textCorpus = processor.parseCorpus(input);
                 Document xmlDocument = serializer.serialize(textCorpus);
-                System.out.println(serializer.transform(xmlDocument, xsl));
+                List<Expression> expressions = functionParser.parse(serializer.transform(xmlDocument, xsl));
+                           
+                expressions.stream().forEach((expression) -> {
+                    System.out.println(expression.toString());
+                    System.out.println();
+                }); 
             }
         } while (!"quit".equals(input));
         

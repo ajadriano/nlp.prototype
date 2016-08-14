@@ -23,6 +23,15 @@ EquivalentClasses(
 	<xsl:apply-templates select="VP"/>)
 </xsl:template>
 
+<xsl:template match="/ROOT/S[NP[*[@entity]] and VP[*[@cop and @lemma='be']]]">
+ClassAssertion(
+	<xsl:call-template name="noun_phrase_to_individual">
+		<xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+	<xsl:apply-templates select="VP"/>)
+</xsl:template>
+
 <xsl:template match="/ROOT/S[NP[DT[position() = 1 and @lemma = 'all']][*[@nsubj]] and VP[VBP[position()=1 and @cop]][NNS]]">
 SubClassOf(
 	<xsl:call-template name="noun_phrase_to_class">

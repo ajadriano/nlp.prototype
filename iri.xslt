@@ -30,17 +30,66 @@
 
 <xsl:template name="noun_phrase_to_class">
    <xsl:param name="NP" />
-   Class(
-   <xsl:for-each select="$NP/*[position()>1]/@lemma">
-      <xsl:call-template name="word_to_iri">
-		<xsl:with-param name="text" select="." />
-	   </xsl:call-template>
-   </xsl:for-each>
-   <xsl:text> </xsl:text>
-   <xsl:for-each select="$NP/*[position()>1]">
-      <xsl:value-of select="."/>
-	   <xsl:text> </xsl:text>
-   </xsl:for-each>)
+   <xsl:choose>
+      <xsl:when test="$NP/*[position()=1 and @det]">
+      Class(
+   		<xsl:for-each select="$NP/*[position()>1]/@lemma">
+      		<xsl:call-template name="word_to_iri">
+				<xsl:with-param name="text" select="." />
+	   		</xsl:call-template>
+   		</xsl:for-each>
+   		<xsl:text> </xsl:text>
+   		<xsl:for-each select="$NP/*[position()>1]">
+      		<xsl:value-of select="."/>
+	   		<xsl:text> </xsl:text>
+   		</xsl:for-each>)
+      </xsl:when>
+      <xsl:otherwise>
+      Class(
+   		<xsl:for-each select="$NP/*/@lemma">
+      		<xsl:call-template name="word_to_iri">
+				<xsl:with-param name="text" select="." />
+	   		</xsl:call-template>
+   		</xsl:for-each>
+   		<xsl:text> </xsl:text>
+   		<xsl:for-each select="$NP/*">
+      		<xsl:value-of select="."/>
+	   		<xsl:text> </xsl:text>
+   		</xsl:for-each>)
+      </xsl:otherwise>
+   </xsl:choose>
+</xsl:template>
+
+<xsl:template name="noun_phrase_to_individual">
+   <xsl:param name="NP" />
+   <xsl:choose>
+      <xsl:when test="$NP/*[position()=1 and @det]">
+      Individual(
+   		<xsl:for-each select="$NP/*[position()>1]/@lemma">
+      		<xsl:call-template name="word_to_iri">
+				<xsl:with-param name="text" select="." />
+	   		</xsl:call-template>
+   		</xsl:for-each>
+   		<xsl:text> </xsl:text>
+   		<xsl:for-each select="$NP/*[position()>1]">
+      		<xsl:value-of select="."/>
+	   		<xsl:text> </xsl:text>
+   		</xsl:for-each>)
+      </xsl:when>
+      <xsl:otherwise>
+      Individual(
+   		<xsl:for-each select="$NP/*/@lemma">
+      		<xsl:call-template name="word_to_iri">
+				<xsl:with-param name="text" select="." />
+	   		</xsl:call-template>
+   		</xsl:for-each>
+   		<xsl:text> </xsl:text>
+   		<xsl:for-each select="$NP/*">
+      		<xsl:value-of select="."/>
+	   		<xsl:text> </xsl:text>
+   		</xsl:for-each>)
+      </xsl:otherwise>
+   </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>
