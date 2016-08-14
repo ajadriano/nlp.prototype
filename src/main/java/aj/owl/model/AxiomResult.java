@@ -5,12 +5,14 @@
  */
 package aj.owl.model;
 
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
  *
  * @author ajadriano
  */
-public interface OWLQueryExpression extends OWLExpression {
-    String query(OWLReasoner reasoner, Object... args);
+public class AxiomResult extends Result<OWLAxiom> {
+    public AxiomResult(OWLAxiom result) {
+        super(result);
+    }
 }

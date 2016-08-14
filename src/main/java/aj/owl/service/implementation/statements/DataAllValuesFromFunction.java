@@ -5,16 +5,20 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.ClassResult;
+import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class DataAllValuesFromFunction implements OWLAxiomExpression {
+public class DataAllValuesFromFunction implements OWLExpression {
         
     private static DataAllValuesFromFunction instance = null;
     
@@ -41,8 +45,8 @@ public class DataAllValuesFromFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {                
-        return factory.getOWLDataAllValuesFrom((OWLDataPropertyExpression)args[0], (OWL2Datatype)args[1]);
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
+        return new ClassResult(factory.getOWLDataAllValuesFrom((OWLDataPropertyExpression)args[0], (OWL2Datatype)args[1]));
     }
 
     @Override

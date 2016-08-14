@@ -5,17 +5,19 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
-import org.semanticweb.owlapi.model.OWLClassExpression;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class DataPropertyRangeFunction implements OWLAxiomExpression {
+public class DataPropertyRangeFunction implements OWLExpression {
     private static DataPropertyRangeFunction instance = null;
     
     protected DataPropertyRangeFunction() {
@@ -41,8 +43,8 @@ public class DataPropertyRangeFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {                
-        return factory.getOWLDataPropertyRangeAxiom((OWLDataPropertyExpression)args[0], (OWL2Datatype)args[1]);
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
+        return new AxiomResult( factory.getOWLDataPropertyRangeAxiom((OWLDataPropertyExpression)args[0], (OWL2Datatype)args[1]));
     }
 
     @Override

@@ -5,16 +5,20 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.ClassResult;
+import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class ClassAssertionFunction implements OWLAxiomExpression {
+public class ClassAssertionFunction implements OWLExpression {
     private static ClassAssertionFunction instance = null;
     
     protected ClassAssertionFunction() {
@@ -40,8 +44,8 @@ public class ClassAssertionFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {  
-        return factory.getOWLClassAssertionAxiom((OWLClassExpression)args[0], (OWLIndividual)args[1]);
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
+        return new AxiomResult(factory.getOWLClassAssertionAxiom((OWLClassExpression)args[0], (OWLIndividual)args[1]));
     }
 
     @Override

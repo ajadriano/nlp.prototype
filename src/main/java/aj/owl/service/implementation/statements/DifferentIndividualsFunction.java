@@ -5,16 +5,19 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.Result;
 import java.util.Arrays;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class DifferentIndividualsFunction implements OWLAxiomExpression {
+public class DifferentIndividualsFunction implements OWLExpression {
     private static DifferentIndividualsFunction instance = null;
     
     protected DifferentIndividualsFunction() {
@@ -33,8 +36,8 @@ public class DifferentIndividualsFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {  
-        return factory.getOWLDifferentIndividualsAxiom(Arrays.copyOf(args, args.length, OWLIndividual[].class));
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
+        return new AxiomResult(factory.getOWLDifferentIndividualsAxiom(Arrays.copyOf(args, args.length, OWLIndividual[].class)));
     }
 
     @Override

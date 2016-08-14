@@ -5,15 +5,18 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class FunctionalObjectPropertyFunction implements OWLAxiomExpression {
+public class FunctionalObjectPropertyFunction implements OWLExpression {
     private static FunctionalObjectPropertyFunction instance = null;
     
     protected FunctionalObjectPropertyFunction() {
@@ -32,8 +35,8 @@ public class FunctionalObjectPropertyFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {                
-        return factory.getOWLFunctionalObjectPropertyAxiom((OWLObjectPropertyExpression)args[0]);
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
+        return new AxiomResult(factory.getOWLFunctionalObjectPropertyAxiom((OWLObjectPropertyExpression)args[0]));
     }
 
     @Override

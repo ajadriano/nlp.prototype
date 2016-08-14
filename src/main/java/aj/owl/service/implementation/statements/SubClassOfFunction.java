@@ -5,15 +5,19 @@
  */
 package aj.owl.service.implementation.statements;
 
+import aj.owl.model.AxiomResult;
+import aj.owl.model.ClassResult;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.Result;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class SubClassOfFunction implements OWLAxiomExpression {
+public class SubClassOfFunction implements OWLExpression {
     private static SubClassOfFunction instance = null;
     
     protected SubClassOfFunction() {
@@ -32,8 +36,8 @@ public class SubClassOfFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {                
-        return factory.getOWLSubClassOfAxiom((OWLClassExpression)args[0], (OWLClassExpression)args[1]); 
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
+        return new AxiomResult(factory.getOWLSubClassOfAxiom((OWLClassExpression)args[0], (OWLClassExpression)args[1])); 
     }
 
     @Override

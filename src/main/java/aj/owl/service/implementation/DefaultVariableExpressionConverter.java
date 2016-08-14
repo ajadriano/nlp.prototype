@@ -32,14 +32,8 @@ public class DefaultVariableExpressionConverter implements VariableExpressionCon
         if (type == String.class) {
             return expression.toString();
         }
-        else if (type.isAssignableFrom(OWLClass.class)) {
-            return factory.getOWLClass(IRI.create(ontologyIRI + "#" + expression.toString()));
-        }
-        else if (type.isAssignableFrom(OWLObjectProperty.class)) {
-            return factory.getOWLObjectProperty(IRI.create(ontologyIRI + "#" + expression.toString()));
-        }
-        else if (type.isAssignableFrom(OWLDataProperty.class)) {
-            return factory.getOWLDataProperty(IRI.create(ontologyIRI + "#" + expression.toString()));
+        else if (type == IRI.class) {
+            return IRI.create(ontologyIRI + "#" + expression.toString());
         }
         
         return null;

@@ -6,8 +6,12 @@
 package aj.owl.service.implementation;
 
 import aj.nlp.prototype.NewJFrame;
+import aj.owl.model.AnnotatedResult;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.ErrorResult;
 import aj.owl.model.Expression;
 import aj.owl.model.FunctionExpression;
+import aj.owl.model.OWLExpression;
 import aj.owl.model.VariableExpression;
 import aj.owl.service.ExecutionService;
 import aj.owl.service.FunctionParser;
@@ -24,7 +28,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -35,9 +38,8 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import uk.ac.manchester.cs.jfact.JFactFactory;
-import aj.owl.model.OWLExpression;
-import aj.owl.model.OWLAxiomExpression;
-import aj.owl.model.OWLQueryExpression;
+import aj.owl.model.QueryResult;
+import aj.owl.model.Result;
 import org.semanticweb.owlapi.reasoner.InferenceType;
 
 /**
@@ -100,14 +102,18 @@ public class OwlExecutionService implements ExecutionService {
         
         for (Expression expression : expressions) {
             if (expression instanceof FunctionExpression) {
-                Object result = execute((FunctionExpression)expression);
+                Result<?> result = execute((FunctionExpression)expression);
                 if (result != null) {
-                    if (OWLAxiom.class.isAssignableFrom(result.getClass())) {
-                        owlManager.addAxiom(ontology, (OWLAxiom)result);
+                    if (result instanceof AxiomResult) {
+                        owlManager.addAxiom(ontology, ((AxiomResult)result).getResult());
                         reasoner.flush();
                     }
-                    else if (result instanceof String) {
-                        sb.append(result);
+                    else if (result instanceof ErrorResult) {
+                        sb.append(((ErrorResult)result).getResult());
+                        sb.append("\n");
+                    }
+                    else if (result instanceof QueryResult) {
+                        sb.append(((QueryResult)result).getResult());
                         sb.append("\n");
                     }
                 }
@@ -122,22 +128,24 @@ public class OwlExecutionService implements ExecutionService {
         return sb.toString();
     } 
     
-    private Object execute(FunctionExpression expression) {
-        Object result = null;
+    private Result<?> execute(FunctionExpression expression) {
+        Result<?> result = null;
         try {            
             OWLExpression function = ClassExpressions.valueOf(expression.getFunction()).getFunction();
             Integer argumentCount = function.getArgumentCount();
             List<Expression> expressionArgs = expression.getArguments();
             if (argumentCount != null && expressionArgs.size() < argumentCount) {
-                return result;
+                return new ErrorResult("Invalid argument");
             }           
             
             List<Object> arguments = GetExpressionArguments(expressionArgs, function);
-            if (function instanceof OWLAxiomExpression) {
-                result = ((OWLAxiomExpression)function).execute(factory, arguments.stream().toArray());
-            }
-            else if (function instanceof OWLQueryExpression) {
-                result = ((OWLQueryExpression)function).query(reasoner, arguments.stream().toArray());
+            result = function.execute(factory, reasoner, arguments.stream().toArray());
+            
+            if (result instanceof AnnotatedResult<?>) {
+                AnnotatedResult<?> annotatedResult = (AnnotatedResult<?>)result;
+                if (annotatedResult.getAnnotation() != null) {
+                    owlManager.addAxiom(ontology, annotatedResult.getAnnotation());
+                }
             }
         } catch (IllegalArgumentException e) {
             return null;
@@ -151,9 +159,9 @@ public class OwlExecutionService implements ExecutionService {
         int argumentIndex = 0;
         for (Expression expressionArg : expressionArgs) {
             if (expressionArg instanceof FunctionExpression) {
-                Object expressionResult = execute((FunctionExpression)expressionArg);
-                if (expressionResult != null && function.getExpectedClass(argumentIndex).isAssignableFrom(expressionResult.getClass())) {
-                    arguments.add(expressionResult);
+                Result<?> expressionResult = execute((FunctionExpression)expressionArg);
+                if (expressionResult != null && function.getExpectedClass(argumentIndex).isAssignableFrom(expressionResult.getResult().getClass())) {
+                    arguments.add(expressionResult.getResult());
                 }
             }
             else if (expressionArg instanceof VariableExpression) {

@@ -5,17 +5,20 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.Result;
 import java.util.Arrays;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class EquivalentObjectPropertiesFunction implements OWLAxiomExpression {
+public class EquivalentObjectPropertiesFunction implements OWLExpression {
     private static EquivalentObjectPropertiesFunction instance = null;
     
     protected EquivalentObjectPropertiesFunction() {
@@ -34,8 +37,8 @@ public class EquivalentObjectPropertiesFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {                
-        return factory.getOWLEquivalentObjectPropertiesAxiom(Arrays.copyOf(args, args.length, OWLObjectPropertyExpression[].class));
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
+        return new AxiomResult(factory.getOWLEquivalentObjectPropertiesAxiom(Arrays.copyOf(args, args.length, OWLObjectPropertyExpression[].class)));
     }
 
     @Override

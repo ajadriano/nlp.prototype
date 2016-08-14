@@ -5,16 +5,19 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.ClassResult;
+import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class ObjectHasValueFunction implements OWLAxiomExpression {
+public class ObjectHasValueFunction implements OWLExpression {
     private static ObjectHasValueFunction instance = null;
     
     protected ObjectHasValueFunction() {
@@ -40,8 +43,8 @@ public class ObjectHasValueFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {                
-        return factory.getOWLObjectHasValue((OWLObjectPropertyExpression)args[0], (OWLIndividual)args[1]);
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
+        return new ClassResult(factory.getOWLObjectHasValue((OWLObjectPropertyExpression)args[0], (OWLIndividual)args[1]));
     }
 
     @Override

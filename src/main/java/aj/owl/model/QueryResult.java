@@ -5,12 +5,14 @@
  */
 package aj.owl.model;
 
-import org.semanticweb.owlapi.model.OWLDataFactory;
-
 /**
  *
  * @author ajadriano
  */
-public interface OWLAxiomExpression extends OWLExpression {
-    Object execute(OWLDataFactory factory, Object... args);
+public class QueryResult extends Result<String> {
+    
+    public QueryResult(String result) {
+        super(result);
+    }
+    
 }

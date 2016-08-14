@@ -13,6 +13,9 @@ import aj.owl.service.implementation.queries.DirectSubClassOfQuery;
  * @author ajadriano
  */
 public enum ClassExpressions {
+    Class (ClassFunction.getInstance()),
+    ObjectProperty (ObjectPropertyFunction.getInstance()),
+    
     ObjectIntersectionOf (ObjectIntersectionOfFunction.getInstance()),
     ObjectUnionOf (ObjectUnionOfFunction.getInstance()),
     ObjectComplementOf (ObjectComplementOfFunction.getInstance()),

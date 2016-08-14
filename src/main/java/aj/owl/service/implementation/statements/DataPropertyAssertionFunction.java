@@ -5,17 +5,20 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class DataPropertyAssertionFunction implements OWLAxiomExpression {
+public class DataPropertyAssertionFunction implements OWLExpression {
     private static DataPropertyAssertionFunction instance = null;
     
     protected DataPropertyAssertionFunction() {
@@ -45,8 +48,8 @@ public class DataPropertyAssertionFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {  
-        return factory.getOWLDataPropertyAssertionAxiom((OWLDataPropertyExpression)args[0], (OWLIndividual)args[1], (OWLLiteral)args[2]);
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
+        return new AxiomResult(factory.getOWLDataPropertyAssertionAxiom((OWLDataPropertyExpression)args[0], (OWLIndividual)args[1], (OWLLiteral)args[2]));
     }
 
     @Override

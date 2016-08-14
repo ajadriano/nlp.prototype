@@ -5,15 +5,18 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class SymmetricObjectPropertyFunction implements OWLAxiomExpression {
+public class SymmetricObjectPropertyFunction implements OWLExpression {
     private static SymmetricObjectPropertyFunction instance = null;
     
     protected SymmetricObjectPropertyFunction() {
@@ -32,8 +35,8 @@ public class SymmetricObjectPropertyFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {                
-        return factory.getOWLSymmetricObjectPropertyAxiom((OWLObjectPropertyExpression)args[0]);
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
+        return new AxiomResult(factory.getOWLSymmetricObjectPropertyAxiom((OWLObjectPropertyExpression)args[0]));
     }
 
     @Override

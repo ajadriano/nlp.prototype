@@ -5,18 +5,21 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.Result;
 import java.util.HashSet;
 import java.util.Set;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class DisjointUnionFunction implements OWLAxiomExpression {
+public class DisjointUnionFunction implements OWLExpression {
     private static DisjointUnionFunction instance = null;
     
     protected DisjointUnionFunction() {
@@ -38,12 +41,12 @@ public class DisjointUnionFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {        
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {        
         Set<OWLClassExpression> classExpressions = new HashSet<>();       
         for (int i = 1; i < args.length; i++) {
             classExpressions.add((OWLClassExpression)args[i]);
         }
-        return factory.getOWLDisjointUnionAxiom((OWLClass)args[0], classExpressions);
+        return new AxiomResult(factory.getOWLDisjointUnionAxiom((OWLClass)args[0], classExpressions));
     }
 
     @Override

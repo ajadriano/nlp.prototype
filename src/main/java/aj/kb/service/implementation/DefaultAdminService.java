@@ -10,6 +10,8 @@ import aj.nlp.model.TextCorpus;
 import aj.nlp.service.LanguageProcessor;
 import aj.nlp.service.implementation.DefaultLanguageProcessor;
 import aj.nlp.service.implementation.DefaultTokenSerializer;
+import aj.owl.model.Expression;
+import aj.owl.service.implementation.DefaultFunctionParser;
 import aj.owl.service.implementation.OwlExecutionService;
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,6 +20,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import org.w3c.dom.Document;
 
 /**
@@ -28,6 +31,7 @@ public class DefaultAdminService implements AdminService {
     
     private LanguageProcessor processor;
     private DefaultTokenSerializer serializer;
+    private DefaultFunctionParser functionParser;
     
     @Override
     public void initialize() {
@@ -35,6 +39,7 @@ public class DefaultAdminService implements AdminService {
         processor.initialize();
         
         serializer = new DefaultTokenSerializer();
+        functionParser = new DefaultFunctionParser();
     }
     
     public String createKnowledgeBase(String name) {
@@ -133,7 +138,12 @@ public class DefaultAdminService implements AdminService {
                            contents = getContents(commandArr[1]);
                            TextCorpus textCorpus = processor.parseCorpus(contents);
                            Document xmlDocument = serializer.serialize(textCorpus);
-                           System.out.println(serializer.transform(xmlDocument, xsl)); 
+                           List<Expression> expressions = functionParser.parse(serializer.transform(xmlDocument, xsl));
+                           
+                           expressions.stream().forEach((expression) -> {
+                               System.out.println(expression.toString());
+                               System.out.println();
+                            }); 
                         }     
                     } catch (IOException ex) {
                         System.out.println(ex.getMessage());

@@ -5,19 +5,17 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotationProperty;
-import org.semanticweb.owlapi.model.OWLAnnotationSubject;
-import org.semanticweb.owlapi.model.OWLAnnotationValue;
+import aj.owl.model.ErrorResult;
+import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class UnknownFunction implements OWLAxiomExpression {
+public class UnknownFunction implements OWLExpression {
 private static UnknownFunction instance = null;
     
     protected UnknownFunction() {
@@ -36,14 +34,14 @@ private static UnknownFunction instance = null;
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {  
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
         StringBuilder sb = new StringBuilder("Cannot interpret '");
         for (Object arg : args) {
             sb.append(arg.toString());
             sb.append(" ");
         }
         
-        return sb.toString().trim() + "'";
+        return new ErrorResult(sb.toString().trim() + "'");
     }
 
     @Override

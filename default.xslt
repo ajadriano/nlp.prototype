@@ -16,7 +16,7 @@
 <!-- A entity_A is a [VP] -->
 <xsl:template match="/ROOT/S[NP[DT[position() = 1 and @lemma = 'a']][*[@nsubj]] and VP[*[@cop and @lemma='be']]]">
 EquivalentClasses(
-	<xsl:call-template name="noun_phrase_to_iri">
+	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
@@ -25,57 +25,57 @@ EquivalentClasses(
 
 <xsl:template match="/ROOT/S[NP[DT[position() = 1 and @lemma = 'all']][*[@nsubj]] and VP[VBP[position()=1 and @cop]][NNS]]">
 SubClassOf(
-	<xsl:call-template name="noun_phrase_to_iri">
+	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
-	<xsl:call-template name="word_to_iri">
-		<xsl:with-param name="text" select="VP/NNS/@lemma" />
+	<xsl:call-template name="noun_to_class">
+		<xsl:with-param name="noun" select="VP/NNS" />
 	</xsl:call-template>)
 </xsl:template>
 
 <xsl:template match="/ROOT/S[NNS[@nsubj] and VP[VBP[position()=1 and @cop]][NNS]]">
 SubClassOf(
-	<xsl:call-template name="word_to_iri">
-		<xsl:with-param name="text" select="NNS/@lemma" />
+	<xsl:call-template name="noun_to_class">
+		<xsl:with-param name="noun" select="NNS" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
-	<xsl:call-template name="word_to_iri">
-		<xsl:with-param name="text" select="VP/NNS/@lemma" />
+	<xsl:call-template name="noun_to_class">
+		<xsl:with-param name="noun" select="VP/NNS" />
 	</xsl:call-template>)
 </xsl:template>
 
 <xsl:template match="/ROOT/S[NN[@lemma = 'nothing'] and VP[MD[@lemma = 'can'] and VP[VB[@lemma = 'be'] and NP[CC[position()=1 and @preconj] and CC[position()=2 and @lemma = 'and']]]]]">
 DisjointClasses(
-	<xsl:call-template name="noun_phrase_to_iri">
+	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="VP/VP/NP/NP[position()=1]" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
-	<xsl:call-template name="noun_phrase_to_iri">
+	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="VP/VP/NP/NP[position()=2]" />
 	</xsl:call-template>)
 </xsl:template>
 
 <xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NP[position()=1]][NP[position()=2]]">
 IsDirectSubClassOf(
-	<xsl:call-template name="noun_phrase_to_iri">
+	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP[position()=1]" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
-	<xsl:call-template name="noun_phrase_to_iri">
+	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP[position()=2]" />
 	</xsl:call-template>)
 </xsl:template>
 
 <xsl:template match="VP[VBZ[@cop]][NP[count(SBAR)=0]]">
-   <xsl:call-template name="noun_phrase_to_iri">
+   <xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP" />
 	</xsl:call-template>
 </xsl:template>
 
 <xsl:template match="VP[VBZ[@cop]][NP][count(*)=2]/NP[SBAR[WDT[position() = 1]][S[count(*)=1]/VP[position() = 1]]]">
 ObjectIntersectionOf(
-	<xsl:call-template name="noun_phrase_to_iri">
+	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
@@ -84,9 +84,11 @@ ObjectIntersectionOf(
 
 <xsl:template match="VP[VBZ[@relcl]][NP]">
    ObjectSomeValuesFrom(
-   	<xsl:value-of select="VBZ/@lemma"/>
+    <xsl:call-template name="verb_to_object_property">
+		<xsl:with-param name="verb" select="VBZ" />
+	</xsl:call-template>
    	<xsl:text> </xsl:text>
-   	<xsl:call-template name="noun_phrase_to_iri">
+   	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP" />
 	</xsl:call-template>)
 </xsl:template>

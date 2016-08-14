@@ -5,6 +5,9 @@
  */
 package aj.owl.model;
 
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+
 /**
  *
  * @author ajadriano
@@ -12,4 +15,5 @@ package aj.owl.model;
 public interface OWLExpression {
     Integer getArgumentCount();
     Class getExpectedClass(int argumentIndex);
+    Result<? extends Object> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args);
 }

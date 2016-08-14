@@ -5,16 +5,19 @@
  */
 package aj.owl.service.implementation.statements;
 
+import aj.owl.model.AxiomResult;
 import java.util.Arrays;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.Result;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class EquivalentClassesFunction implements OWLAxiomExpression {
+public class EquivalentClassesFunction implements OWLExpression {
     
     private static EquivalentClassesFunction instance = null;
     
@@ -34,8 +37,8 @@ public class EquivalentClassesFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {                
-        return factory.getOWLEquivalentClassesAxiom(Arrays.copyOf(args, args.length, OWLClassExpression[].class)); 
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
+        return new AxiomResult(factory.getOWLEquivalentClassesAxiom(Arrays.copyOf(args, args.length, OWLClassExpression[].class))); 
     }
 
     @Override

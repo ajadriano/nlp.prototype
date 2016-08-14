@@ -5,20 +5,19 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.ClassResult;
+import aj.owl.model.Result;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class ObjectOneOfFunction implements OWLAxiomExpression {
+public class ObjectOneOfFunction implements OWLExpression {
     private static ObjectOneOfFunction instance = null;
     
     protected ObjectOneOfFunction() {
@@ -37,8 +36,8 @@ public class ObjectOneOfFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {        
-        return factory.getOWLObjectOneOf(Arrays.copyOf(args, args.length, OWLIndividual[].class));
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {        
+        return new ClassResult(factory.getOWLObjectOneOf(Arrays.copyOf(args, args.length, OWLIndividual[].class)));
     }
 
     @Override

@@ -5,16 +5,19 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.ClassResult;
+import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class ObjectMinCardinalityFunction implements OWLAxiomExpression {
+public class ObjectMinCardinalityFunction implements OWLExpression {
     private static ObjectMinCardinalityFunction instance = null;
     
     protected ObjectMinCardinalityFunction() {
@@ -44,12 +47,12 @@ public class ObjectMinCardinalityFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {   
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {   
         if (args.length == 2) {
-            return factory.getOWLObjectMinCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1]);
+            return new ClassResult(factory.getOWLObjectMinCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1]));
         }
         else if (args.length == 3) {
-            return factory.getOWLObjectMinCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1], (OWLClassExpression)args[2]);
+            return new ClassResult(factory.getOWLObjectMinCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1], (OWLClassExpression)args[2]));
         }        
            
         return null;

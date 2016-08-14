@@ -5,16 +5,19 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.OWLAxiomExpression;
+import aj.owl.model.AxiomResult;
+import aj.owl.model.Result;
 import java.util.Arrays;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import aj.owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class DisjointDataPropertiesFunction implements OWLAxiomExpression {
+public class DisjointDataPropertiesFunction implements OWLExpression {
     private static DisjointDataPropertiesFunction instance = null;
     
     protected DisjointDataPropertiesFunction() {
@@ -33,8 +36,8 @@ public class DisjointDataPropertiesFunction implements OWLAxiomExpression {
     }
     
     @Override
-    public Object execute(OWLDataFactory factory, Object... args) {  
-        return factory.getOWLDisjointDataPropertiesAxiom(Arrays.copyOf(args, args.length, OWLDataPropertyExpression[].class));
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
+        return new AxiomResult(factory.getOWLDisjointDataPropertiesAxiom(Arrays.copyOf(args, args.length, OWLDataPropertyExpression[].class)));
     }
 
     @Override
