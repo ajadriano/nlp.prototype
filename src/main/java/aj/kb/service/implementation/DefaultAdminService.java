@@ -18,8 +18,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.w3c.dom.Document;
 
 /**
@@ -29,15 +27,18 @@ import org.w3c.dom.Document;
 public class DefaultAdminService implements AdminService {
     
     private LanguageProcessor processor;
+    private DefaultTokenSerializer serializer;
     
     @Override
     public void initialize() {
         processor = new DefaultLanguageProcessor();
         processor.initialize();
+        
+        serializer = new DefaultTokenSerializer();
     }
     
     public String createKnowledgeBase(String name) {
-        File file = new File("C:\\domains\\" + name);
+        File file = new File("../domains/" + name);
         if (!file.exists()) {
             file.mkdir();
             return "Domain created.";
@@ -47,8 +48,113 @@ public class DefaultAdminService implements AdminService {
         }
     }
     
+    public String debug(String mode, String file) {
+        if ("nlp".equals(mode)){
+            return debugNlp();
+        }
+        else if ("xsl".equals(mode)){
+            return debugXsl(file);
+        }
+        
+        return "";
+    }
+    
+    public String debugNlp() {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String input;
+        do {
+            System.out.print("debugnlp>");
+            
+            try { 
+                input = br.readLine();
+            } catch (IOException ex) {
+                return ex.getMessage();
+            }
+            
+            if (input.startsWith("load")) {
+                String[] commandArr = input.split("\\s+");
+                if (commandArr.length  == 2) {
+                    String contents;
+                    try {
+                        contents = getContents(commandArr[1]);
+                        TextCorpus textCorpus = processor.parseCorpus(contents);
+                        Document xmlDocument = serializer.serialize(textCorpus);
+                        System.out.println(serializer.transform(xmlDocument));
+                    } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+                else {
+                    System.out.println("Invalid operation.");
+                }
+            }
+            if (!"quit".equals(input)) {  
+                TextCorpus textCorpus = processor.parseCorpus(input);
+                Document xmlDocument = serializer.serialize(textCorpus);
+                System.out.println(serializer.transform(xmlDocument));
+            }
+        } while (!"quit".equals(input));
+        
+        return "";
+    }
+    
+    public String debugXsl(String file) {
+        String xsl;
+        try {
+            xsl = getContents(file);
+        } catch (IOException ex) {
+            return ex.getMessage();
+        }
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String input;
+        do {
+            System.out.print("debugxsl>");
+            
+            try { 
+                input = br.readLine();
+            } catch (IOException ex) {
+                return ex.getMessage();
+            }
+            
+            if (input.startsWith("load")) {
+                String[] commandArr = input.split("\\s+");
+                if (commandArr.length  == 2) {
+                    String contents;
+                    try {
+                        if (commandArr[1].endsWith(".xslt")) {
+                            try {
+                                xsl = getContents(commandArr[1]);
+                            } catch (IOException ex) {
+                                return ex.getMessage();
+                            }
+                        }
+                        else {
+                           contents = getContents(commandArr[1]);
+                           TextCorpus textCorpus = processor.parseCorpus(contents);
+                           Document xmlDocument = serializer.serialize(textCorpus);
+                           System.out.println(serializer.transform(xmlDocument, xsl)); 
+                        }     
+                    } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+                else {
+                    System.out.println("Invalid operation.");
+                }
+            }
+            else if (!"quit".equals(input)) {  
+                TextCorpus textCorpus = processor.parseCorpus(input);
+                Document xmlDocument = serializer.serialize(textCorpus);
+                System.out.println(serializer.transform(xmlDocument, xsl));
+            }
+        } while (!"quit".equals(input));
+        
+        return "";
+    }
+    
     public String loadKnowledgeBase(String name) {
-        File file = new File("C:\\domains\\" + name);
+        File file = new File("../domains/" + name);
         if (!file.exists()) {
             return "Domain does not exist.";
         }
@@ -56,7 +162,6 @@ public class DefaultAdminService implements AdminService {
         OwlExecutionService executionService = new OwlExecutionService();
         executionService.initialize(name);
         
-        String operation = "exec";
         String xsl;
         try {
             xsl = getContents("default.xslt");
@@ -75,28 +180,20 @@ public class DefaultAdminService implements AdminService {
                 return ex.getMessage();
             }
             
-            if ("debugxml".equals(input)) {
-                operation = "xml";
-                System.out.println("Debugging nlp xml.");
-            }
-            else if ("debugfunc".equals(input)) {
-                operation = "func";
-                System.out.println("Debugging functional transformation.");
-            }
-            else if ("debugexec".equals(input)) {
-                operation = "exec";
-                System.out.println("Executing statements and queries.");
-            }
-            else if (input.trim().endsWith(".") || input.trim().endsWith("?")) {
-                interpret(input.trim(), operation, executionService, xsl);
+            if (input.trim().endsWith(".") || input.trim().endsWith("?")) {
+                TextCorpus textCorpus = processor.parseCorpus(input);
+                Document xmlDocument = serializer.serialize(textCorpus);
+                System.out.println(executionService.execute(serializer.transform(xmlDocument, xsl)));
             }     
             else if (input.startsWith("load")) {
                 String[] commandArr = input.split("\\s+");
                 if (commandArr.length  == 2) {
-                    String textCorpus;
+                    String contents;
                     try {
-                        textCorpus = getContents(commandArr[1]);
-                        interpret(textCorpus, operation, executionService, xsl);
+                        contents = getContents(commandArr[1]);
+                        TextCorpus textCorpus = processor.parseCorpus(contents);
+                        Document xmlDocument = serializer.serialize(textCorpus);
+                        System.out.println(executionService.execute(serializer.transform(xmlDocument, xsl)));
                     } catch (IOException ex) {
                         System.out.println(ex.getMessage());
                     }
@@ -110,22 +207,6 @@ public class DefaultAdminService implements AdminService {
         executionService.commit();
         
         return "";
-    }
-
-    private void interpret(String input, String operation, OwlExecutionService executionService, String xsl) {
-        DefaultTokenSerializer serializer = new DefaultTokenSerializer();
-        TextCorpus textCorpus = processor.parseCorpus(input);
-        Document xmlDocument = serializer.serialize(textCorpus);
-        
-        if ("exec".equals(operation)) {
-            System.out.println(executionService.execute(serializer.transform(xmlDocument, xsl)));
-        }
-        else if ("xml".equals(operation)) {
-            System.out.println(serializer.transform(xmlDocument));
-        }
-        else if ("func".equals(operation)) {
-            System.out.println(serializer.transform(xmlDocument, xsl));
-        }
     }
     
     private static String getContents(String file) throws IOException {
@@ -144,6 +225,13 @@ public class DefaultAdminService implements AdminService {
                 case "load" : 
                     if (args.length == 2) {
                         return loadKnowledgeBase(args[1]);
+                    }
+                case "debug" : 
+                    if (args.length == 2) {
+                        return debug(args[1], "default.xslt");
+                    }
+                    else if (args.length == 3) {
+                        return debug(args[1], args[2]);
                     }
             }
         }

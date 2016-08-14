@@ -38,6 +38,7 @@ import uk.ac.manchester.cs.jfact.JFactFactory;
 import aj.owl.model.OWLExpression;
 import aj.owl.model.OWLAxiomExpression;
 import aj.owl.model.OWLQueryExpression;
+import org.semanticweb.owlapi.reasoner.InferenceType;
 
 /**
  *
@@ -67,14 +68,14 @@ public class OwlExecutionService implements ExecutionService {
     public void initialize(String ontologyName) {
         this.ontologyName = ontologyName;
         owlManager = OWLManager.createOWLOntologyManager();
+        ontologyIRI = IRI.create("http://www.semanticweb.org/ontologies/" + this.ontologyName);
         
         try {
-            File f = new File("C:\\domains\\" + this.ontologyName + "\\ontology.owl");
+            File f = new File("../domains/" + this.ontologyName + "/ontology.owl");
             if(f.exists()) { 
                 ontology = owlManager.loadOntologyFromOntologyDocument(f);
             }
             else {
-                ontologyIRI = IRI.create("http://www.semanticweb.org/ontologies/" + this.ontologyName);
                 ontology = owlManager.createOntology(ontologyIRI);
             }
                 
@@ -87,6 +88,7 @@ public class OwlExecutionService implements ExecutionService {
         
         OWLReasonerConfiguration config = new SimpleConfiguration(50000);        
         reasoner = reasonerFactory.createReasoner(ontology, config);
+        reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
         factory = owlManager.getOWLDataFactory();
         variableExpressionConverter = new DefaultVariableExpressionConverter(factory, ontologyIRI);
     }
@@ -170,7 +172,7 @@ public class OwlExecutionService implements ExecutionService {
     @Override
     public void commit() {
         try {
-            File file = new File("C:\\domains\\" + this.ontologyName + "\\ontology.owl");
+            File file = new File("../domains/" + this.ontologyName + "/ontology.owl");
             file.createNewFile();
             try (DataOutputStream stream = new DataOutputStream(new FileOutputStream(file))) {
                 owlManager.saveOntology(ontology, stream);

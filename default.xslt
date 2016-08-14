@@ -4,62 +4,91 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
+<xsl:include href="iri.xslt"/>
+
+<xsl:template match="/ROOT/*" priority="0">
+	Unknown(
+	<xsl:for-each select=".//*[@id]">
+		<xsl:value-of select="."/><xsl:text> </xsl:text>
+    </xsl:for-each>)
+</xsl:template>
+
+<!-- A entity_A is a [VP] -->
 <xsl:template match="/ROOT/S[NP[DT[position() = 1 and @lemma = 'a']][*[@nsubj]] and VP[*[@cop and @lemma='be']]]">
-EquivalentClasses(<xsl:apply-templates/>)
+EquivalentClasses(
+	<xsl:call-template name="noun_phrase_to_iri">
+		<xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+	<xsl:apply-templates select="VP"/>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[NP[DT[position() = 1 and @lemma = 'all']][*[@nsubj]] and VP[*[@cop and @lemma='be']]]">
-SubClassOf(<xsl:apply-templates select="NP"/><xsl:text> </xsl:text><xsl:apply-templates select="VP"/>)
+<xsl:template match="/ROOT/S[NP[DT[position() = 1 and @lemma = 'all']][*[@nsubj]] and VP[VBP[position()=1 and @cop]][NNS]]">
+SubClassOf(
+	<xsl:call-template name="noun_phrase_to_iri">
+		<xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+	<xsl:call-template name="word_to_iri">
+		<xsl:with-param name="text" select="VP/NNS/@lemma" />
+	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[NNS[@nsubj] and VP[*[@cop and @lemma='be']]]">
-SubClassOf(<xsl:apply-templates select="NNS"/><xsl:text> </xsl:text><xsl:apply-templates select="VP"/>)
+<xsl:template match="/ROOT/S[NNS[@nsubj] and VP[VBP[position()=1 and @cop]][NNS]]">
+SubClassOf(
+	<xsl:call-template name="word_to_iri">
+		<xsl:with-param name="text" select="NNS/@lemma" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+	<xsl:call-template name="word_to_iri">
+		<xsl:with-param name="text" select="VP/NNS/@lemma" />
+	</xsl:call-template>)
+</xsl:template>
+
+<xsl:template match="/ROOT/S[NN[@lemma = 'nothing'] and VP[MD[@lemma = 'can'] and VP[VB[@lemma = 'be'] and NP[CC[position()=1 and @preconj] and CC[position()=2 and @lemma = 'and']]]]]">
+DisjointClasses(
+	<xsl:call-template name="noun_phrase_to_iri">
+		<xsl:with-param name="NP" select="VP/VP/NP/NP[position()=1]" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+	<xsl:call-template name="noun_phrase_to_iri">
+		<xsl:with-param name="NP" select="VP/VP/NP/NP[position()=2]" />
+	</xsl:call-template>)
 </xsl:template>
 
 <xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NP[position()=1]][NP[position()=2]]">
-IsDirectSubClassOf(<xsl:apply-templates select="NP[position()=1]"/><xsl:text> </xsl:text><xsl:apply-templates select="NP[position()=2]"/>)
+IsDirectSubClassOf(
+	<xsl:call-template name="noun_phrase_to_iri">
+		<xsl:with-param name="NP" select="NP[position()=1]" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+	<xsl:call-template name="noun_phrase_to_iri">
+		<xsl:with-param name="NP" select="NP[position()=2]" />
+	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="NP[DT[position() = 1 and @lemma = 'a']]">
-   <xsl:for-each select="*[position()>1]/@lemma">
-      <xsl:value-of select="concat(upper-case(substring(.,1,1)), substring(., 2))"/>
-   </xsl:for-each>
+<xsl:template match="VP[VBZ[@cop]][NP[count(SBAR)=0]]">
+   <xsl:call-template name="noun_phrase_to_iri">
+		<xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>
 </xsl:template>
 
-<xsl:template match="NNS">
-   <xsl:value-of select="concat(upper-case(substring(@lemma,1,1)), substring(@lemma, 2))"/>
-</xsl:template>
-
-<xsl:template match="NP[DT[position() = 1 and @lemma='all']]">
-   <xsl:for-each select="*[position()>1]/@lemma">
-      <xsl:value-of select="concat(upper-case(substring(.,1,1)), substring(., 2))"/>
-   </xsl:for-each>
-</xsl:template>
-
-<xsl:template match="VP[VBZ[@cop]][NP][count(*)=2]/NP[SBAR]">
-ObjectIntersectionOf(<xsl:apply-templates select="NP"/><xsl:text> </xsl:text><xsl:apply-templates select="SBAR"/>)
-</xsl:template>
-
-<xsl:template match="VP[VBP[position()=1 and @cop]][NNS]">
-   <xsl:value-of select="concat(upper-case(substring(NNS/@lemma,1,1)), substring(NNS/@lemma, 2))"/>
-</xsl:template>
-
-<xsl:template match="NP[DT[@lemma = 'any']]">
-   <xsl:for-each select="*[position()>1]">
-      <xsl:value-of select="concat(upper-case(substring(.,1,1)), substring(., 2))"/>
-   </xsl:for-each>
-</xsl:template>
-
-<xsl:template match="SBAR[WDT[position() = 1]][S[count(*)=1]/VP[position() = 1]]">
-    <xsl:apply-templates select="S/VP"/>
-</xsl:template>
-
-<xsl:template match="VP[VBZ[@cop]][NP]">
-   <xsl:apply-templates select="NP"/>
+<xsl:template match="VP[VBZ[@cop]][NP][count(*)=2]/NP[SBAR[WDT[position() = 1]][S[count(*)=1]/VP[position() = 1]]]">
+ObjectIntersectionOf(
+	<xsl:call-template name="noun_phrase_to_iri">
+		<xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+	<xsl:apply-templates select="SBAR/S/VP"/>)
 </xsl:template>
 
 <xsl:template match="VP[VBZ[@relcl]][NP]">
-   ObjectSomeValuesFrom(<xsl:value-of select="VBZ/@lemma"/><xsl:text> </xsl:text><xsl:apply-templates select="NP"/>)
+   ObjectSomeValuesFrom(
+   	<xsl:value-of select="VBZ/@lemma"/>
+   	<xsl:text> </xsl:text>
+   	<xsl:call-template name="noun_phrase_to_iri">
+		<xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>)
 </xsl:template>
 
 <xsl:template match="VP[VBZ[@relcl]][NP[count(*)=2][QP[position()=1]][NNS]]">

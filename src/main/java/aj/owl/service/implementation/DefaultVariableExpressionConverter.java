@@ -29,7 +29,10 @@ public class DefaultVariableExpressionConverter implements VariableExpressionCon
     
     @Override
     public Object getOWLData(Class type, VariableExpression expression) {
-        if (type.isAssignableFrom(OWLClass.class)) {
+        if (type == String.class) {
+            return expression.toString();
+        }
+        else if (type.isAssignableFrom(OWLClass.class)) {
             return factory.getOWLClass(IRI.create(ontologyIRI + "#" + expression.toString()));
         }
         else if (type.isAssignableFrom(OWLObjectProperty.class)) {

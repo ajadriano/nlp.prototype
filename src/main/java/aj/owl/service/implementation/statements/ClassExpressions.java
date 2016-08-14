@@ -68,6 +68,8 @@ public enum ClassExpressions {
     DataPropertyAssertion (DataPropertyAssertionFunction.getInstance()),
     NegativeDataPropertyAssertion (DataPropertyAssertionFunction.getInstance()),
     
+    Unknown (UnknownFunction.getInstance()),
+    
     IsDirectSubClassOf (DirectSubClassOfQuery.getInstance());
     
     private final OWLExpression function;
