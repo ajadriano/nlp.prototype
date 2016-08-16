@@ -43,7 +43,7 @@ public class ObjectPropertyAssertionFunction implements OWLExpression {
     }
     
     @Override
-    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {        
         return new AxiomResult(factory.getOWLObjectPropertyAssertionAxiom((OWLObjectPropertyExpression)args[0], (OWLIndividual)args[1], (OWLIndividual)args[2]));
     }
 

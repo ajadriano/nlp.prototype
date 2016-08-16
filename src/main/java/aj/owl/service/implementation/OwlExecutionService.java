@@ -11,7 +11,11 @@ import aj.owl.model.AxiomResult;
 import aj.owl.model.ErrorResult;
 import aj.owl.model.Expression;
 import aj.owl.model.FunctionExpression;
+import aj.owl.model.IRIListResult;
+import aj.owl.model.IndividualResult;
 import aj.owl.model.OWLExpression;
+import aj.owl.model.OWLQueryExpression;
+import aj.owl.model.ObjectPropertyResult;
 import aj.owl.model.VariableExpression;
 import aj.owl.service.ExecutionService;
 import aj.owl.service.FunctionParser;
@@ -40,7 +44,11 @@ import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import uk.ac.manchester.cs.jfact.JFactFactory;
 import aj.owl.model.QueryResult;
 import aj.owl.model.Result;
+import java.util.Optional;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.reasoner.InferenceType;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 /**
  *
@@ -116,6 +124,17 @@ public class OwlExecutionService implements ExecutionService {
                         sb.append(((QueryResult)result).getResult());
                         sb.append("\n");
                     }
+                    else if (result instanceof IRIListResult) {
+                        for (IRI iri : ((IRIListResult)result).getResult()) {
+                            Optional<OWLAnnotationAssertionAxiom> axiom = ontology.annotationAssertionAxioms(iri).findFirst();
+                            if (axiom != null && axiom.isPresent()) {
+                                if (axiom.get().getProperty() == factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI())) {
+                                    sb.append(axiom.get().getValue().asLiteral().get().getLiteral());
+                                    sb.append("\n");
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -141,11 +160,22 @@ public class OwlExecutionService implements ExecutionService {
             List<Object> arguments = GetExpressionArguments(expressionArgs, function);
             result = function.execute(factory, reasoner, arguments.stream().toArray());
             
-            if (result instanceof AnnotatedResult<?>) {
-                AnnotatedResult<?> annotatedResult = (AnnotatedResult<?>)result;
-                if (annotatedResult.getAnnotation() != null) {
-                    owlManager.addAxiom(ontology, annotatedResult.getAnnotation());
+            if (!(function instanceof OWLQueryExpression)) {
+                if (result instanceof ObjectPropertyResult) {
+                    owlManager.addAxiom(ontology, factory.getOWLSubObjectPropertyOfAxiom(
+                            ((ObjectPropertyResult)result).getResult(), factory.getOWLTopObjectProperty()));
                 }
+                else if (result instanceof IndividualResult) {
+                    owlManager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(factory.getOWLThing(),
+                        ((IndividualResult)result).getResult()));
+                }
+
+                if (result instanceof AnnotatedResult<?>) {
+                    AnnotatedResult<?> annotatedResult = (AnnotatedResult<?>)result;
+                    if (annotatedResult.getAnnotation() != null) {
+                        owlManager.addAxiom(ontology, annotatedResult.getAnnotation());
+                    }
+                } 
             }
         } catch (IllegalArgumentException e) {
             return null;
@@ -160,6 +190,7 @@ public class OwlExecutionService implements ExecutionService {
         for (Expression expressionArg : expressionArgs) {
             if (expressionArg instanceof FunctionExpression) {
                 Result<?> expressionResult = execute((FunctionExpression)expressionArg);
+                
                 if (expressionResult != null && function.getExpectedClass(argumentIndex).isAssignableFrom(expressionResult.getResult().getClass())) {
                     arguments.add(expressionResult.getResult());
                 }

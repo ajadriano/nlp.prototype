@@ -9,10 +9,6 @@ package aj.owl.model;
  *
  * @author ajadriano
  */
-public class QueryResult<T> extends Result<T> {
-    
-    public QueryResult(T result) {
-        super(result);
-    }
+public interface OWLQueryExpression extends OWLExpression {
     
 }

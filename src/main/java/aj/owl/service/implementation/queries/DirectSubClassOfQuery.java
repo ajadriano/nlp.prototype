@@ -5,7 +5,7 @@
  */
 package aj.owl.service.implementation.queries;
 
-import aj.owl.model.OWLExpression;
+import aj.owl.model.OWLQueryExpression;
 import aj.owl.model.QueryResult;
 import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -18,7 +18,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
  *
  * @author ajadriano
  */
-public class DirectSubClassOfQuery implements OWLExpression {
+public class DirectSubClassOfQuery implements OWLQueryExpression {
     
     private static DirectSubClassOfQuery instance = null;
     
@@ -48,10 +48,10 @@ public class DirectSubClassOfQuery implements OWLExpression {
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
         NodeSet<OWLClass> set = reasoner.getSubClasses((OWLClassExpression)args[1], true);
         if (set.containsEntity((OWLClass)args[0])) {
-            return new QueryResult("Yes");
+            return new QueryResult(true);
         }
         else {
-            return new QueryResult("No");
+            return new QueryResult(false);
         }
     }
 

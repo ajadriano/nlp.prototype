@@ -5,13 +5,16 @@
  */
 package aj.owl.model;
 
+import java.util.List;
+import org.semanticweb.owlapi.model.IRI;
+
 /**
  *
  * @author ajadriano
  */
-public class QueryResult<T> extends Result<T> {
+public class IRIListResult extends Result<List<IRI>> {
     
-    public QueryResult(T result) {
+    public IRIListResult(List<IRI> result) {
         super(result);
     }
     
