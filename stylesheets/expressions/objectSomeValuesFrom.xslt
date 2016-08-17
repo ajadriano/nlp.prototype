@@ -3,7 +3,7 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="VP[VBZ[@relcl]][NP]">
+<xsl:template match="S[count(*)=1]/VP[VBZ[@relcl]][NP]">
 ObjectSomeValuesFrom(
     <xsl:call-template name="verb_to_object_property">
 		<xsl:with-param name="verb" select="VBZ" />

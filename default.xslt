@@ -24,17 +24,19 @@
 <xsl:include href="stylesheets/queries/isDirectSubClassOf.xslt"/>
 <xsl:include href="stylesheets/queries/getObjectPropertyValues.xslt"/>
 
-<xsl:template match="VP[VBZ[@cop]][NP[count(SBAR)=0]]">
-   <xsl:call-template name="noun_phrase_to_class">
-		<xsl:with-param name="NP" select="NP" />
-	</xsl:call-template>
-</xsl:template>
+
 
 <!-- phrases -->
 
 <xsl:include href="stylesheets/expressions/objectIntersectionOf.xslt"/>
 <xsl:include href="stylesheets/expressions/objectSomeValuesFrom.xslt"/>
 <xsl:include href="stylesheets/expressions/objectMinCardinality.xslt"/>
+
+<xsl:template match="NP[count(SBAR)=0]">
+   <xsl:call-template name="noun_phrase_to_class">
+		<xsl:with-param name="NP" select="." />
+	</xsl:call-template>
+</xsl:template>
  
 <xsl:template match="text()|@*"/>
 
