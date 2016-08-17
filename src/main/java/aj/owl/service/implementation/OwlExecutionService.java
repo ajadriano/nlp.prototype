@@ -133,6 +133,10 @@ public class OwlExecutionService implements ExecutionService {
                                     sb.append("\n");
                                 }
                             }
+                            else {
+                                sb.append(iri.getShortForm());
+                                sb.append("\n");
+                            }
                         }
                     }
                 }

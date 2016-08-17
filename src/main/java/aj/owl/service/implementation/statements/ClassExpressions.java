@@ -7,6 +7,7 @@ package aj.owl.service.implementation.statements;
 
 import aj.owl.model.OWLExpression;
 import aj.owl.service.implementation.queries.DirectSubClassOfQuery;
+import aj.owl.service.implementation.queries.GetInstancesQuery;
 import aj.owl.service.implementation.queries.GetObjectPropertyValuesQuery;
 
 /**
@@ -76,7 +77,8 @@ public enum ClassExpressions {
     Unknown (UnknownFunction.getInstance()),
     
     IsDirectSubClassOf (DirectSubClassOfQuery.getInstance()),
-    GetObjectPropertyValues (GetObjectPropertyValuesQuery.getInstance());
+    GetObjectPropertyValues (GetObjectPropertyValuesQuery.getInstance()),
+    GetInstances (GetInstancesQuery.getInstance());
     
     private final OWLExpression function;
     

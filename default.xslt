@@ -23,7 +23,7 @@
 
 <xsl:include href="stylesheets/queries/isDirectSubClassOf.xslt"/>
 <xsl:include href="stylesheets/queries/getObjectPropertyValues.xslt"/>
-
+<xsl:include href="stylesheets/queries/getInstances.xslt"/>
 
 
 <!-- phrases -->
