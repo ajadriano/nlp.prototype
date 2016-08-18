@@ -64,6 +64,40 @@
    </xsl:choose>
 </xsl:template>
 
+<xsl:template name="noun_phrase_to_class_with_has_prefix">
+   <xsl:param name="NP" />
+   <xsl:choose>
+      <xsl:when test="$NP/*[position()=1 and @det]">
+      Class(
+   		has<xsl:for-each select="$NP/*[position()>1]/@lemma">
+      		<xsl:call-template name="word_to_iri">
+                    <xsl:with-param name="text" select="." />
+                </xsl:call-template>
+   		</xsl:for-each>
+   		<xsl:text> </xsl:text>
+   		<xsl:for-each select="$NP/*[position()>1]">
+                has
+      		<xsl:value-of select="."/>
+                    <xsl:text> </xsl:text>
+   		</xsl:for-each>)
+      </xsl:when>
+      <xsl:otherwise>
+      Class(
+   		<xsl:for-each select="$NP/*/@lemma">
+      		<xsl:call-template name="word_to_iri">
+                    <xsl:with-param name="text" select="." />
+	   	</xsl:call-template>
+   		</xsl:for-each>
+   		<xsl:text> </xsl:text>
+   		<xsl:for-each select="$NP/*">
+                has
+      		<xsl:value-of select="."/>
+                    <xsl:text> </xsl:text>
+   		</xsl:for-each>)
+      </xsl:otherwise>
+   </xsl:choose>
+</xsl:template>
+
 <xsl:template name="noun_to_individual">
 	<xsl:param name="noun" />
 	Individual(		
@@ -72,6 +106,14 @@
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:value-of select="$noun"/>)
+</xsl:template>
+
+<xsl:template name="noun_to_individual_no_annotation">
+	<xsl:param name="noun" />
+	Individual(		
+	<xsl:call-template name="word_to_iri">
+		<xsl:with-param name="text" select="$noun/@lemma" />
+	</xsl:call-template>)
 </xsl:template>
 
 <xsl:template name="noun_phrase_to_individual">

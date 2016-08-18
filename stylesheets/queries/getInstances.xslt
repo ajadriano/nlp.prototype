@@ -15,4 +15,15 @@ GetInstances(ObjectHasValue(
 	</xsl:call-template>))
 </xsl:template>
 
+<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WP and SQ[VP/NNP[@entity]]]">
+GetInstances(ObjectHasValue( 
+        <xsl:call-template name="verb_to_object_property_no_annotation">
+		<xsl:with-param name="verb" select="SQ/VP/VBZ" />
+	</xsl:call-template> 
+        <xsl:text> </xsl:text>
+	<xsl:call-template name="noun_to_individual_no_annotation">
+		<xsl:with-param name="noun" select="SQ/VP/NNP" />
+	</xsl:call-template>))
+</xsl:template>
+
 </xsl:stylesheet>

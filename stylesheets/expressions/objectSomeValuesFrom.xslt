@@ -14,4 +14,15 @@ ObjectSomeValuesFrom(
 	</xsl:call-template>)
 </xsl:template>
 
+<xsl:template match="S[count(*)=1]/VP[VBZ[@relcl]][NNS]">
+ObjectSomeValuesFrom(
+    <xsl:call-template name="verb_to_object_property">
+		<xsl:with-param name="verb" select="VBZ" />
+	</xsl:call-template>
+   	<xsl:text> </xsl:text>
+   	<xsl:call-template name="noun_to_class">
+		<xsl:with-param name="noun" select="NNS" />
+	</xsl:call-template>)
+</xsl:template>
+
 </xsl:stylesheet>
