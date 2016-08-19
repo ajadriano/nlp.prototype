@@ -13,8 +13,18 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
  */
 public class ObjectPropertyResult extends AnnotatedResult<OWLObjectPropertyExpression> {
     
-    public ObjectPropertyResult(OWLObjectPropertyExpression result) {
+    private final boolean evaluate;
+    
+    public ObjectPropertyResult(OWLObjectPropertyExpression result, boolean evaluate) {
         super(result);
+        this.evaluate = evaluate;
+    }
+
+    /**
+     * @return the evaluate
+     */
+    public boolean isEvaluate() {
+        return evaluate;
     }
     
 }

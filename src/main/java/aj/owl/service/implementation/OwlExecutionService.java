@@ -177,8 +177,12 @@ public class OwlExecutionService implements ExecutionService {
         result = function.execute(factory, reasoner, arguments.stream().toArray());         
         if (!(isQuery)) {
             if (result instanceof ObjectPropertyResult) {
-                owlManager.addAxiom(ontology, factory.getOWLSubObjectPropertyOfAxiom(
-                        ((ObjectPropertyResult)result).getResult(), factory.getOWLTopObjectProperty()));
+                ObjectPropertyResult objectPropertyResult = (ObjectPropertyResult)result;
+                
+                if (objectPropertyResult.isEvaluate()) {
+                   owlManager.addAxiom(ontology, factory.getOWLSubObjectPropertyOfAxiom(
+                        objectPropertyResult.getResult(), factory.getOWLTopObjectProperty())); 
+                }
             }
             else if (result instanceof IndividualResult) {
                 owlManager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(factory.getOWLThing(),

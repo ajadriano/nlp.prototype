@@ -17,6 +17,7 @@ import aj.owl.service.implementation.queries.GetObjectPropertyValuesQuery;
 public enum ClassExpressions {
     Class (ClassFunction.getInstance()),
     ObjectProperty (ObjectPropertyFunction.getInstance()),
+    ObjectInverseOf (ObjectInverseOfFunction.getInstance()),
     Individual (IndividualFunction.getInstance()),
     
     ObjectIntersectionOf (ObjectIntersectionOfFunction.getInstance()),

@@ -5,7 +5,6 @@
  */
 package aj.owl.service.implementation.statements;
 
-import aj.owl.model.ClassResult;
 import aj.owl.model.ObjectPropertyResult;
 import aj.owl.model.Result;
 import org.semanticweb.owlapi.model.IRI;
@@ -42,7 +41,7 @@ public class ObjectPropertyFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
-        ObjectPropertyResult result = new ObjectPropertyResult(factory.getOWLObjectProperty((IRI)args[0])); 
+        ObjectPropertyResult result = new ObjectPropertyResult(factory.getOWLObjectProperty((IRI)args[0]), true); 
         
         if (args.length > 1) {
             StringBuilder sb = new StringBuilder();
