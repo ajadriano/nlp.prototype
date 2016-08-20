@@ -3,7 +3,7 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="/ROOT/S[VP/VBZ/@id=@root and NP[*[@entity]] and VP[NP]]">
+<xsl:template match="/ROOT/S[VP/VBZ/@id=@root and NP[NNP|NNPS] and VP[NP[NNP|NNPS]]]">
 ObjectPropertyAssertion(
 	<xsl:call-template name="verb_to_object_property">
 		<xsl:with-param name="verb" select="VP/VBZ" />
@@ -18,29 +18,29 @@ ObjectPropertyAssertion(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[VP/VBZ/@id=@root and NNP[@entity] and VP[NNP]]">
+<xsl:template match="/ROOT/S[VP/VBZ/@id=@root and NNP|NNPS and VP[NNP|NNPS]]">
 ObjectPropertyAssertion(
 	<xsl:call-template name="verb_to_object_property">
 		<xsl:with-param name="verb" select="VP/VBZ" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="NNP" />
+		<xsl:with-param name="noun" select="NNP|NNPS" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="VP/NNP" />
+		<xsl:with-param name="noun" select="VP/NNP|NNPS" />
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[VP/VBZ/@id=@root and NNP[@entity] and VP[NP]]">
+<xsl:template match="/ROOT/S[VP/VBZ/@id=@root and NNP|NNPS and VP[NP[NNP|NNPS]]]">
 ObjectPropertyAssertion(
 	<xsl:call-template name="verb_to_object_property">
 		<xsl:with-param name="verb" select="VP/VBZ" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="NNP" />
+		<xsl:with-param name="noun" select="NNP|NNPS" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:call-template name="noun_phrase_to_individual">
@@ -48,7 +48,7 @@ ObjectPropertyAssertion(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[VP/VBZ/@id=@root and NP[*[@entity]] and VP[NNP]]">
+<xsl:template match="/ROOT/S[VP/VBZ/@id=@root and NP[NNP|NNPS] and VP[NNP|NNPS]]">
 ObjectPropertyAssertion(
 	<xsl:call-template name="verb_to_object_property">
 		<xsl:with-param name="verb" select="VP/VBZ" />
@@ -59,11 +59,11 @@ ObjectPropertyAssertion(
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="VP/NNP" />
+		<xsl:with-param name="noun" select="VP/NNP|NNPS" />
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[NP[*[@entity]] and VP[VBZ[@cop and @lemma='be']][NP[NP[*[position()=1 and @det]] and PP[IN][NP[*[@entity]]]]]]">
+<xsl:template match="/ROOT/S[NP[NNP|NNPS and *[@nsubj]] and VP[VBZ[@cop and @lemma='be']][NP[NP[*[position()=1 and @lemma='the']] and PP[IN][NP[NNP|NNPS]]]]]">
 ObjectPropertyAssertion(
         <xsl:call-template name="noun_phrase_to_class_with_has_prefix">
 		<xsl:with-param name="NP" select="VP/NP/NP" />
@@ -78,14 +78,14 @@ ObjectPropertyAssertion(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[NP[*[@entity]] and VP[VBZ[@cop and @lemma='be']][NP[NP[*[position()=1 and @det]] and PP[IN][NNP[@entity]]]]]">
+<xsl:template match="/ROOT/S[NP[NNP|NNPS and *[@nsubj]] and VP[VBZ[@cop and @lemma='be']][NP[NP[*[position()=1 and @lemma='the']] and PP[IN][NNP|NNPS]]]]">
 ObjectPropertyAssertion(
         <xsl:call-template name="noun_phrase_to_class_with_has_prefix">
 		<xsl:with-param name="NP" select="VP/NP/NP" />
 	</xsl:call-template>
         <xsl:text> </xsl:text>
 	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="VP/NP/PP/NNP" />
+		<xsl:with-param name="noun" select="VP/NP/PP/NNP|NNPS" />
 	</xsl:call-template>
         <xsl:text> </xsl:text>
 	<xsl:call-template name="noun_phrase_to_individual">
@@ -93,7 +93,7 @@ ObjectPropertyAssertion(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[NNP[@entity] and VP[VBZ[@cop and @lemma='be']][NP[NP[*[position()=1 and @det]] and PP[IN][NP[*[@entity]]]]]]">
+<xsl:template match="/ROOT/S[NNP|NNPS[@nsubj] and VP[VBZ[@cop and @lemma='be']][NP[NP[*[position()=1 and @lemma='the']] and PP[IN][NP[NNP|NNPS]]]]]">
 ObjectPropertyAssertion(
         <xsl:call-template name="noun_phrase_to_class_with_has_prefix">
 		<xsl:with-param name="NP" select="VP/NP/NP" />
@@ -104,22 +104,22 @@ ObjectPropertyAssertion(
 	</xsl:call-template>
         <xsl:text> </xsl:text>
 	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="NNP" />
+		<xsl:with-param name="noun" select="NNP|NNPS" />
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[NNP[@entity] and VP[VBZ[@cop and @lemma='be']][NP[NP[*[position()=1 and @det]] and PP[IN][NNP[@entity]]]]]">
+<xsl:template match="/ROOT/S[NNP|NNPS[@nsubj] and VP[VBZ[@cop and @lemma='be']][NP[NP[*[position()=1 and @lemma='the']] and PP[IN][NNP|NNPS]]]]">
 ObjectPropertyAssertion(
         <xsl:call-template name="noun_phrase_to_class_with_has_prefix">
 		<xsl:with-param name="NP" select="VP/NP/NP" />
 	</xsl:call-template>
         <xsl:text> </xsl:text>
 	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="VP/NP/PP/NNP" />
+		<xsl:with-param name="noun" select="VP/NP/PP/NNP|NNPS" />
 	</xsl:call-template>
         <xsl:text> </xsl:text>
 	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="NNP" />
+		<xsl:with-param name="noun" select="NNP|NNPS" />
 	</xsl:call-template>)
 </xsl:template>
 

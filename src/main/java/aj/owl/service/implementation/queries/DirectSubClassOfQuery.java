@@ -46,7 +46,7 @@ public class DirectSubClassOfQuery implements OWLQueryExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
-        NodeSet<OWLClass> set = reasoner.getSubClasses((OWLClassExpression)args[1], true);
+        NodeSet<OWLClass> set = reasoner.getSubClasses((OWLClassExpression)args[1], false);
         if (set.containsEntity((OWLClass)args[0])) {
             return new QueryResult(true);
         }

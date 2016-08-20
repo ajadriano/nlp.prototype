@@ -3,22 +3,22 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="/ROOT/S[NP[*[@entity]] and VP[VBZ[@cop and @lemma='be'] and NP[count(PP)=0]]]">
+<xsl:template match="/ROOT/S[NP[count(DT) = 0 and (NNP|NNPS)[@nsubj]] and VP[VBZ[@cop and @lemma='be'] and NP[count(PP)=0]]]">
 ClassAssertion(
     <xsl:apply-templates select="VP/NP"/>
     <xsl:text> </xsl:text>
-	<xsl:call-template name="noun_phrase_to_individual">
-		<xsl:with-param name="NP" select="NP" />
-	</xsl:call-template>)
+    <xsl:call-template name="noun_phrase_to_individual">
+            <xsl:with-param name="NP" select="NP" />
+    </xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[NNP[@entity] and VP[VBZ[@cop and @lemma='be'] and NP[count(PP)=0]]]">
+<xsl:template match="/ROOT/S[NNP|NNPS and VP[VBZ[@cop and @lemma='be'] and NP[count(PP)=0]]]">
 ClassAssertion(
     <xsl:apply-templates select="VP/NP"/>
     <xsl:text> </xsl:text>
-	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="NNP" />
-	</xsl:call-template>)
+    <xsl:call-template name="noun_to_individual">
+            <xsl:with-param name="noun" select="NNP|NNPS" />
+    </xsl:call-template>)
 </xsl:template>
 
 </xsl:stylesheet>

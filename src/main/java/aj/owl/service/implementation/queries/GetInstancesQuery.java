@@ -14,7 +14,6 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
@@ -44,7 +43,7 @@ public class GetInstancesQuery implements OWLQueryExpression {
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
         List<IRI> answers = new ArrayList();
         
-        NodeSet<OWLNamedIndividual> set = reasoner.getInstances((OWLClassExpression)args[0], true);
+        NodeSet<OWLNamedIndividual> set = reasoner.getInstances((OWLClassExpression)args[0], false);
         set.entities().forEach(namedIndividual -> {
             answers.add(namedIndividual.getIRI());
         });
