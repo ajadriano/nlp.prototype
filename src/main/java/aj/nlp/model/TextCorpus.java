@@ -17,9 +17,11 @@ import org.w3c.dom.Element;
 public class TextCorpus {
     
     private final List<SentenceToken> sentences;
+    private final List<CoReference> coReferences;
     
     public TextCorpus() {
         sentences = new ArrayList();
+        coReferences = new ArrayList();
     }
 
     /**
@@ -29,8 +31,21 @@ public class TextCorpus {
         return sentences;
     }
     
+    /**
+     * @return the coReferences
+     */
+    public List<CoReference> getCoReferences() {
+        return coReferences;
+    }
+    
     public Element writeXML(Document document) {
         Element element = document.createElement("ROOT");
+        
+        for (CoReference reference : getCoReferences()) {
+            Element childElement = reference.writeXML(document);
+            element.appendChild(childElement);
+        }
+        
         for (Token token : getSentences()) {
             Element childElement = token.writeXML(document);
             element.appendChild(childElement);

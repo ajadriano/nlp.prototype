@@ -4,7 +4,7 @@
 <xsl:strip-space elements="*"/>
 
 <!-- A entity_A is a [VP] -->
-<xsl:template match="/ROOT/S[NP[*[1][name()='DT' and @lemma = 'a']][*[@nsubj]] and VP[VBZ[@cop and @lemma='be'] and NP[NP][SBAR] and count(*)=2]]">
+<xsl:template match="S[count(S)=0][NP[*[1][name()='DT' and @lemma = 'a']][*[@nsubj]] and VP[VBZ[@cop and @lemma='be'] and NP[NP][SBAR] and count(*)=2]]">
 EquivalentClasses(
 	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP" />

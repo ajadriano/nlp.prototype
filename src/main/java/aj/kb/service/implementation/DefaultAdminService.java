@@ -281,33 +281,29 @@ public class DefaultAdminService implements AdminService {
             Document xmlDocument = serializer.serialize(textCorpus);
             List<Expression> expressions = functionParser.parse(serializer.transform(xmlDocument, getContents("default.xslt")));
             int currentExpression = 0;
-            Boolean hasError = false;
             
             for (int i = 0; i < testNodes.getLength(); ++i) {
                 Element test = (Element) testNodes.item(i);  
                 if (test.hasAttribute("src")) {
-                    currentExpression = verifyResult(docBuilder, xPath, test.getAttribute("src"), expressions, currentExpression, hasError);
+                    currentExpression = verifyResult(docBuilder, xPath, test.getAttribute("src"), expressions, currentExpression);
                 }
                 else {
                     NodeList nodeInputs = (NodeList)xPath.evaluate("input", test, XPathConstants.NODESET);
+                    Element input = (Element) nodeInputs.item(0); 
                     NodeList nodeOutputs = (NodeList)xPath.evaluate("output", test, XPathConstants.NODESET);             
-                    for (int j = 0; j < nodeOutputs.getLength() && j < nodeInputs.getLength(); ++j) {
-                        Element output = (Element) nodeOutputs.item(j); 
-                        Element input = (Element) nodeInputs.item(j); 
+                    for (int j = 0; j < nodeOutputs.getLength(); ++j) {
+                        Element output = (Element) nodeOutputs.item(j);   
                         if ((output.getTextContent().trim().equals(expressions.get(currentExpression).toString().trim())) == false) {
                             System.out.println("Error parsing statement - '" + input.getTextContent().trim() + "'");
                             System.out.println("Expected - " + output.getTextContent());
                             System.out.println("Actual - " + expressions.get(currentExpression).toString());
-                            hasError = true;
                         }
                         currentExpression++;
                     }
                 }
             }
             
-            if (!hasError) {
-                System.out.println("Test successful");
-            }
+            System.out.println("Test complete");
             
         } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException | DOMException ex) {
             Logger.getLogger(DefaultTokenSerializer.class.getName()).log(Level.SEVERE, null, ex);
@@ -324,20 +320,25 @@ public class DefaultAdminService implements AdminService {
         }
     }
     
-    private int verifyResult(DocumentBuilder docBuilder,  XPath xPath, String file, List<Expression> expressions, int currentExpression, Boolean hasError) throws SAXException, IOException, XPathExpressionException {
+    private int verifyResult(DocumentBuilder docBuilder,  XPath xPath, String file, List<Expression> expressions, int currentExpression) throws SAXException, IOException, XPathExpressionException {
         Document doc = docBuilder.parse(new FileInputStream(file));
-        NodeList nodeInputs = (NodeList)xPath.evaluate("//input", doc.getDocumentElement(), XPathConstants.NODESET);
-        NodeList nodeOutputs = (NodeList)xPath.evaluate("//output", doc.getDocumentElement(), XPathConstants.NODESET);
-        for (int j = 0; j < nodeOutputs.getLength() && j < nodeInputs.getLength(); ++j) {
-            Element output = (Element) nodeOutputs.item(j); 
-            Element input = (Element) nodeInputs.item(j); 
-            if ((output.getTextContent().trim().equals(expressions.get(currentExpression).toString().trim())) == false) {
-                System.out.println("Error parsing statement - '" + input.getTextContent().trim() + "'");
-                System.out.println("Expected - " + output.getTextContent());
-                System.out.println("Actual - " + expressions.get(currentExpression).toString());
-                hasError = true;
-            }
-            currentExpression++;
+        
+        NodeList testNodes = (NodeList)xPath.evaluate("//test", doc.getDocumentElement(), XPathConstants.NODESET);
+        for (int i = 0; i < testNodes.getLength(); ++i) {
+            Element test = (Element) testNodes.item(i);  
+            NodeList nodeInputs = (NodeList)xPath.evaluate("input", test, XPathConstants.NODESET);
+            Element input = (Element) nodeInputs.item(0); 
+            NodeList nodeOutputs = (NodeList)xPath.evaluate("output", test, XPathConstants.NODESET);
+
+            for (int j = 0; j < nodeOutputs.getLength(); ++j) {
+                Element output = (Element) nodeOutputs.item(j); 
+                if ((output.getTextContent().trim().equals(expressions.get(currentExpression).toString().trim())) == false) {
+                    System.out.println("Error parsing statement - '" + input.getTextContent().trim() + "'");
+                    System.out.println("Expected - " + output.getTextContent());
+                    System.out.println("Actual - " + expressions.get(currentExpression).toString());
+                }
+                currentExpression++;
+            }                
         }
         
         return currentExpression;

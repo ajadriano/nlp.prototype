@@ -140,6 +140,62 @@
    </xsl:choose>
 </xsl:template>
 
+<xsl:template name="noun_phrase_to_individual_before_cc">
+   <xsl:param name="NP" />
+   <xsl:choose>
+      <xsl:when test="$NP/*[position()=1 and @det]">
+      Individual(
+   		<xsl:for-each select="$NP/CC/preceding-sibling::*[position()>1]">
+                    <xsl:value-of select="."/>
+   		</xsl:for-each>
+   		<xsl:text> </xsl:text>
+   		<xsl:for-each select="$NP/CC/preceding-sibling::*[position()>1]">
+                    <xsl:value-of select="."/>
+                    <xsl:text> </xsl:text>
+   		</xsl:for-each>)
+      </xsl:when>
+      <xsl:otherwise>
+      Individual(
+   		<xsl:for-each select="$NP/CC/preceding-sibling::*">
+                    <xsl:value-of select="."/>
+   		</xsl:for-each>
+   		<xsl:text> </xsl:text>
+   		<xsl:for-each select="$NP/CC/preceding-sibling::*">
+                    <xsl:value-of select="."/>
+                    <xsl:text> </xsl:text>
+   		</xsl:for-each>)
+      </xsl:otherwise>
+   </xsl:choose>
+</xsl:template>
+
+<xsl:template name="noun_phrase_to_individual_after_cc">
+   <xsl:param name="NP" />
+   <xsl:choose>
+      <xsl:when test="$NP/*[position()=1 and @det]">
+      Individual(
+   		<xsl:for-each select="$NP/CC/following-sibling::*[position()>1]">
+                    <xsl:value-of select="."/>
+   		</xsl:for-each>
+   		<xsl:text> </xsl:text>
+   		<xsl:for-each select="$NP/CC/following-sibling::*[position()>1]">
+                    <xsl:value-of select="."/>
+                    <xsl:text> </xsl:text>
+   		</xsl:for-each>)
+      </xsl:when>
+      <xsl:otherwise>
+      Individual(
+   		<xsl:for-each select="$NP/CC/following-sibling::*">
+                    <xsl:value-of select="."/>
+   		</xsl:for-each>
+   		<xsl:text> </xsl:text>
+   		<xsl:for-each select="$NP/CC/following-sibling::*">
+                    <xsl:value-of select="."/>
+                    <xsl:text> </xsl:text>
+   		</xsl:for-each>)
+      </xsl:otherwise>
+   </xsl:choose>
+</xsl:template>
+
 <xsl:template name="noun_phrase_to_individual_no_annotation">
    <xsl:param name="NP" />
    <xsl:choose>

@@ -5,6 +5,7 @@
  */
 package aj.nlp.service.implementation;
 
+import aj.nlp.model.CoReference;
 import aj.nlp.model.EnumHelper;
 import aj.nlp.model.GrammaticalDependency;
 import aj.nlp.model.GrammaticalRelation;
@@ -23,7 +24,10 @@ import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import java.util.Collection;
 import aj.nlp.service.LanguageProcessor;
+import edu.stanford.nlp.hcoref.CorefCoreAnnotations;
 import edu.stanford.nlp.hcoref.CorefCoreAnnotations.CorefClusterIdAnnotation;
+import edu.stanford.nlp.hcoref.data.CorefChain;
+import edu.stanford.nlp.hcoref.data.CorefChain.CorefMention;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreAnnotations.BeginIndexAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.EndIndexAnnotation;
@@ -38,6 +42,7 @@ import edu.stanford.nlp.trees.TreeCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -68,7 +73,19 @@ public class DefaultLanguageProcessor implements LanguageProcessor {
         Annotation document = new Annotation(corpus);
         pipeline.annotate(document);
         List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
-        //Map<Integer,CorefChain> corefMap = document.get(CorefCoreAnnotations.CorefChainAnnotation.class);
+        Map<Integer,CorefChain> corefMap = document.get(CorefCoreAnnotations.CorefChainAnnotation.class);
+        List<CoreLabel> tokens = document.get(CoreAnnotations.TokensAnnotation.class);
+        
+        for (Integer key : corefMap.keySet()) {
+            CorefChain corefChain = corefMap.get(key);
+            CorefMention mention = corefChain.getRepresentativeMention();
+            StringBuilder sb = new StringBuilder();
+            for (int i = mention.startIndex - 1; i < mention.endIndex - 1; i++) {
+                sb.append(tokens.get(i).value()).append(" ");
+            }
+            textCorpus.getCoReferences().add(new CoReference(key, sb.toString().trim()));                   
+        }
+        
         
         for(CoreMap sentence: sentences) {  
             SemanticGraph graph = sentence.get(SemanticGraphCoreAnnotations.BasicDependenciesAnnotation.class);

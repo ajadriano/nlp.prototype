@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+	<test>
+		<input>Is a bus driver a driver?</input>
+		<output>IsDirectSubClassOf(Class(BusDriver bus driver) Class(Driver driver))</output>
+	</test>
+	<test>
+		<input>Is a driver a grown-up?</input>
+		<output>IsDirectSubClassOf(Class(Driver driver) Class(Grown-up grown-up))</output>
+	</test>
+</tests>

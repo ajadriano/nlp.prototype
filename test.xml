@@ -7,4 +7,5 @@
         <test src="stylesheets/axioms/objectPropertyAssertion.test.xml"/>
         <test src="stylesheets/queries/getObjectPropertyValues.test.xml"/>
         <test src="stylesheets/queries/getInstances.test.xml"/>
+        <test src="stylesheets/queries/isDirectSubClassOf.test.xml"/>
 </tests>

@@ -6,11 +6,18 @@
 
 <xsl:include href="stylesheets/iri.xslt"/>
 
+<xsl:template match="/ROOT/COREF"/>
+
 <xsl:template match="/ROOT/*" priority="0">
 	Unknown(
 	<xsl:for-each select=".//*[@id]">
 		<xsl:value-of select="."/><xsl:text> </xsl:text>
     </xsl:for-each>)
+</xsl:template>
+
+<xsl:template match="/ROOT/S[CC and count(S)=2]">
+    <xsl:apply-templates select="S[1]"/>
+    <xsl:apply-templates select="S[2]"/>
 </xsl:template>
 
 <xsl:include href="stylesheets/axioms/equivalentClasses.xslt"/>
@@ -35,6 +42,11 @@
 <xsl:template match="NP[count(SBAR)=0]">
    <xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="." />
+	</xsl:call-template>
+</xsl:template>
+<xsl:template match="NNS">
+   <xsl:call-template name="noun_to_class">
+		<xsl:with-param name="noun" select="." />
 	</xsl:call-template>
 </xsl:template>
  
