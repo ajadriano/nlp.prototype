@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+	<test>
+		<input>A Sith Lord is a person.</input>
+		<output>SubClassOf(Class(SithLord Sith Lord) Class(Person person))</output>
+	</test>
+	<test>
+		<input>All buses are vehicles.</input>
+		<output>SubClassOf(Class(Bus buses) Class(Vehicle vehicles))</output>
+	</test>
+	<test>
+		<input>Drivers are adults.</input>
+		<output>SubClassOf(Class(Driver Drivers) Class(Adult adults))</output>
+	</test>
+	<test>
+		<input>AJ likes dogs.</input>
+		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+	</test>
+	<test>
+		<input>Adrian Joseph likes dogs.</input>
+		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AdrianJoseph Adrian Joseph)))</output>
+	</test>
+	<test>
+		<input>AJ likes fried chicken.</input>
+		<output>SubClassOf(Class(FriedChicken fried chicken) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+	</test>
+	<test>
+		<input>Adrian Joseph likes fried chicken.</input>
+		<output>SubClassOf(Class(FriedChicken fried chicken) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AdrianJoseph Adrian Joseph)))</output>
+	</test>
+	<test>
+		<input>Fried chicken is a chicken dish.</input>
+		<output>SubClassOf(Class(FriedChicken Fried chicken) Class(ChickenDish chicken dish))</output>
+	</test>
+</tests>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+	<test>
+		<input>Han Solo likes Leia Organa.</input>
+		<output>ObjectPropertyAssertion(ObjectProperty(like likes) Individual(HanSolo Han Solo) Individual(LeiaOrgana Leia Organa))</output>
+	</test>
+	<test>
+		<input>Han likes Leia.</input>
+		<output>ObjectPropertyAssertion(ObjectProperty(like likes) Individual(Han Han) Individual(Leia Leia))</output>
+	</test>
+	<test>
+		<input>Han likes Leia Organa.</input>
+		<output>ObjectPropertyAssertion(ObjectProperty(like likes) Individual(Han Han) Individual(LeiaOrgana Leia Organa))</output>
+	</test>
+	<test>
+		<input>Han Solo likes Leia.</input>
+		<output>ObjectPropertyAssertion(ObjectProperty(like likes) Individual(HanSolo Han Solo) Individual(Leia Leia))</output>
+	</test>
+	<test>
+		<input>Darth Vader is the father of Luke Skywalker.</input>
+		<output>ObjectPropertyAssertion(Class(hasFather has father) Individual(LukeSkywalker Luke Skywalker) Individual(DarthVader Darth Vader))</output>
+	</test>
+	<test>
+		<input>Darth Vader is the father of Luke.</input>
+		<output>ObjectPropertyAssertion(Class(hasFather has father) Individual(Luke Luke) Individual(DarthVader Darth Vader))</output>
+	</test>
+	<test>
+		<input>Darth is the father of Luke Skywalker.</input>
+		<output>ObjectPropertyAssertion(Class(hasFather has father) Individual(LukeSkywalker Luke Skywalker) Individual(Darth Darth))</output>
+	</test>
+	<test>
+		<input>Darth is the father of Luke.</input>
+		<output>ObjectPropertyAssertion(Class(hasFather has father) Individual(Luke Luke) Individual(Darth Darth))</output>
+	</test>
+</tests>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+    	<test>
+		<input>Who does Luke Skywalker like?</input>
+		<output>GetObjectPropertyValues(Individual(LukeSkywalker) ObjectProperty(like))</output>
+	</test>
+      	<test>
+		<input>Who does AJ like?</input>
+		<output>GetObjectPropertyValues(Individual(AJ) ObjectProperty(like))</output>
+	</test>
+</tests>

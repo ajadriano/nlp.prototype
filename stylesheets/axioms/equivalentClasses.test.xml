@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+	<test>
+		<input>A driver is any person that drives a vehicle.</input>
+		<output>EquivalentClasses(Class(Driver driver) ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(drive drives) Class(Vehicle vehicle))))</output>
+	</test>
+	<test>
+		<input>A bus driver is any person that drives a bus.</input>
+		<output>EquivalentClasses(Class(BusDriver bus driver) ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(drive drives) Class(Bus bus))))</output>
+	</test>
+	<test>
+		<input>A grown-up is any person that is an adult.</input>
+		<output>EquivalentClasses(Class(Grown-up grown-up) ObjectIntersectionOf(Class(Person person) Class(Adult adult)))</output>
+	</test>
+</tests>

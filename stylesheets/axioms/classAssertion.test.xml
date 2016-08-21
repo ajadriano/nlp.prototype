@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+	<test>
+		<input>Leia Organa is a lady.</input>
+		<output>ClassAssertion(Class(Lady lady) Individual(LeiaOrgana Leia Organa))</output>
+	</test>
+	<test>
+		<input>Katniss Everdeen is a person who likes cats.</input>
+		<output>ClassAssertion(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Cat cats))) Individual(KatnissEverdeen Katniss Everdeen))</output>
+	</test>
+	<test>
+		<input>Katniss is a person who likes cats.</input>
+		<output>ClassAssertion(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Cat cats))) Individual(Katniss Katniss))</output>
+	</test>
+
+</tests>

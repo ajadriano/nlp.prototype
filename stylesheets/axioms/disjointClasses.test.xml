@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>    
+	<test>
+		<input>Nothing can be both a boy and a girl.</input>
+		<output>DisjointClasses(Class(Boy boy) Class(Girl girl))</output>
+	</test> 
+</tests>

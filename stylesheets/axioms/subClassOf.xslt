@@ -25,7 +25,18 @@ SubClassOf(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[NP[(NN|NNS)[@nsubj]] and VP[VBP|VBZ[position()=1 and @cop]][NP[count(NP)=0 and count(SBAR)=0]]]">
+<xsl:template match="/ROOT/S[NP[(NN|NNS)[@nsubj]] and VP[(VBP|VBZ)[position()=1 and @cop]][NP[count(NP)=0 and count(SBAR)=0]]]">
+SubClassOf(
+	<xsl:call-template name="noun_phrase_to_class">
+		<xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+	<xsl:call-template name="noun_phrase_to_class">
+		<xsl:with-param name="NP" select="VP/NP" />
+	</xsl:call-template>)
+</xsl:template>
+
+<xsl:template match="/ROOT/S[NP[name(*[1])='DT' and NNP[@nsubj]] and VP[(VBP|VBZ)[position()=1 and @cop]][NP[count(NP)=0 and count(SBAR)=0]]]">
 SubClassOf(
 	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP" />
