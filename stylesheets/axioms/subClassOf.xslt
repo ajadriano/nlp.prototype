@@ -3,15 +3,35 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="S[count(S)=0][NP[DT[position() = 1 and @lemma = 'all']][*[@nsubj]] and VP[VBP[position()=1 and @cop]][NNS]]">
+<xsl:template match="S[count(S)=0][NP[*[@det and position()=1]][*[@nsubj]] and VP[(VB|VBP)[position()=1 and @cop]][NN|NNS]]">
 SubClassOf(
 	<xsl:call-template name="noun_phrase_to_class">
-		<xsl:with-param name="NP" select="NP" />
+            <xsl:with-param name="NP" select="NP" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:call-template name="noun_to_class">
-		<xsl:with-param name="noun" select="VP/NNS" />
+            <xsl:with-param name="noun" select="VP/(NN|NNS)" />
 	</xsl:call-template>)
+</xsl:template>
+
+<xsl:template match="S[count(S)=0][NP[*[@det and position()=1]][*[@nsubj]] and VP[MD[@aux] and VP[(VB|VBP)[position()=1 and @cop]][NP[count(NP)=0 and count(SBAR)=0]]]]">
+SubClassOf(
+	<xsl:call-template name="noun_phrase_to_class">
+            <xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+	<xsl:call-template name="noun_phrase_to_class">
+            <xsl:with-param name="NP" select="VP/VP/NP" />
+	</xsl:call-template>)
+</xsl:template>
+
+<xsl:template match="S[count(S)=0][NP[*[@det and position()=1]][*[@nsubj]] and VP[MD[@aux] and VP[(VB|VBP)[position()=1 and @cop]][NP[count(NP)>0 and count(CC)>0]]]]">
+SubClassOf(
+	<xsl:call-template name="noun_phrase_to_class">
+            <xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+        <xsl:apply-templates select="VP/VP/NP"/>)
 </xsl:template>
 
 <xsl:template match="S[count(S)=0][NNS[@nsubj] and VP[VBP[position()=1 and @cop]][NNS]]">
@@ -23,6 +43,19 @@ SubClassOf(
 	<xsl:call-template name="noun_to_class">
 		<xsl:with-param name="noun" select="VP/NNS" />
 	</xsl:call-template>)
+</xsl:template>
+
+<xsl:template match="S[count(S)=0][NP[count(NP)=0 and count(CC)>0 and count(NNS)>0] and VP[VBP[position()=1 and @cop]][NNS]]">
+<xsl:for-each select="NP/NNS">
+SubClassOf(
+    <xsl:call-template name="noun_to_class">
+            <xsl:with-param name="noun" select="." />
+    </xsl:call-template>
+    <xsl:text> </xsl:text>
+    <xsl:call-template name="noun_to_class">
+            <xsl:with-param name="noun" select="../../VP/NNS" />
+    </xsl:call-template>)
+</xsl:for-each>
 </xsl:template>
 
 <xsl:template match="S[count(S)=0][NP[(NN|NNS)[@nsubj]] and VP[(VBP|VBZ)[position()=1 and @cop]][NP[count(NP)=0 and count(SBAR)=0]]]">

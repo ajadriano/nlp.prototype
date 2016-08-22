@@ -32,4 +32,24 @@
 		<input>Fried chicken is a chicken dish.</input>
 		<output>SubClassOf(Class(FriedChicken Fried chicken) Class(ChickenDish chicken dish))</output>
 	</test>
+        <test>
+		<input>Each person can be a wizard.</input>
+		<output>SubClassOf(Class(Person person) Class(Wizard wizard))</output>
+	</test>
+        <test>
+		<input>Each person can be a wizard, a muggle or a squib.</input>
+		<output>SubClassOf(Class(Person person) ObjectUnionOf(Class(Wizard wizard) Class(Muggle muggle) Class(Squib squib)))</output>
+	</test>
+        <test>
+		<input>Wizards, knights and muggles are persons.</input>
+		<output>SubClassOf(Class(Wizard Wizards) Class(Person persons))</output>
+                <output>SubClassOf(Class(Knight knights) Class(Person persons))</output>
+                <output>SubClassOf(Class(Muggle muggles) Class(Person persons))</output>
+	</test>
+        <test>
+		<input>Wizards and muggles are persons; but no one can be a wizard and a muggle.</input>
+		<output>SubClassOf(Class(Wizard Wizards) Class(Person persons))</output>
+                <output>SubClassOf(Class(Muggle muggles) Class(Person persons))</output>
+                <output>DisjointClasses(Class(Wizard wizard) Class(Muggle muggle))</output>
+	</test>
 </tests>

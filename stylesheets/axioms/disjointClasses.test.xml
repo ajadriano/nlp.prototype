@@ -3,5 +3,13 @@
 	<test>
 		<input>Nothing can be both a boy and a girl.</input>
 		<output>DisjointClasses(Class(Boy boy) Class(Girl girl))</output>
+	</test>
+        <test>
+		<input>No one can be a wizard and a muggle.</input>
+		<output>DisjointClasses(Class(Wizard wizard) Class(Muggle muggle))</output>
 	</test> 
+        <test>
+		<input>No person can be a wizard and a muggle.</input>
+		<output>DisjointClasses(Class(Wizard wizard) Class(Muggle muggle))</output>
+	</test>  
 </tests>

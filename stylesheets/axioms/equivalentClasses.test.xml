@@ -12,4 +12,16 @@
 		<input>A grown-up is any person that is an adult.</input>
 		<output>EquivalentClasses(Class(Grown-up grown-up) ObjectIntersectionOf(Class(Person person) Class(Adult adult)))</output>
 	</test>
+        <test>
+		<input>A wizard is a person who performs magic.</input>
+		<output>EquivalentClasses(Class(Wizard wizard) ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(perform performs) Class(Magic magic))))</output>
+	</test>
+        <test>
+		<input>A wizard is a person who can perform magic.</input>
+		<output>EquivalentClasses(Class(Wizard wizard) ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(perform perform) Class(Magic magic))))</output>
+	</test>
+        <test>
+		<input>A driver is any person that can drive a vehicle.</input>
+		<output>EquivalentClasses(Class(Driver driver) ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(drive drive) Class(Vehicle vehicle))))</output>
+	</test>
 </tests>

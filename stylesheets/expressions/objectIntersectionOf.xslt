@@ -3,7 +3,7 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="NP[NP[*[position() = 1 and @det]]][SBAR[WDT|WP[position() = 1]][S]]">
+<xsl:template match="NP[NP[*[position() = 1 and @det]]][SBAR[(WDT|WP)[position() = 1]][S]]">
 ObjectIntersectionOf(
 	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP" />

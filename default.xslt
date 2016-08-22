@@ -36,10 +36,11 @@
 <!-- phrases -->
 
 <xsl:include href="stylesheets/expressions/objectIntersectionOf.xslt"/>
+<xsl:include href="stylesheets/expressions/objectUnionOf.xslt"/>
 <xsl:include href="stylesheets/expressions/objectSomeValuesFrom.xslt"/>
 <xsl:include href="stylesheets/expressions/objectMinCardinality.xslt"/>
 
-<xsl:template match="NP[count(SBAR)=0]">
+<xsl:template match="NP[count(SBAR)=0 and count(NP)=0 and count(CC)=0]">
    <xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="." />
 	</xsl:call-template>
