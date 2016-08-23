@@ -13,4 +13,14 @@ ObjectUnionOf(
         <xsl:text> </xsl:text>)
 </xsl:template>
 
+<xsl:template match="NP[count(NNS)>0 and CC[@lemma='or']]">
+ObjectUnionOf(
+        <xsl:for-each select="NNS">
+            <xsl:call-template name="noun_to_class">
+		<xsl:with-param name="noun" select="." />
+            </xsl:call-template>
+        </xsl:for-each>
+        <xsl:text> </xsl:text>)
+</xsl:template>
+
 </xsl:stylesheet>

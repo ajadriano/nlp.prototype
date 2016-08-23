@@ -16,6 +16,14 @@
 	<xsl:value-of select="$verb"/>)
 </xsl:template>
 
+<xsl:template name="noun_to_object_property_of">
+	<xsl:param name="noun" />
+	ObjectProperty(
+	<xsl:value-of select="$noun/@lemma"/>Of
+	<xsl:text> </xsl:text>
+	<xsl:value-of select="$noun/@lemma"/> of)
+</xsl:template>
+
 <xsl:template name="verb_to_object_property_no_annotation">
 	<xsl:param name="verb" />
 	ObjectProperty(

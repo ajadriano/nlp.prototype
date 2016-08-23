@@ -45,7 +45,7 @@ public class DefaultFunctionParser implements FunctionParser {
         }
         else if (tokens.length >= 2) {
             if ("(".equals(tokens[1])) {
-                FunctionExpression argument = new FunctionExpression(tokens[0]);
+                FunctionExpression argument = new FunctionExpression(tokens[0].trim());
                 argumentStack.peek().add(argument);
                 if (tokens.length > 2 ) {
                     argumentStack.push(argument.getArguments());
@@ -53,7 +53,7 @@ public class DefaultFunctionParser implements FunctionParser {
                 }
             }
             else {
-                argumentStack.peek().add(new VariableExpression(tokens[0]));
+                argumentStack.peek().add(new VariableExpression(tokens[0].trim()));
                 retrieveArguments(Arrays.copyOfRange(tokens, 1, tokens.length), argumentStack);
             }
         }

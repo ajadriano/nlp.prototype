@@ -52,4 +52,16 @@
                 <output>SubClassOf(Class(Muggle muggles) Class(Person persons))</output>
                 <output>DisjointClasses(Class(Wizard wizard) Class(Muggle muggle))</output>
 	</test>
+        <test>
+		<input>Children are either wizards or squibs.</input>
+		<output>SubClassOf(Class(Child Children) ObjectUnionOf(Class(Wizard wizards) Class(Squib squibs)))</output>
+	</test>
+        <test>
+		<input>A child is either a wizard or a squib.</input>
+		<output>SubClassOf(Class(Child child) ObjectUnionOf(Class(Wizard wizard) Class(Squib squib)))</output>
+	</test>
+        <test>
+		<input>Wizard's children are either wizards or squibs.</input>
+		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard Wizard)) ObjectUnionOf(Class(Wizard wizards) Class(Squib squibs)))</output>
+	</test>
 </tests>

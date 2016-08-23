@@ -47,4 +47,15 @@ ObjectSomeValuesFrom(
 	</xsl:call-template>)
 </xsl:template>
 
+<xsl:template match="NP[NP[POS and *[@poss]] and NNS]">
+ObjectSomeValuesFrom(
+        <xsl:call-template name="noun_to_object_property_of">
+            <xsl:with-param name="noun" select="NNS" />
+	</xsl:call-template>
+   	<xsl:text> </xsl:text>
+   	<xsl:call-template name="noun_to_class">
+		<xsl:with-param name="noun" select="NP/*[@poss]" />
+	</xsl:call-template>)
+</xsl:template>
+
 </xsl:stylesheet>

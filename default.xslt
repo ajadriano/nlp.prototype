@@ -15,14 +15,16 @@
     </xsl:for-each>)
 </xsl:template>
 
-<xsl:template match="/ROOT/S[CC and count(S)=2]">
-    <xsl:apply-templates select="S[1]"/>
-    <xsl:apply-templates select="S[2]"/>
+<xsl:template match="/ROOT/S[count(S)>0]">
+    <xsl:for-each select="S">
+        <xsl:apply-templates select="."/>
+    </xsl:for-each>
 </xsl:template>
 
 <xsl:include href="stylesheets/axioms/equivalentClasses.xslt"/>
 <xsl:include href="stylesheets/axioms/classAssertion.xslt"/>
 <xsl:include href="stylesheets/axioms/objectPropertyAssertion.xslt"/>
+<xsl:include href="stylesheets/axioms/objectPropertyDomainAndRange.xslt"/>
 <xsl:include href="stylesheets/axioms/subClassOf.xslt"/>
 <xsl:include href="stylesheets/axioms/disjointClasses.xslt"/>
 
@@ -45,10 +47,10 @@
 		<xsl:with-param name="NP" select="." />
 	</xsl:call-template>
 </xsl:template>
-<xsl:template match="NNS">
+<xsl:template match="NNS" priority="0">
    <xsl:call-template name="noun_to_class">
-		<xsl:with-param name="noun" select="." />
-	</xsl:call-template>
+	<xsl:with-param name="noun" select="." />
+    </xsl:call-template>
 </xsl:template>
  
 <xsl:template match="text()|@*"/>

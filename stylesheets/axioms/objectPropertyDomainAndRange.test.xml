@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+	<test>
+		<input>Poets write poems.</input>
+		<output>ObjectPropertyDomain(ObjectProperty(write write) Class(Poet Poets))</output>
+                <output>ObjectPropertyRange(ObjectProperty(write write) Class(Poem poems))</output>
+	</test>
+</tests>
