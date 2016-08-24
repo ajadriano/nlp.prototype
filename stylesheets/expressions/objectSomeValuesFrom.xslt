@@ -47,14 +47,25 @@ ObjectSomeValuesFrom(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="NP[NP[POS and *[@poss]] and NNS]">
+<xsl:template match="NP[NP[POS and *[@poss]] and NN|NNS]">
 ObjectSomeValuesFrom(
         <xsl:call-template name="noun_to_object_property_of">
-            <xsl:with-param name="noun" select="NNS" />
+            <xsl:with-param name="noun" select="NN|NNS" />
 	</xsl:call-template>
    	<xsl:text> </xsl:text>
    	<xsl:call-template name="noun_to_class">
 		<xsl:with-param name="noun" select="NP/*[@poss]" />
+	</xsl:call-template>)
+</xsl:template>
+
+<xsl:template match="NP[NP[DT and (NN|NNS)[@nsubj]] and PP[IN[@lemma='of'] and NP[DT[@lemma='a'] and (NN|NNS)]]]">
+ObjectSomeValuesFrom(
+        <xsl:call-template name="noun_to_object_property_of">
+            <xsl:with-param name="noun" select="NP/(NN|NNS)" />
+	</xsl:call-template>
+   	<xsl:text> </xsl:text>
+   	<xsl:call-template name="noun_phrase_to_class">
+            <xsl:with-param name="NP" select="PP/NP" />
 	</xsl:call-template>)
 </xsl:template>
 

@@ -24,4 +24,12 @@
 		<input>A driver is any person that can drive a vehicle.</input>
 		<output>EquivalentClasses(Class(Driver driver) ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(drive drive) Class(Vehicle vehicle))))</output>
 	</test>
+        <test>
+		<input>A wizard's child is any person that drives a vehicle.</input>
+		<output>EquivalentClasses(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard wizard)) ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(drive drives) Class(Vehicle vehicle))))</output>
+	</test>
+        <test>
+		<input>The child of a wizard is any person that drives a vehicle.</input>
+		<output>EquivalentClasses(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard wizard)) ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(drive drives) Class(Vehicle vehicle))))</output>
+	</test>
 </tests>

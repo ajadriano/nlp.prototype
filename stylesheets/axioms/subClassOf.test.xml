@@ -64,4 +64,20 @@
 		<input>Wizard's children are either wizards or squibs.</input>
 		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard Wizard)) ObjectUnionOf(Class(Wizard wizards) Class(Squib squibs)))</output>
 	</test>
+        <test>
+		<input>Wizard's children are squibs.</input>
+		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard Wizard)) Class(Squib squibs))</output>
+	</test>
+        <test>
+		<input>A wizard's child is a squib.</input>
+		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard wizard)) Class(Squib squib))</output>
+	</test>
+        <test>
+		<input>A child of a wizard is a squib.</input>
+		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard wizard)) Class(Squib squib))</output>
+	</test>
+        <test>
+		<input>The child of a wizard is a squib.</input>
+		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard wizard)) Class(Squib squib))</output>
+	</test>
 </tests>
