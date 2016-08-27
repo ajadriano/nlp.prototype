@@ -16,6 +16,10 @@
 		<input>AJ likes dogs.</input>
 		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
 	</test>
+        <test>
+		<input>AJ likes chicken.</input>
+		<output>SubClassOf(Class(Chicken chicken) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+	</test>
 	<test>
 		<input>Adrian Joseph likes dogs.</input>
 		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AdrianJoseph Adrian Joseph)))</output>
@@ -79,5 +83,17 @@
         <test>
 		<input>The child of a wizard is a squib.</input>
 		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard wizard)) Class(Squib squib))</output>
+	</test>
+        <test>
+		<input>AJ likes any person who likes dogs.</input>
+		<output>SubClassOf(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+	</test>
+        <test>
+		<input>AJ likes anyone who likes dogs.</input>
+		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs)) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+	</test>
+        <test>
+		<input>Everybody that has a wand is a wizard.</input>
+		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(haveWand have wand) Thing()) Class(Wizard wizard))</output>
 	</test>
 </tests>

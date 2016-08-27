@@ -3,15 +3,24 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="S[count(*)=1]/VP[(VB|VBZ)[@relcl]][NP]">
+<xsl:template match="S[count(*)=1]/VP[(VB|VBZ)[@relcl][@lemma!='have']][NP]">
 ObjectSomeValuesFrom(
-    <xsl:call-template name="verb_to_object_property">
+        <xsl:call-template name="verb_to_object_property">
 		<xsl:with-param name="verb" select="VB|VBZ" />
 	</xsl:call-template>
    	<xsl:text> </xsl:text>
    	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP" />
 	</xsl:call-template>)
+</xsl:template>
+
+<xsl:template match="S[count(*)=1]/VP[(VB|VBZ)[@relcl][@lemma='have']][NP]">
+ObjectSomeValuesFrom(
+        <xsl:call-template name="noun_phrase_to_object_property">
+		<xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>
+   	<xsl:text> </xsl:text>
+   	Thing())
 </xsl:template>
 
 <xsl:template match="S[count(*)=1]/VP[MD[@aux] and VP[(VB|VBZ)[@relcl]][NP]]">

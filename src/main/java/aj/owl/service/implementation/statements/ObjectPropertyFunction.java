@@ -48,7 +48,7 @@ public class ObjectPropertyFunction implements OWLExpression {
             
             for (int i = 1; i < args.length; i++)  {
                 sb.append(args[i].toString());
-                if (args.length < args.length - 1) {
+                if (i < args.length - 1) {
                     sb.append(" ");
                 }
             }

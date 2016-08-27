@@ -31,6 +31,7 @@
 <!-- queries -->
 
 <xsl:include href="stylesheets/queries/isDirectSubClassOf.xslt"/>
+<xsl:include href="stylesheets/queries/isInstanceOf.xslt"/>
 <xsl:include href="stylesheets/queries/getObjectPropertyValues.xslt"/>
 <xsl:include href="stylesheets/queries/getInstances.xslt"/>
 

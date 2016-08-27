@@ -9,6 +9,7 @@ import aj.owl.model.OWLExpression;
 import aj.owl.service.implementation.queries.DirectSubClassOfQuery;
 import aj.owl.service.implementation.queries.GetInstancesQuery;
 import aj.owl.service.implementation.queries.GetObjectPropertyValuesQuery;
+import aj.owl.service.implementation.queries.InstanceOfQuery;
 
 /**
  *
@@ -19,6 +20,9 @@ public enum ClassExpressions {
     ObjectProperty (ObjectPropertyFunction.getInstance()),
     ObjectInverseOf (ObjectInverseOfFunction.getInstance()),
     Individual (IndividualFunction.getInstance()),
+    
+    Thing (ThingFunction.getInstance()),
+    AnonymousIndividual (AnonymousIndividualFunction.getInstance()),
     
     ObjectIntersectionOf (ObjectIntersectionOfFunction.getInstance()),
     ObjectUnionOf (ObjectUnionOfFunction.getInstance()),
@@ -79,7 +83,8 @@ public enum ClassExpressions {
     
     IsDirectSubClassOf (DirectSubClassOfQuery.getInstance()),
     GetObjectPropertyValues (GetObjectPropertyValuesQuery.getInstance()),
-    GetInstances (GetInstancesQuery.getInstance());
+    GetInstances (GetInstancesQuery.getInstance()),
+    IsInstanceOf (InstanceOfQuery.getInstance());
     
     private final OWLExpression function;
     

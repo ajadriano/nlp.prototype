@@ -18,18 +18,22 @@
 	</test>
 	<test>
 		<input>Darth Vader is the father of Luke Skywalker.</input>
-		<output>ObjectPropertyAssertion(Class(hasFather has father) Individual(LukeSkywalker Luke Skywalker) Individual(DarthVader Darth Vader))</output>
+		<output>ObjectPropertyAssertion(ObjectProperty(haveFather have father) Individual(LukeSkywalker Luke Skywalker) Individual(DarthVader Darth Vader))</output>
 	</test>
 	<test>
 		<input>Darth Vader is the father of Luke.</input>
-		<output>ObjectPropertyAssertion(Class(hasFather has father) Individual(Luke Luke) Individual(DarthVader Darth Vader))</output>
+		<output>ObjectPropertyAssertion(ObjectProperty(haveFather have father) Individual(Luke Luke) Individual(DarthVader Darth Vader))</output>
 	</test>
 	<test>
 		<input>Darth is the father of Luke Skywalker.</input>
-		<output>ObjectPropertyAssertion(Class(hasFather has father) Individual(LukeSkywalker Luke Skywalker) Individual(Darth Darth))</output>
+		<output>ObjectPropertyAssertion(ObjectProperty(haveFather have father) Individual(LukeSkywalker Luke Skywalker) Individual(Darth Darth))</output>
 	</test>
 	<test>
 		<input>Darth is the father of Luke.</input>
-		<output>ObjectPropertyAssertion(Class(hasFather has father) Individual(Luke Luke) Individual(Darth Darth))</output>
+		<output>ObjectPropertyAssertion(ObjectProperty(haveFather have father) Individual(Luke Luke) Individual(Darth Darth))</output>
+	</test>
+        <test>
+		<input>AJ has a wand.</input>
+		<output>ObjectPropertyAssertion(ObjectProperty(haveWand have wand) Individual(AJ AJ) AnonymousIndividual())</output>
 	</test>
 </tests>

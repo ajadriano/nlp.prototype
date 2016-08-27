@@ -5,4 +5,9 @@
 		<output>ObjectPropertyDomain(ObjectProperty(write write) Class(Poet Poets))</output>
                 <output>ObjectPropertyRange(ObjectProperty(write write) Class(Poem poems))</output>
 	</test>
+        <test>
+		<input>A poet writes poems.</input>
+		<output>ObjectPropertyDomain(ObjectProperty(write writes) Class(Poet poet))</output>
+                <output>ObjectPropertyRange(ObjectProperty(write writes) Class(Poem poems))</output>
+	</test>
 </tests>

@@ -3,7 +3,7 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NP[position()=1]][NP[position()=2]]">
+<xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NP[position()=1 and count(NNP|NNPS)=0]][NP[position()=2]]">
 IsDirectSubClassOf(
 	<xsl:call-template name="noun_phrase_to_class">
 		<xsl:with-param name="NP" select="NP[position()=1]" />
