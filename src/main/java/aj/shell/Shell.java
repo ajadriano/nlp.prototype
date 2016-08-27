@@ -7,6 +7,7 @@ package aj.shell;
 
 import aj.kb.service.AdminService;
 import aj.kb.service.implementation.DefaultAdminService;
+import edu.stanford.nlp.util.logging.RedwoodConfiguration;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,6 +18,7 @@ import java.io.InputStreamReader;
  */
 public class Shell {
     public static void main(String args[]) throws IOException {
+        //RedwoodConfiguration.empty().capture(System.out).apply();
         AdminService adminService = new DefaultAdminService();
         adminService.initialize();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

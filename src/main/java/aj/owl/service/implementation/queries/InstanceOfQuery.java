@@ -35,10 +35,10 @@ public class InstanceOfQuery implements OWLQueryExpression {
     @Override
     public Class getExpectedClass(int argumentIndex) {
         if (argumentIndex == 0) {
-            return OWLClassExpression.class;
+            return OWLNamedIndividual.class;
         }
         else if (argumentIndex == 1) {
-            return OWLNamedIndividual.class;
+            return OWLClassExpression.class;
         }
         
         return null;
@@ -46,7 +46,7 @@ public class InstanceOfQuery implements OWLQueryExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
-        NodeSet<OWLNamedIndividual> set = reasoner.getInstances((OWLClassExpression)args[0], false);
+        NodeSet<OWLNamedIndividual> set = reasoner.getInstances((OWLClassExpression)args[1], false);
         if (set.containsEntity((OWLNamedIndividual)args[0])) {
             return new QueryResult(true);
         }

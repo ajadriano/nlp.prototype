@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+	<test>
+		<input>Is Harry Potter a wizard?</input>
+		<output>IsInstanceOf(Individual(HarryPotter Harry Potter) Class(Wizard wizard))</output>
+	</test>
+	<test>
+		<input>Is Harry a wizard?</input>
+		<output>IsInstanceOf(Individual(Harry Harry) Class(Wizard wizard))</output>
+	</test>
+        <test>
+		<input>Is Luke Skywalker a Jedi Knight?</input>
+		<output>IsInstanceOf(Individual(LukeSkywalker Luke Skywalker) Class(JediKnight Jedi Knight))</output>
+	</test>
+        <test>
+		<input>Is Luke a Jedi Knight?</input>
+		<output>IsInstanceOf(Individual(Luke Luke) Class(JediKnight Jedi Knight))</output>
+	</test>
+</tests>

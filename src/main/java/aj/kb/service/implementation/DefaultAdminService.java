@@ -6,13 +6,14 @@
 package aj.kb.service.implementation;
 
 import aj.kb.service.AdminService;
+import aj.kb.service.KnowledgeBaseException;
+import aj.kb.service.KnowledgeBaseService;
 import aj.nlp.model.TextCorpus;
 import aj.nlp.service.LanguageProcessor;
 import aj.nlp.service.implementation.DefaultLanguageProcessor;
 import aj.nlp.service.implementation.DefaultTokenSerializer;
 import aj.owl.model.Expression;
 import aj.owl.service.implementation.DefaultFunctionParser;
-import aj.owl.service.implementation.OwlExecutionService;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,6 +47,7 @@ public class DefaultAdminService implements AdminService {
     private LanguageProcessor processor;
     private DefaultTokenSerializer serializer;
     private DefaultFunctionParser functionParser;
+    private DefaultServices services;
     
     @Override
     public void initialize() {
@@ -54,6 +56,8 @@ public class DefaultAdminService implements AdminService {
         
         serializer = new DefaultTokenSerializer();
         functionParser = new DefaultFunctionParser();
+        
+        services = new DefaultServices(processor, serializer, functionParser);
     }
     
     public String createKnowledgeBase(String name) {
@@ -73,6 +77,9 @@ public class DefaultAdminService implements AdminService {
         }
         else if ("xsl".equals(mode)){
             return debugXsl(file);
+        }
+        else if ("kb".equals(mode)){
+            return debugKb(file);
         }
         
         return "";
@@ -191,20 +198,52 @@ public class DefaultAdminService implements AdminService {
         return "";
     }
     
-    public String loadKnowledgeBase(String name) {
-        File file = new File("../domains/" + name);
-        if (!file.exists()) {
-            return "Domain does not exist.";
+    private String debugKb(String file) {        
+        KnowledgeBaseService kb = new DebugKnowledgeBaseService(services, file);
+        try {
+            kb.initialize();
+        } catch (KnowledgeBaseException | IOException ex) {
+            Logger.getLogger(DefaultAdminService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        OwlExecutionService executionService = new OwlExecutionService();
-        executionService.initialize(name);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String input;
+        do {
+            System.out.print("debugkb>");
+            
+            try { 
+                input = br.readLine();
+            } catch (IOException ex) {
+                return ex.getMessage();
+            }
+            
+            if (input.trim().endsWith(".") || input.trim().endsWith("?")) {
+                System.out.println(kb.tell(input));
+            }     
+            else if (input.startsWith("load")) {
+                String[] commandArr = input.split("\\s+");
+                if (commandArr.length  == 2) {
+                    try {
+                        System.out.println(kb.loadFile(commandArr[1]));
+                    } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+                else {
+                    System.out.println("Invalid operation.");
+                }
+            }
+        } while (!"quit".equals(input));     
         
-        String xsl;
+        return "";
+    }
+    
+    public String loadKnowledgeBase(String name, String xsltFile) {        
+        KnowledgeBaseService kb = new DefaultKnowledgeBaseService(services, name, xsltFile);
         try {
-            xsl = getContents("default.xslt");
-        } catch (IOException ex) {
-            return ex.getMessage();
+            kb.initialize();
+        } catch (KnowledgeBaseException | IOException ex) {
+            Logger.getLogger(DefaultAdminService.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -219,19 +258,13 @@ public class DefaultAdminService implements AdminService {
             }
             
             if (input.trim().endsWith(".") || input.trim().endsWith("?")) {
-                TextCorpus textCorpus = processor.parseCorpus(input);
-                Document xmlDocument = serializer.serialize(textCorpus);
-                System.out.println(executionService.execute(serializer.transform(xmlDocument, xsl)));
+                System.out.println(kb.tell(input));
             }     
             else if (input.startsWith("load")) {
                 String[] commandArr = input.split("\\s+");
                 if (commandArr.length  == 2) {
-                    String contents;
                     try {
-                        contents = getContents(commandArr[1]);
-                        TextCorpus textCorpus = processor.parseCorpus(contents);
-                        Document xmlDocument = serializer.serialize(textCorpus);
-                        System.out.println(executionService.execute(serializer.transform(xmlDocument, xsl)));
+                        System.out.println(kb.loadFile(commandArr[1]));
                     } catch (IOException ex) {
                         System.out.println(ex.getMessage());
                     }
@@ -242,7 +275,7 @@ public class DefaultAdminService implements AdminService {
             }
         } while (!"quit".equals(input));     
         
-        executionService.commit();
+        kb.save();
         
         return "";
     }
@@ -354,7 +387,10 @@ public class DefaultAdminService implements AdminService {
                     }
                 case "load" : 
                     if (args.length == 2) {
-                        return loadKnowledgeBase(args[1]);
+                        return loadKnowledgeBase(args[1], "default.xslt");
+                    }
+                    else if (args.length == 3) {
+                        return loadKnowledgeBase(args[1], args[2]);
                     }
                 case "debug" : 
                     if (args.length == 2) {

@@ -35,10 +35,10 @@ public class DirectSubClassOfQuery implements OWLQueryExpression {
     @Override
     public Class getExpectedClass(int argumentIndex) {
         if (argumentIndex == 0) {
-            return OWLClassExpression.class;
+            return OWLClass.class;
         }
         else if (argumentIndex == 1) {
-            return OWLClass.class;
+            return OWLClassExpression.class;
         }
         
         return null;
