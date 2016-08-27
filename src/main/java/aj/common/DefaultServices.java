@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.kb.service.implementation;
+package aj.common;
 
-import aj.kb.service.Services;
+import aj.common.Services;
 import aj.nlp.service.LanguageProcessor;
 import aj.nlp.service.TokenSerializer;
 import aj.owl.service.FunctionParser;

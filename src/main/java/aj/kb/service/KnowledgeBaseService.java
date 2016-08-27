@@ -12,6 +12,8 @@ import java.io.IOException;
  * @author ajadriano
  */
 public interface KnowledgeBaseService {
+    String getName();
+    
     void initialize() throws KnowledgeBaseException, IOException;
     String tell(String message);
     String loadFile(String file) throws IOException;

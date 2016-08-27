@@ -544,13 +544,13 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        String result = executionService.execute(this.jTextArea7.getText());
+        /*String result = executionService.execute(this.jTextArea7.getText());
         if (!result.isEmpty()) {
             StringBuilder sb = new StringBuilder(jTextArea1.getText());
             sb.append("\n");
             sb.append(result);
             jTextArea1.setText(sb.toString());
-        }
+        }*/
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked

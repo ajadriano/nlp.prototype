@@ -5,6 +5,7 @@
  */
 package aj.kb.service.implementation;
 
+import aj.common.DefaultServices;
 import aj.kb.service.AdminService;
 import aj.kb.service.KnowledgeBaseException;
 import aj.kb.service.KnowledgeBaseService;
@@ -14,6 +15,7 @@ import aj.nlp.service.implementation.DefaultLanguageProcessor;
 import aj.nlp.service.implementation.DefaultTokenSerializer;
 import aj.owl.model.Expression;
 import aj.owl.service.implementation.DefaultFunctionParser;
+import aj.test.TestInterpreter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -79,7 +81,7 @@ public class DefaultAdminService implements AdminService {
             return debugXsl(file);
         }
         else if ("kb".equals(mode)){
-            return debugKb(file);
+            return loadKnowledgeBase(new DebugKnowledgeBaseService(services, file));
         }
         
         return "";
@@ -125,9 +127,10 @@ public class DefaultAdminService implements AdminService {
     }
     
     public String debugXsl(String file) {
-        String xsl;
+        TestInterpreter interpreter = new TestInterpreter(services, file);
+        
         try {
-            xsl = getContents(file);
+            interpreter.initialize();
         } catch (IOException ex) {
             return ex.getMessage();
         }
@@ -146,25 +149,12 @@ public class DefaultAdminService implements AdminService {
             if (input.startsWith("load")) {
                 String[] commandArr = input.split("\\s+");
                 if (commandArr.length  >= 2) {
-                    String contents;
                     try {
                         if (commandArr[1].endsWith(".xslt")) {
-                            try {
-                                xsl = getContents(commandArr[1]);
-                            } catch (IOException ex) {
-                                return ex.getMessage();
-                            }
+                            interpreter.replaceXsl(commandArr[1]);
                         }
                         else {
-                           contents = getContents(commandArr[1]);
-                           TextCorpus textCorpus = processor.parseCorpus(contents);
-                           Document xmlDocument = serializer.serialize(textCorpus);
-                           List<Expression> expressions = functionParser.parse(serializer.transform(xmlDocument, xsl));
-                           
-                           expressions.stream().forEach((expression) -> {
-                               String expressionString = expression.toString();
-                               System.out.println(expressionString);
-                            }); 
+                           System.out.println(interpreter.interpretFile(commandArr[1]));
                         }     
                     } catch (IOException ex) {
                         System.out.println(ex.getMessage());
@@ -175,31 +165,17 @@ public class DefaultAdminService implements AdminService {
                 }
             }
             else if (input.startsWith("test")) {
-                String[] commandArr = input.split("\\s+");
-                if (commandArr.length  > 1) {
-                    testXsl(commandArr[1]);
-                }
-                else {
-                    testXsl("test.xml");
-                }
+                interpreter.test();
             }
             else if (!"quit".equals(input)) {  
-                TextCorpus textCorpus = processor.parseCorpus(input);
-                Document xmlDocument = serializer.serialize(textCorpus);
-                List<Expression> expressions = functionParser.parse(serializer.transform(xmlDocument, xsl));
-                           
-                expressions.stream().forEach((expression) -> {
-                    System.out.println(expression.toString());
-                    System.out.println();
-                }); 
+                System.out.println(interpreter.interpret(input));
             }
         } while (!"quit".equals(input));
         
         return "";
     }
     
-    private String debugKb(String file) {        
-        KnowledgeBaseService kb = new DebugKnowledgeBaseService(services, file);
+    public String loadKnowledgeBase(KnowledgeBaseService kb) {        
         try {
             kb.initialize();
         } catch (KnowledgeBaseException | IOException ex) {
@@ -209,47 +185,7 @@ public class DefaultAdminService implements AdminService {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String input;
         do {
-            System.out.print("debugkb>");
-            
-            try { 
-                input = br.readLine();
-            } catch (IOException ex) {
-                return ex.getMessage();
-            }
-            
-            if (input.trim().endsWith(".") || input.trim().endsWith("?")) {
-                System.out.println(kb.tell(input));
-            }     
-            else if (input.startsWith("load")) {
-                String[] commandArr = input.split("\\s+");
-                if (commandArr.length  == 2) {
-                    try {
-                        System.out.println(kb.loadFile(commandArr[1]));
-                    } catch (IOException ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-                else {
-                    System.out.println("Invalid operation.");
-                }
-            }
-        } while (!"quit".equals(input));     
-        
-        return "";
-    }
-    
-    public String loadKnowledgeBase(String name, String xsltFile) {        
-        KnowledgeBaseService kb = new DefaultKnowledgeBaseService(services, name, xsltFile);
-        try {
-            kb.initialize();
-        } catch (KnowledgeBaseException | IOException ex) {
-            Logger.getLogger(DefaultAdminService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String input;
-        do {
-            System.out.print(name + ">");
+            System.out.print(kb.getName() + ">");
             
             try { 
                 input = br.readLine();
@@ -284,98 +220,6 @@ public class DefaultAdminService implements AdminService {
         byte[] encoded = Files.readAllBytes(Paths.get(file));        
         return new String(encoded, Charset.defaultCharset());
     }
-    
-    private void testXsl(String file) {
-        StringBuilder sb = new StringBuilder();
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        Document doc = null;
-        try {
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            doc = docBuilder.parse(new FileInputStream(file));
-            XPath xPath = XPathFactory.newInstance().newXPath();
-            
-            NodeList testNodes = (NodeList)xPath.evaluate("//test", doc.getDocumentElement(), XPathConstants.NODESET);
-            for (int i = 0; i < testNodes.getLength(); ++i) {
-                Element test = (Element) testNodes.item(i);  
-                if (test.hasAttribute("src")) {
-                    loadTest(docBuilder, xPath, test.getAttribute("src"), sb);
-                }   
-                else {
-                    NodeList nodeInputs = (NodeList)xPath.evaluate("input", test, XPathConstants.NODESET);             
-                    for (int j = 0; j < nodeInputs.getLength(); ++j) {
-                        Element input = (Element) nodeInputs.item(j); 
-                        sb.append(input.getTextContent());
-                        sb.append(" ");
-                    }
-                }                
-            }
-            
-            TextCorpus textCorpus = processor.parseCorpus(sb.toString());
-            Document xmlDocument = serializer.serialize(textCorpus);
-            List<Expression> expressions = functionParser.parse(serializer.transform(xmlDocument, getContents("default.xslt")));
-            int currentExpression = 0;
-            
-            for (int i = 0; i < testNodes.getLength(); ++i) {
-                Element test = (Element) testNodes.item(i);  
-                if (test.hasAttribute("src")) {
-                    currentExpression = verifyResult(docBuilder, xPath, test.getAttribute("src"), expressions, currentExpression);
-                }
-                else {
-                    NodeList nodeInputs = (NodeList)xPath.evaluate("input", test, XPathConstants.NODESET);
-                    Element input = (Element) nodeInputs.item(0); 
-                    NodeList nodeOutputs = (NodeList)xPath.evaluate("output", test, XPathConstants.NODESET);             
-                    for (int j = 0; j < nodeOutputs.getLength(); ++j) {
-                        Element output = (Element) nodeOutputs.item(j);   
-                        if ((output.getTextContent().trim().equals(expressions.get(currentExpression).toString().trim())) == false) {
-                            System.out.println("Error parsing statement - '" + input.getTextContent().trim() + "'");
-                            System.out.println("Expected - " + output.getTextContent());
-                            System.out.println("Actual - " + expressions.get(currentExpression).toString());
-                        }
-                        currentExpression++;
-                    }
-                }
-            }
-            
-            System.out.println("Test complete");
-            
-        } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException | DOMException ex) {
-            Logger.getLogger(DefaultTokenSerializer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void loadTest(DocumentBuilder docBuilder, XPath xPath, String file, StringBuilder sb) throws SAXException, IOException, XPathExpressionException {
-        Document doc = docBuilder.parse(new FileInputStream(file));
-        NodeList inputNodes = (NodeList)xPath.evaluate("//input", doc.getDocumentElement(), XPathConstants.NODESET);
-        for (int i = 0; i < inputNodes.getLength(); ++i) {
-            Element input = (Element) inputNodes.item(i); 
-            sb.append(input.getTextContent());
-            sb.append(" ");
-        }
-    }
-    
-    private int verifyResult(DocumentBuilder docBuilder,  XPath xPath, String file, List<Expression> expressions, int currentExpression) throws SAXException, IOException, XPathExpressionException {
-        Document doc = docBuilder.parse(new FileInputStream(file));
-        
-        NodeList testNodes = (NodeList)xPath.evaluate("//test", doc.getDocumentElement(), XPathConstants.NODESET);
-        for (int i = 0; i < testNodes.getLength(); ++i) {
-            Element test = (Element) testNodes.item(i);  
-            NodeList nodeInputs = (NodeList)xPath.evaluate("input", test, XPathConstants.NODESET);
-            Element input = (Element) nodeInputs.item(0); 
-            NodeList nodeOutputs = (NodeList)xPath.evaluate("output", test, XPathConstants.NODESET);
-
-            for (int j = 0; j < nodeOutputs.getLength(); ++j) {
-                Element output = (Element) nodeOutputs.item(j); 
-                if ((output.getTextContent().trim().equals(expressions.get(currentExpression).toString().trim())) == false) {
-                    System.out.println("Error parsing statement - '" + input.getTextContent().trim() + "'");
-                    System.out.println("Expected - " + output.getTextContent());
-                    System.out.println("Actual - " + expressions.get(currentExpression).toString());
-                }
-                currentExpression++;
-            }                
-        }
-        
-        return currentExpression;
-    }
 
     @Override
     public String execute(String[] args) {
@@ -387,10 +231,10 @@ public class DefaultAdminService implements AdminService {
                     }
                 case "load" : 
                     if (args.length == 2) {
-                        return loadKnowledgeBase(args[1], "default.xslt");
+                        return loadKnowledgeBase(new DefaultKnowledgeBaseService(services, args[1], "default.xslt"));
                     }
                     else if (args.length == 3) {
-                        return loadKnowledgeBase(args[1], args[2]);
+                        return loadKnowledgeBase(new DefaultKnowledgeBaseService(services, args[1], args[1]));
                     }
                 case "debug" : 
                     if (args.length == 2) {

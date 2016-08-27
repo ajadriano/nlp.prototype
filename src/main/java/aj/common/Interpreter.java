@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.kb.model;
+package aj.common;
+
+import java.util.List;
 
 /**
  *
  * @author ajadriano
  */
-public class Domain {
-    
+public interface Interpreter {
+    List<String> interpretByLine(String input);
 }

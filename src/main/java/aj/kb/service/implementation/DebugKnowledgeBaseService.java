@@ -6,7 +6,7 @@
 package aj.kb.service.implementation;
 
 import aj.kb.service.KnowledgeBaseException;
-import aj.kb.service.Services;
+import aj.common.Services;
 import java.io.IOException;
 
 /**
@@ -23,5 +23,9 @@ public class DebugKnowledgeBaseService extends DefaultKnowledgeBaseService {
     public void initialize() throws KnowledgeBaseException, IOException  {
         xsl = getContents(xslFile);
         executionService.initialize(name);
+    }
+    
+    @Override
+    public void save() {
     }
 }

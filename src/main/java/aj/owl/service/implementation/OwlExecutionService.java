@@ -46,7 +46,6 @@ import aj.owl.model.QueryResult;
 import aj.owl.model.Result;
 import java.util.Optional;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
@@ -104,9 +103,9 @@ public class OwlExecutionService implements ExecutionService {
     }
     
     @Override
-    public String execute(String statement) {
+    public List<String> execute(String statement) {
         List<Expression> expressions = functionParser.parse(statement);
-        StringBuilder sb = new StringBuilder();
+        List<String> results = new ArrayList();
         
         for (Expression expression : expressions) {
             if (expression instanceof FunctionExpression) {
@@ -117,25 +116,21 @@ public class OwlExecutionService implements ExecutionService {
                         reasoner.flush();
                     }
                     else if (result instanceof ErrorResult) {
-                        sb.append(((ErrorResult)result).getResult());
-                        sb.append("\n");
+                        results.add(((ErrorResult)result).getResult());
                     }
                     else if (result instanceof QueryResult) {
-                        sb.append(((QueryResult)result).getResult());
-                        sb.append("\n");
+                        results.add(((QueryResult)result).getResult().toString());
                     }
                     else if (result instanceof IRIListResult) {
                         for (IRI iri : ((IRIListResult)result).getResult()) {
                             Optional<OWLAnnotationAssertionAxiom> axiom = ontology.annotationAssertionAxioms(iri).findFirst();
                             if (axiom != null && axiom.isPresent()) {
                                 if (axiom.get().getProperty() == factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI())) {
-                                    sb.append(axiom.get().getValue().asLiteral().get().getLiteral());
-                                    sb.append("\n");
+                                    results.add(axiom.get().getValue().asLiteral().get().getLiteral());
                                 }
                             }
                             else {
-                                sb.append(iri.getShortForm());
-                                sb.append("\n");
+                                results.add(iri.getShortForm());
                             }
                         }
                     }
@@ -143,12 +138,12 @@ public class OwlExecutionService implements ExecutionService {
             }
         }
         
-        if (sb.toString().isEmpty())
+        if (results.isEmpty())
         {
-            return "OK";
+            results.add("OK");
         }
         
-        return sb.toString();
+        return results;
     } 
     
     private Result<?> execute(FunctionExpression expression) {

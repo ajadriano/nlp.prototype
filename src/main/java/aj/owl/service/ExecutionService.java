@@ -5,12 +5,14 @@
  */
 package aj.owl.service;
 
+import java.util.List;
+
 /**
  *
  * @author ajadriano
  */
 public interface ExecutionService {
     void initialize(String ontology);
-    String execute(String statement);
+    List<String> execute(String statement);
     void commit();
 }

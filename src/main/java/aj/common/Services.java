@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.kb.service;
+package aj.common;
 
 import aj.nlp.service.LanguageProcessor;
 import aj.nlp.service.TokenSerializer;

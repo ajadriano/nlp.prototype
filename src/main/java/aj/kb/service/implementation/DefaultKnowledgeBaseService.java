@@ -5,9 +5,10 @@
  */
 package aj.kb.service.implementation;
 
+import aj.common.Interpreter;
 import aj.kb.service.KnowledgeBaseException;
 import aj.kb.service.KnowledgeBaseService;
-import aj.kb.service.Services;
+import aj.common.Services;
 import aj.nlp.model.TextCorpus;
 import aj.nlp.service.LanguageProcessor;
 import aj.nlp.service.TokenSerializer;
@@ -18,13 +19,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import org.w3c.dom.Document;
 
 /**
  *
  * @author ajadriano
  */
-public class DefaultKnowledgeBaseService implements KnowledgeBaseService {
+public class DefaultKnowledgeBaseService implements KnowledgeBaseService, Interpreter {
     protected final String name;
     protected final String xslFile;
     
@@ -45,13 +47,26 @@ public class DefaultKnowledgeBaseService implements KnowledgeBaseService {
     /**
      * @return the name
      */
+    @Override
     public String getName() {
         return name;
     }
             
     @Override
     public String tell(String message) {
-        TextCorpus textCorpus = processor.parseCorpus(message);
+        StringBuilder sb = new StringBuilder();
+        List<String> expressions = interpretByLine(message); 
+        
+        expressions.stream().forEach((expression) -> {
+            sb.append(expression);
+         }); 
+        
+        return sb.toString();
+    }
+    
+    @Override
+    public List<String> interpretByLine(String input) {
+        TextCorpus textCorpus = processor.parseCorpus(input);
         Document xmlDocument = serializer.serialize(textCorpus);
         return executionService.execute(serializer.transform(xmlDocument, xsl)); 
     }
@@ -81,5 +96,4 @@ public class DefaultKnowledgeBaseService implements KnowledgeBaseService {
         byte[] encoded = Files.readAllBytes(Paths.get(file));        
         return new String(encoded, Charset.defaultCharset());
     }
-    
 }
