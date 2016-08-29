@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * @author ajadriano
  */
-public interface KnowledgeBaseService {
+public interface KnowledgeBase {
     String getName();
     
     void initialize() throws KnowledgeBaseException, IOException;

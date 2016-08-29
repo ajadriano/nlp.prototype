@@ -9,16 +9,15 @@ import aj.nlp.prototype.NewJFrame;
 import aj.owl.model.AnnotatedResult;
 import aj.owl.model.AxiomResult;
 import aj.owl.model.ErrorResult;
-import aj.owl.model.Expression;
-import aj.owl.model.FunctionExpression;
+import aj.xsl.model.Expression;
+import aj.xsl.model.FunctionExpression;
 import aj.owl.model.IRIListResult;
 import aj.owl.model.IndividualResult;
 import aj.owl.model.OWLExpression;
 import aj.owl.model.OWLQueryExpression;
 import aj.owl.model.ObjectPropertyResult;
-import aj.owl.model.VariableExpression;
+import aj.xsl.model.VariableExpression;
 import aj.owl.service.ExecutionService;
-import aj.owl.service.FunctionParser;
 import aj.owl.service.VariableExpressionConverter;
 import aj.owl.service.implementation.statements.ClassExpressions;
 import java.io.DataOutputStream;
@@ -55,7 +54,7 @@ import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
  */
 public class OwlExecutionService implements ExecutionService {
 
-    private final FunctionParser functionParser;
+    private final String directory;
     private VariableExpressionConverter variableExpressionConverter;
     
     private OWLOntologyManager owlManager;
@@ -65,12 +64,8 @@ public class OwlExecutionService implements ExecutionService {
     private IRI ontologyIRI;
     private String ontologyName;
     
-    public OwlExecutionService() {
-        this(new DefaultFunctionParser());
-    }
-    
-    public OwlExecutionService(FunctionParser functionParser) {
-        this.functionParser = functionParser;
+    public OwlExecutionService(String directory) {
+        this.directory = directory;
     }
     
     @Override
@@ -80,7 +75,7 @@ public class OwlExecutionService implements ExecutionService {
         ontologyIRI = IRI.create("http://www.semanticweb.org/ontologies/" + this.ontologyName);
         
         try {
-            File f = new File("../domains/" + this.ontologyName + "/ontology.owl");
+            File f = new File(directory + this.ontologyName + "/ontology.owl");
             if(f.exists()) { 
                 ontology = owlManager.loadOntologyFromOntologyDocument(f);
             }
@@ -103,8 +98,7 @@ public class OwlExecutionService implements ExecutionService {
     }
     
     @Override
-    public List<String> execute(String statement) {
-        List<Expression> expressions = functionParser.parse(statement);
+    public List<String> execute(List<Expression> expressions) {
         List<String> results = new ArrayList();
         
         for (Expression expression : expressions) {
@@ -228,7 +222,7 @@ public class OwlExecutionService implements ExecutionService {
     @Override
     public void commit() {
         try {
-            File file = new File("../domains/" + this.ontologyName + "/ontology.owl");
+            File file = new File(directory + this.ontologyName + "/ontology.owl");
             file.createNewFile();
             try (DataOutputStream stream = new DataOutputStream(new FileOutputStream(file))) {
                 owlManager.saveOntology(ontology, stream);

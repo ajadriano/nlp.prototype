@@ -6,10 +6,10 @@
 package aj.nlp.service;
 
 import aj.nlp.model.SentenceToken;
-import aj.nlp.model.TextCorpus;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.semgraph.SemanticGraph;
 import edu.stanford.nlp.util.CoreMap;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -19,6 +19,6 @@ public interface LanguageProcessor {
     StanfordCoreNLP getPipeline();
     
     void initialize();
-    TextCorpus parseCorpus(String corpus);
+    Document parseCorpus(String corpus);
     SentenceToken assembleToken(SemanticGraph semanticGraph, CoreMap sentence);
 }

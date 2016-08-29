@@ -11,10 +11,10 @@ import aj.nlp.model.SentenceToken;
 import aj.nlp.model.TextCorpus;
 import aj.nlp.service.LanguageProcessor;
 import aj.nlp.service.implementation.DefaultLanguageProcessor;
-import aj.nlp.service.implementation.DefaultTokenSerializer;
-import aj.owl.model.Expression;
-import aj.owl.service.FunctionParser;
-import aj.owl.service.implementation.DefaultFunctionParser;
+import aj.xsl.service.implementation.DefaultXslTransformService;
+import aj.xsl.model.Expression;
+import aj.xsl.service.FunctionParser;
+import aj.xsl.service.implementation.DefaultFunctionParser;
 import aj.owl.service.implementation.OwlExecutionService;
 import edu.stanford.nlp.hcoref.CorefCoreAnnotations.CorefChainAnnotation;
 import edu.stanford.nlp.hcoref.data.CorefChain;
@@ -52,7 +52,7 @@ import org.w3c.dom.Document;
 public class NewJFrame extends javax.swing.JFrame {
 
     private StanfordCoreNLP pipeline; 
-    private final OwlExecutionService executionService = new OwlExecutionService();
+    private final OwlExecutionService executionService = new OwlExecutionService("");
     private final LanguageProcessor processor = new DefaultLanguageProcessor();
     
     /**
@@ -389,7 +389,7 @@ public class NewJFrame extends javax.swing.JFrame {
         DefaultMutableTreeNode rootNode2 = new DefaultMutableTreeNode("top");
         model2.setRoot(rootNode2);
         
-        TextCorpus textCorpus = processor.parseCorpus(jTextArea1.getText());
+        /*TextCorpus textCorpus = processor.parseCorpus(jTextArea1.getText());
         
         for (SentenceToken token : textCorpus.getSentences()) {
             DefaultMutableTreeNode sentenceTokenNode = new DefaultMutableTreeNode();
@@ -401,7 +401,7 @@ public class NewJFrame extends javax.swing.JFrame {
         DefaultTokenSerializer serializer = new DefaultTokenSerializer();
         Document xmlDocument = serializer.serialize(textCorpus);
         jTextArea4.setText(serializer.transform(xmlDocument));
-        jTextArea7.setText(serializer.transform(xmlDocument, this.jTextArea6.getText()));
+        jTextArea7.setText(serializer.transform(xmlDocument, this.jTextArea6.getText()));*/
         
         Annotation document = new Annotation(jTextArea1.getText());
         pipeline.annotate(document);

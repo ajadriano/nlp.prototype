@@ -5,6 +5,7 @@
  */
 package aj.nlp.service.implementation;
 
+import aj.xsl.service.implementation.DefaultXslTransformService;
 import aj.nlp.model.CoReference;
 import aj.nlp.model.EnumHelper;
 import aj.nlp.model.GrammaticalDependency;
@@ -40,10 +41,18 @@ import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -67,7 +76,7 @@ public class DefaultLanguageProcessor implements LanguageProcessor {
     }
     
     @Override
-    public TextCorpus parseCorpus(String corpus) {
+    public Document parseCorpus(String corpus) {
         TextCorpus textCorpus = new TextCorpus();
         
         Annotation document = new Annotation(corpus);
@@ -93,7 +102,7 @@ public class DefaultLanguageProcessor implements LanguageProcessor {
             textCorpus.getSentences().add(sentenceToken);
         }
         
-        return textCorpus;
+        return serialize(textCorpus);
     }
     
     @Override
@@ -212,5 +221,22 @@ public class DefaultLanguageProcessor implements LanguageProcessor {
     private boolean isPunctuation(GrammarService grammarService, int index) {
         Collection<GrammaticalRelation<Integer>> relations = grammarService.getTargetGrammaticalRelations(index);
         return relations.stream().anyMatch((relation) -> (relation.getDependency() == GrammaticalDependency.punct));
+    }
+    
+    private static Document serialize(TextCorpus textCorpus) {
+        StringWriter sw = new StringWriter();
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        Document doc = null;
+        try {
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            doc = docBuilder.newDocument();        
+            Element element = textCorpus.writeXML(doc);
+            if (element != null) {
+                doc.appendChild(element);
+            }      
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(DefaultXslTransformService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return doc;
     }
 }

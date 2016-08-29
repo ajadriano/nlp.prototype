@@ -96,4 +96,8 @@
 		<input>Everybody that has a wand is a wizard.</input>
 		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(haveWand have wand) Thing()) Class(Wizard wizard))</output>
 	</test>
+        <test>
+		<input>Leia likes to play the piano.</input>
+		<output>SubClassOf(Class(Piano piano) ObjectHasValue(ObjectInverseOf(ObjectProperty(likeToplay likes to play)) Individual(Leia Leia)))</output>
+	</test>
 </tests>

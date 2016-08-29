@@ -5,6 +5,7 @@
  */
 package aj.owl.service;
 
+import aj.xsl.model.Expression;
 import java.util.List;
 
 /**
@@ -13,6 +14,6 @@ import java.util.List;
  */
 public interface ExecutionService {
     void initialize(String ontology);
-    List<String> execute(String statement);
+    List<String> execute(List<Expression> expressions);
     void commit();
 }

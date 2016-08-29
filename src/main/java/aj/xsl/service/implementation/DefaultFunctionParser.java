@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.owl.service.implementation;
+package aj.xsl.service.implementation;
 
-import aj.owl.model.Expression;
-import aj.owl.model.FunctionExpression;
-import aj.owl.model.VariableExpression;
-import aj.owl.service.FunctionParser;
+import aj.xsl.model.Expression;
+import aj.xsl.model.FunctionExpression;
+import aj.xsl.model.VariableExpression;
+import aj.xsl.service.FunctionParser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

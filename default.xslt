@@ -53,6 +53,16 @@
 	<xsl:with-param name="noun" select="." />
     </xsl:call-template>
 </xsl:template>
+<xsl:template match="NN[@entity]|NNP" priority="0">
+   <xsl:call-template name="noun_to_individual">
+	<xsl:with-param name="noun" select="." />
+    </xsl:call-template>
+</xsl:template>
+<xsl:template match="NP[.//NNP|.//*[@entity]]" priority="0">
+   <xsl:call-template name="noun_phrase_to_individual">
+        <xsl:with-param name="NP" select="." />
+   </xsl:call-template>
+</xsl:template>
  
 <xsl:template match="text()|@*"/>
 

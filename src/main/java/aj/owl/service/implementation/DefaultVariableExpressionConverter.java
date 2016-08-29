@@ -5,7 +5,7 @@
  */
 package aj.owl.service.implementation;
 
-import aj.owl.model.VariableExpression;
+import aj.xsl.model.VariableExpression;
 import aj.owl.service.VariableExpressionConverter;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;

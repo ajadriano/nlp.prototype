@@ -6,15 +6,16 @@
 package aj.common;
 
 import aj.nlp.service.LanguageProcessor;
-import aj.nlp.service.TokenSerializer;
-import aj.owl.service.FunctionParser;
+import aj.xsl.service.FunctionParser;
+import aj.xsl.service.XslTransformService;
 
 /**
  *
  * @author ajadriano
  */
 public interface Services {
+    void initialize();
     LanguageProcessor getLanguageProcessor();
-    TokenSerializer getTokenSerializer();
+    XslTransformService getXslTransformService();
     FunctionParser getFunctionParser();
 }

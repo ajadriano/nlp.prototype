@@ -9,9 +9,8 @@ import aj.common.Interpreter;
 import aj.common.Services;
 import aj.nlp.model.TextCorpus;
 import aj.nlp.service.LanguageProcessor;
-import aj.nlp.service.TokenSerializer;
-import aj.owl.model.Expression;
-import aj.owl.service.FunctionParser;
+import aj.xsl.model.Expression;
+import aj.xsl.service.FunctionParser;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -20,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Document;
+import aj.xsl.service.XslTransformService;
 
 /**
  *
@@ -28,7 +28,7 @@ import org.w3c.dom.Document;
 public class TestInterpreter implements Interpreter {
     private final FunctionParser functionParser;
     private final LanguageProcessor processor;
-    private final TokenSerializer serializer;
+    private final XslTransformService serializer;
     
     private String xslFile;
     private String xsl;
@@ -36,7 +36,7 @@ public class TestInterpreter implements Interpreter {
     public TestInterpreter(Services services, String xslFile) {
         this.xslFile = xslFile;
         this.processor = services.getLanguageProcessor();
-        this.serializer = services.getTokenSerializer();
+        this.serializer = services.getXslTransformService();
         this.functionParser = services.getFunctionParser();
     }
     
@@ -59,15 +59,16 @@ public class TestInterpreter implements Interpreter {
                            
         expressions.stream().forEach((expression) -> {
             sb.append(expression);
+            sb.append("\n");
          }); 
         
         return sb.toString();
     }
     
+    @Override
     public List<String> interpretByLine(String input) {
         List<String> output = new ArrayList();
-        TextCorpus textCorpus = processor.parseCorpus(input);
-        Document xmlDocument = serializer.serialize(textCorpus);
+        Document xmlDocument = processor.parseCorpus(input);
         List<Expression> expressions = functionParser.parse(serializer.transform(xmlDocument, xsl));
                            
         expressions.stream().forEach((expression) -> {

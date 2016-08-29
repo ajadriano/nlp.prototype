@@ -7,11 +7,9 @@ package aj.kb.service.implementation;
 
 import aj.common.Interpreter;
 import aj.kb.service.KnowledgeBaseException;
-import aj.kb.service.KnowledgeBaseService;
 import aj.common.Services;
 import aj.nlp.model.TextCorpus;
 import aj.nlp.service.LanguageProcessor;
-import aj.nlp.service.TokenSerializer;
 import aj.owl.service.ExecutionService;
 import aj.owl.service.implementation.OwlExecutionService;
 import java.io.File;
@@ -21,27 +19,29 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import org.w3c.dom.Document;
+import aj.kb.service.KnowledgeBase;
+import aj.xsl.service.XslTransformService;
 
 /**
  *
  * @author ajadriano
  */
-public class DefaultKnowledgeBaseService implements KnowledgeBaseService, Interpreter {
+public class DefaultKnowledgeBase implements KnowledgeBase, Interpreter {
     protected final String name;
     protected final String xslFile;
     
     protected final ExecutionService executionService;
     protected final LanguageProcessor processor;
-    protected final TokenSerializer serializer;
+    protected final XslTransformService serializer;
     
     protected String xsl;
     
-    public DefaultKnowledgeBaseService(Services services, String name, String xslFile) {
+    public DefaultKnowledgeBase(Services services, String directory, String name, String xslFile) {
         this.name = name;
-        this.executionService = new OwlExecutionService();
+        this.executionService = new OwlExecutionService(directory);
         this.xslFile = xslFile;
         this.processor = services.getLanguageProcessor();
-        this.serializer = services.getTokenSerializer();
+        this.serializer = services.getXslTransformService();
     }
     
     /**
@@ -66,9 +66,8 @@ public class DefaultKnowledgeBaseService implements KnowledgeBaseService, Interp
     
     @Override
     public List<String> interpretByLine(String input) {
-        TextCorpus textCorpus = processor.parseCorpus(input);
-        Document xmlDocument = serializer.serialize(textCorpus);
-        return executionService.execute(serializer.transform(xmlDocument, xsl)); 
+        Document xmlDocument = processor.parseCorpus(input);
+        return executionService.execute(serializer.transformToExpressions(xmlDocument, xsl)); 
     }
 
     @Override

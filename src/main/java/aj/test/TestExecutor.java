@@ -6,7 +6,7 @@
 package aj.test;
 
 import aj.common.Interpreter;
-import aj.nlp.service.implementation.DefaultTokenSerializer;
+import aj.xsl.service.implementation.DefaultXslTransformService;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -94,7 +94,7 @@ public class TestExecutor {
             System.out.println("Test complete");
             
         } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException | DOMException ex) {
-            Logger.getLogger(DefaultTokenSerializer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DefaultXslTransformService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

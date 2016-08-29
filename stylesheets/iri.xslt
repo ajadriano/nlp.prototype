@@ -16,6 +16,15 @@
 	<xsl:value-of select="$verb"/>)
 </xsl:template>
 
+<xsl:template name="verb_and_xcomp_to_object_property">
+	<xsl:param name="verb" />
+        <xsl:param name="xcomp" />
+	ObjectProperty(
+	<xsl:value-of select="$verb/@lemma"/>To<xsl:value-of select="$xcomp/@lemma"/>
+	<xsl:text> </xsl:text>
+	<xsl:value-of select="$verb"/> to <xsl:value-of select="$xcomp"/>)
+</xsl:template>
+
 <xsl:template name="noun_to_object_property_of">
 	<xsl:param name="noun" />
 	ObjectProperty(
@@ -113,6 +122,15 @@
 	<xsl:text> </xsl:text>
 	<xsl:value-of select="$noun"/>)
 </xsl:template>
+
+<xsl:template name="pronoun_to_individual">
+	<xsl:param name="prp" />
+	Individual(		
+	<xsl:value-of select="translate(//COREF[@id=$prp/@id],' ','')"/>
+	<xsl:text> </xsl:text>
+	<xsl:value-of select="//COREF[@id=$prp/@id]"/>)
+</xsl:template>
+
 
 <xsl:template name="noun_to_individual_no_annotation">
 	<xsl:param name="noun" />

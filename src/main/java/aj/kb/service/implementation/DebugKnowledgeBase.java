@@ -13,10 +13,10 @@ import java.io.IOException;
  *
  * @author ajadriano
  */
-public class DebugKnowledgeBaseService extends DefaultKnowledgeBaseService {
+public class DebugKnowledgeBase extends DefaultKnowledgeBase {
     
-    public DebugKnowledgeBaseService(Services services, String xslFile) {
-        super(services, "debugkb", xslFile);
+    public DebugKnowledgeBase(Services services, String xslFile) {
+        super(services, "", "debugkb", xslFile);
     }
     
     @Override

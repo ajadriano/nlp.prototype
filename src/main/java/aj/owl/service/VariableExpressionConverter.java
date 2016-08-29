@@ -5,7 +5,7 @@
  */
 package aj.owl.service;
 
-import aj.owl.model.VariableExpression;
+import aj.xsl.model.VariableExpression;
 
 /**
  *

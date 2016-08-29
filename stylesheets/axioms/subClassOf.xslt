@@ -106,7 +106,7 @@ SubClassOf(
         </xsl:call-template>))
 </xsl:template>
 
-<xsl:template match="S[count(S)=0][VP/VBZ/@id=@root and NN|NNP[@entity] and VP[(NN|NNS)[count(@entity)=0]]]">
+<xsl:template match="S[count(S)=0][VP/VBZ/@id=@root and (NN|NNP)[@entity] and VP[(NN|NNS)[count(@entity)=0]]]">
 SubClassOf(
 	<xsl:call-template name="noun_to_class">
 		<xsl:with-param name="noun" select="VP/(NN|NNS)" />
@@ -147,6 +147,34 @@ SubClassOf(
         <xsl:text> </xsl:text>
 	<xsl:call-template name="noun_phrase_to_individual">
             <xsl:with-param name="NP" select="NP" />
+        </xsl:call-template>))
+</xsl:template>
+
+<xsl:template match="S[count(S)=0][VP/(VB|VBZ)/@id=@root and VP/(VB|VBZ)/@id=VP/S/VP/VP/VB/@xcomp and *[.//@nsubj] and VP[S/VP[TO and VP/NP[count(*[@entity])=0]]]]">
+SubClassOf(
+	<xsl:apply-templates select="VP/S/VP/VP/NP"/>
+	<xsl:text> </xsl:text>
+	ObjectHasValue(ObjectInverseOf(
+        <xsl:call-template name="verb_and_xcomp_to_object_property">
+            <xsl:with-param name="verb" select="VP/VBZ" />
+            <xsl:with-param name="xcomp" select="VP/S/VP/VP/VB" />
+	</xsl:call-template>) 
+        <xsl:text> </xsl:text>
+        <xsl:apply-templates select="*[.//@nsubj]"/>))
+</xsl:template>
+
+<xsl:template match="S[count(S)=0][VP/(VB|VBZ)/@id=@root and VP/(VB|VBZ)/@id=VP/S/VP/VP/VB/@xcomp and PRP and VP[S/VP[TO and VP/NP[count(*[@entity])=0]]]]">
+SubClassOf(
+	<xsl:apply-templates select="VP/S/VP/VP/NP"/>
+	<xsl:text> </xsl:text>
+	ObjectHasValue(ObjectInverseOf(
+        <xsl:call-template name="verb_and_xcomp_to_object_property">
+            <xsl:with-param name="verb" select="VP/VBZ" />
+            <xsl:with-param name="xcomp" select="VP/S/VP/VP/VB" />
+	</xsl:call-template>) 
+        <xsl:text> </xsl:text>
+	<xsl:call-template name="pronoun_to_individual">
+            <xsl:with-param name="prp" select="PRP" />
         </xsl:call-template>))
 </xsl:template>
 

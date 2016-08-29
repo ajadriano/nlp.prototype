@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.owl.service;
+package aj.xsl.service;
 
-import aj.owl.model.Expression;
+import aj.xsl.model.Expression;
 import java.util.List;
 
 /**

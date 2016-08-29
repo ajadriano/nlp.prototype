@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.kb.service;
+package aj.xsl.model;
 
 /**
  *
  * @author ajadriano
  */
-public interface AdminService {
-    void initialize();
-    String execute(String[] args);
+public abstract class Expression {
+    public abstract Object execute();
 }

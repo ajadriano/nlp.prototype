@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.owl.model;
+package aj.xsl.model;
+
+import aj.xsl.model.Expression;
 
 /**
  *

@@ -3,19 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.nlp.service;
+package aj.xsl.service;
 
-import aj.nlp.model.TextCorpus;
-import aj.nlp.model.Token;
+import aj.xsl.model.Expression;
+import java.util.List;
 import org.w3c.dom.Document;
 
 /**
  *
  * @author ajadriano
  */
-public interface TokenSerializer {
-    Document serialize(TextCorpus textCorpus);
-    Document serialize(Token token);
+public interface XslTransformService {
     String transform(Document doc);
     String transform(Document doc, String xslt); 
+    List<Expression> transformToExpressions(Document doc, String xslt); 
 }

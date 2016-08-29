@@ -3,73 +3,47 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package aj.kb.service.implementation;
+package aj.shell;
 
 import aj.common.DefaultServices;
-import aj.kb.service.AdminService;
+import aj.common.Services;
 import aj.kb.service.KnowledgeBaseException;
-import aj.kb.service.KnowledgeBaseService;
 import aj.nlp.model.TextCorpus;
-import aj.nlp.service.LanguageProcessor;
-import aj.nlp.service.implementation.DefaultLanguageProcessor;
-import aj.nlp.service.implementation.DefaultTokenSerializer;
-import aj.owl.model.Expression;
-import aj.owl.service.implementation.DefaultFunctionParser;
 import aj.test.TestInterpreter;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import aj.kb.service.KnowledgeBase;
+import aj.kb.service.KnowledgeBaseManager;
+import aj.kb.service.implementation.DefaultKnowledgeBaseManager;
 
 /**
  *
  * @author ajadriano
  */
-public class DefaultAdminService implements AdminService {
+public class AdminShell {
+    private Services services;
+    private KnowledgeBaseManager knowledgeBaseManager;
+
     
-    private LanguageProcessor processor;
-    private DefaultTokenSerializer serializer;
-    private DefaultFunctionParser functionParser;
-    private DefaultServices services;
-    
-    @Override
     public void initialize() {
-        processor = new DefaultLanguageProcessor();
-        processor.initialize();
-        
-        serializer = new DefaultTokenSerializer();
-        functionParser = new DefaultFunctionParser();
-        
-        services = new DefaultServices(processor, serializer, functionParser);
+        services = new DefaultServices();
+        services.initialize();
+        knowledgeBaseManager = new DefaultKnowledgeBaseManager(services, "../domains/");
     }
     
     public String createKnowledgeBase(String name) {
-        File file = new File("../domains/" + name);
-        if (!file.exists()) {
-            file.mkdir();
+        try {
+            knowledgeBaseManager.create(name);
             return "Domain created.";
-        }
-        else {
-            return "Knowledge base exists.";
+        } catch (KnowledgeBaseException ex) {
+            return ex.getMessage();
         }
     }
     
@@ -81,7 +55,7 @@ public class DefaultAdminService implements AdminService {
             return debugXsl(file);
         }
         else if ("kb".equals(mode)){
-            return loadKnowledgeBase(new DebugKnowledgeBaseService(services, file));
+            return loadKnowledgeBase(knowledgeBaseManager.getDebugKb(file));
         }
         
         return "";
@@ -105,9 +79,8 @@ public class DefaultAdminService implements AdminService {
                     String contents;
                     try {
                         contents = getContents(commandArr[1]);
-                        TextCorpus textCorpus = processor.parseCorpus(contents);
-                        Document xmlDocument = serializer.serialize(textCorpus);
-                        System.out.println(serializer.transform(xmlDocument));
+                        Document xmlDocument = services.getLanguageProcessor().parseCorpus(contents);
+                        System.out.println(services.getXslTransformService().transform(xmlDocument));
                     } catch (IOException ex) {
                         System.out.println(ex.getMessage());
                     }
@@ -117,9 +90,8 @@ public class DefaultAdminService implements AdminService {
                 }
             }
             if (!"quit".equals(input)) {  
-                TextCorpus textCorpus = processor.parseCorpus(input);
-                Document xmlDocument = serializer.serialize(textCorpus);
-                System.out.println(serializer.transform(xmlDocument));
+                Document xmlDocument = services.getLanguageProcessor().parseCorpus(input);
+                System.out.println(services.getXslTransformService().transform(xmlDocument));
             }
         } while (!"quit".equals(input));
         
@@ -175,11 +147,11 @@ public class DefaultAdminService implements AdminService {
         return "";
     }
     
-    public String loadKnowledgeBase(KnowledgeBaseService kb) {        
+    public String loadKnowledgeBase(KnowledgeBase kb) {        
         try {
             kb.initialize();
         } catch (KnowledgeBaseException | IOException ex) {
-            Logger.getLogger(DefaultAdminService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminShell.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -220,8 +192,7 @@ public class DefaultAdminService implements AdminService {
         byte[] encoded = Files.readAllBytes(Paths.get(file));        
         return new String(encoded, Charset.defaultCharset());
     }
-
-    @Override
+    
     public String execute(String[] args) {
         if (args.length > 0) {
             switch (args[0]) {
@@ -231,10 +202,10 @@ public class DefaultAdminService implements AdminService {
                     }
                 case "load" : 
                     if (args.length == 2) {
-                        return loadKnowledgeBase(new DefaultKnowledgeBaseService(services, args[1], "default.xslt"));
+                        return loadKnowledgeBase(knowledgeBaseManager.get(args[1]));
                     }
                     else if (args.length == 3) {
-                        return loadKnowledgeBase(new DefaultKnowledgeBaseService(services, args[1], args[1]));
+                        return loadKnowledgeBase(knowledgeBaseManager.get(args[1], args[2]));
                     }
                 case "debug" : 
                     if (args.length == 2) {

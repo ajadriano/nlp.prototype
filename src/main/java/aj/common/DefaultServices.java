@@ -5,31 +5,35 @@
  */
 package aj.common;
 
-import aj.common.Services;
 import aj.nlp.service.LanguageProcessor;
-import aj.nlp.service.TokenSerializer;
-import aj.owl.service.FunctionParser;
+import aj.nlp.service.implementation.DefaultLanguageProcessor;
+import aj.xsl.service.implementation.DefaultXslTransformService;
+import aj.xsl.service.FunctionParser;
+import aj.xsl.service.implementation.DefaultFunctionParser;
+import aj.xsl.service.XslTransformService;
 
 /**
  *
  * @author ajadriano
  */
 public class DefaultServices implements Services {
-    private final LanguageProcessor languageProcessor;
-    private final TokenSerializer tokenSerializer;
-    private final FunctionParser functionParser;
+    private LanguageProcessor languageProcessor;
+    private XslTransformService xslTransformService;
+    private FunctionParser functionParser;
     
-    public DefaultServices(LanguageProcessor languageProcessor,
-            TokenSerializer tokenSerializer,
-            FunctionParser functionParser){
-        this.languageProcessor = languageProcessor;
-        this.tokenSerializer = tokenSerializer;
-        this.functionParser = functionParser;
+    @Override
+    public void initialize() {
+        languageProcessor = new DefaultLanguageProcessor();
+        languageProcessor.initialize();
+        
+        functionParser = new DefaultFunctionParser();
+        xslTransformService = new DefaultXslTransformService(functionParser);
     }
 
     /**
      * @return the languageProcessor
      */
+    @Override
     public LanguageProcessor getLanguageProcessor() {
         return languageProcessor;
     }
@@ -37,13 +41,15 @@ public class DefaultServices implements Services {
     /**
      * @return the tokenSerializer
      */
-    public TokenSerializer getTokenSerializer() {
-        return tokenSerializer;
+    @Override
+    public XslTransformService getXslTransformService() {
+        return xslTransformService;
     }
 
     /**
      * @return the functionParser
      */
+    @Override
     public FunctionParser getFunctionParser() {
         return functionParser;
     }
