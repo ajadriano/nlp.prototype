@@ -18,6 +18,7 @@ import owl.service.implementation.queries.InstanceOfQuery;
 public enum ClassExpressions {
     Class (ClassFunction.getInstance()),
     ObjectProperty (ObjectPropertyFunction.getInstance()),
+    ObjectPropertyWithInverse (ObjectPropertyWithInverseFunction.getInstance()),
     ObjectInverseOf (ObjectInverseOfFunction.getInstance()),
     Individual (IndividualFunction.getInstance()),
     

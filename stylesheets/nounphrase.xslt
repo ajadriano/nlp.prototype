@@ -23,5 +23,10 @@
         <xsl:with-param name="NP" select="." />
    </xsl:call-template>
 </xsl:template>
+<xsl:template match="PRP" priority="0">
+   <xsl:call-template name="pronoun_to_individual">
+        <xsl:with-param name="prp" select="." />
+    </xsl:call-template>
+</xsl:template>
 
 </xsl:stylesheet>

@@ -26,4 +26,8 @@ GetInstances(ObjectHasValue(
 	</xsl:call-template>))
 </xsl:template>
 
+<xsl:template match="/ROOT/SBARQ[WP/@id=@root and SQ[VBZ[@cop] and NP]]">
+GetInstances(<xsl:apply-templates select="SQ/NP"/>)
+</xsl:template>
+
 </xsl:stylesheet>

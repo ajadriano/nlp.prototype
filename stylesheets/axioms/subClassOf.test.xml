@@ -94,10 +94,15 @@
 	</test>
         <test>
 		<input>Everybody that has a wand is a wizard.</input>
-		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(haveWand have wand) Thing()) Class(Wizard wizard))</output>
+		<output>SubClassOf(ObjectSomeValuesFrom(ObjectPropertyWithInverse(haveWand wandOf have wand) Thing()) Class(Wizard wizard))</output>
 	</test>
         <test>
 		<input>Leia likes to play the piano.</input>
 		<output>SubClassOf(Class(Piano piano) ObjectHasValue(ObjectInverseOf(ObjectProperty(likeToplay likes to play)) Individual(Leia Leia)))</output>
 	</test>
+        <!--<test>
+		<input>Leia Organa is the princess of Alderaan. She likes to play the piano.</input>
+		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(princessOf havePrincess princess of) Individual(LeiaOrgana Leia Organa) Individual(Alderaan Alderaan))</output>
+                <output>SubClassOf(Class(Piano piano) ObjectHasValue(ObjectInverseOf(ObjectProperty(likeToplay likes to play)) Individual(LeiaOrgana Leia Organa)))</output>
+	</test>-->
 </tests>

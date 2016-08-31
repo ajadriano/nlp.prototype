@@ -34,6 +34,7 @@
 <xsl:include href="stylesheets/queries/getObjectPropertyValues.xslt"/>
 <xsl:include href="stylesheets/queries/getInstances.xslt"/>
 <!-- phrases -->
+<xsl:include href="stylesheets/expressions/objectHasValue.xslt"/>
 <xsl:include href="stylesheets/expressions/objectIntersectionOf.xslt"/>
 <xsl:include href="stylesheets/expressions/objectUnionOf.xslt"/>
 <xsl:include href="stylesheets/expressions/objectSomeValuesFrom.xslt"/>

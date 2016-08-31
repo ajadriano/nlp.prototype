@@ -171,6 +171,11 @@ public class OwlExecutionService implements ExecutionService {
                 if (objectPropertyResult.isEvaluate()) {
                    owlManager.addAxiom(ontology, factory.getOWLSubObjectPropertyOfAxiom(
                         objectPropertyResult.getResult(), factory.getOWLTopObjectProperty())); 
+                   
+                   if (objectPropertyResult.getInverseProperty() != null) {
+                       owlManager.addAxiom(ontology, factory.getOWLInverseObjectPropertiesAxiom(objectPropertyResult.getResult(), 
+                               objectPropertyResult.getInverseProperty()));
+                   }
                 }
             }
             else if (result instanceof IndividualResult) {

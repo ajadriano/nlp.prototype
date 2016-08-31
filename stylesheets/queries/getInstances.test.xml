@@ -3,5 +3,9 @@
 	<test>
 		<input>Who likes Leia?</input>
 		<output>GetInstances(ObjectHasValue(ObjectProperty(like) Individual(Leia)))</output>
-	</test>    
+	</test> 
+        <test>
+		<input>Who is the princess of Alderaan?</input>
+		<output>GetInstances(ObjectHasValue(ObjectProperty(princessOf princess of) Individual(Alderaan)))</output>
+	</test>   
 </tests>
