@@ -5,35 +5,39 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ObjectPropertyResult;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
+import owl.model.DataPropertyResult;
 import owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class ObjectPropertyWithInverseFunction implements OWLExpression {
-    private static ObjectPropertyWithInverseFunction instance = null;
+public class DataPropertyFunction implements OWLExpression {
+    private static DataPropertyFunction instance = null;
     
-    protected ObjectPropertyWithInverseFunction() {
+    protected DataPropertyFunction() {
     }
     
-    public static ObjectPropertyWithInverseFunction getInstance() {
+    public static DataPropertyFunction getInstance() {
         if(instance == null) {
-           instance = new ObjectPropertyWithInverseFunction();
+           instance = new DataPropertyFunction();
         }
         return instance;
     }
     
     @Override
     public Class getExpectedClass(int argumentIndex) {
-        if (argumentIndex <= 1) {
+        if (argumentIndex == 0) {
             return IRI.class;
+        }
+        else if (argumentIndex == 1) {
+            return OWL2Datatype.class;
         }
         
         return String.class;
@@ -41,8 +45,8 @@ public class ObjectPropertyWithInverseFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
-        ObjectPropertyResult result = new ObjectPropertyResult(factory.getOWLObjectProperty((IRI)args[0])); 
-        result.setInverseProperty(factory.getOWLObjectProperty((IRI)args[1]));
+        DataPropertyResult result = new DataPropertyResult(factory.getOWLDataProperty((IRI)args[0]), (OWL2Datatype)args[1]); 
+        
         if (args.length > 2) {
             StringBuilder sb = new StringBuilder();
             

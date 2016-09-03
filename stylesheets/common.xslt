@@ -45,6 +45,18 @@
 	<xsl:value-of select="$noun/@lemma"/> of)
 </xsl:template>
 
+<xsl:template name="adj_to_data_property">
+	<xsl:param name="adj" />
+	DataProperty(
+	is<xsl:call-template name="word_to_iri">
+            <xsl:with-param name="text" select="$adj/@lemma" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+        XSD_BOOLEAN
+        <xsl:text> </xsl:text>
+	is <xsl:value-of select="$adj/@lemma"/>)
+</xsl:template>
+
 <xsl:template name="verb_to_object_property_no_annotation">
 	<xsl:param name="verb" />
 	ObjectProperty(

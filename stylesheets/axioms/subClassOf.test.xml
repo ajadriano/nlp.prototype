@@ -25,12 +25,12 @@
 		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AdrianJoseph Adrian Joseph)))</output>
 	</test>
 	<test>
-		<input>AJ likes fried chicken.</input>
-		<output>SubClassOf(Class(FriedChicken fried chicken) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+		<input>AJ likes chicken pie.</input>
+		<output>SubClassOf(Class(ChickenPie chicken pie) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
 	</test>
 	<test>
-		<input>Adrian Joseph likes fried chicken.</input>
-		<output>SubClassOf(Class(FriedChicken fried chicken) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AdrianJoseph Adrian Joseph)))</output>
+		<input>Adrian Joseph likes chicken pie.</input>
+		<output>SubClassOf(Class(ChickenPie chicken pie) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AdrianJoseph Adrian Joseph)))</output>
 	</test>
 	<test>
 		<input>Fried chicken is a chicken dish.</input>

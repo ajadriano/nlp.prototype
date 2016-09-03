@@ -9,7 +9,6 @@ import owl.model.ClassResult;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
-import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import owl.model.OWLExpression;
 
@@ -17,16 +16,16 @@ import owl.model.OWLExpression;
  *
  * @author ajadriano
  */
-public class DataHasValueFunction implements OWLExpression {
+public class DataHasBoolValueFunction implements OWLExpression {
         
-    private static DataHasValueFunction instance = null;
+    private static DataHasBoolValueFunction instance = null;
     
-    protected DataHasValueFunction() {
+    protected DataHasBoolValueFunction() {
     }
     
-    public static DataHasValueFunction getInstance() {
+    public static DataHasBoolValueFunction getInstance() {
         if(instance == null) {
-           instance = new DataHasValueFunction();
+           instance = new DataHasBoolValueFunction();
         }
         return instance;
     }
@@ -37,15 +36,16 @@ public class DataHasValueFunction implements OWLExpression {
             return OWLDataPropertyExpression.class;
         }
         else if (argumentIndex == 1) {
-            return OWLLiteral.class;
+            return String.class;
         }
         
         return null;
     }
     
     @Override
-    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
-        return new ClassResult(factory.getOWLDataHasValue((OWLDataPropertyExpression)args[0], (OWLLiteral)args[1]));
+    public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
+        return new ClassResult(factory.getOWLDataHasValue((OWLDataPropertyExpression)args[0], 
+                factory.getOWLLiteral(Boolean.valueOf((String)args[1]))));
     }
 
     @Override

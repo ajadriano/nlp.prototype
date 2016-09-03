@@ -46,7 +46,9 @@ import owl.model.Result;
 import java.util.Optional;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.reasoner.InferenceType;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
+import owl.model.DataPropertyResult;
 
 /**
  *
@@ -168,15 +170,25 @@ public class OwlExecutionService implements ExecutionService {
             if (result instanceof ObjectPropertyResult) {
                 ObjectPropertyResult objectPropertyResult = (ObjectPropertyResult)result;
                 
-                if (objectPropertyResult.isEvaluate()) {
-                   owlManager.addAxiom(ontology, factory.getOWLSubObjectPropertyOfAxiom(
-                        objectPropertyResult.getResult(), factory.getOWLTopObjectProperty())); 
-                   
-                   if (objectPropertyResult.getInverseProperty() != null) {
-                       owlManager.addAxiom(ontology, factory.getOWLInverseObjectPropertiesAxiom(objectPropertyResult.getResult(), 
-                               objectPropertyResult.getInverseProperty()));
-                   }
+                if (!owlManager.contains(objectPropertyResult.getResult().getIRI())) {
+                    owlManager.addAxiom(ontology, factory.getOWLSubObjectPropertyOfAxiom(
+                            objectPropertyResult.getResult(), factory.getOWLTopObjectProperty())); 
+
+                    if (objectPropertyResult.getInverseProperty() != null) {
+                        owlManager.addAxiom(ontology, factory.getOWLInverseObjectPropertiesAxiom(objectPropertyResult.getResult(), 
+                                objectPropertyResult.getInverseProperty()));
+                    }
                 }
+            }
+            if (result instanceof DataPropertyResult) {
+                DataPropertyResult dataPropertyResult = (DataPropertyResult)result;
+                
+                if (!owlManager.contains(dataPropertyResult.getResult().getIRI())) {
+                    owlManager.addAxiom(ontology, factory.getOWLSubDataPropertyOfAxiom(
+                      dataPropertyResult.getResult(), factory.getOWLTopDataProperty())); 
+                    owlManager.addAxiom(ontology, factory.getOWLDataPropertyRangeAxiom(dataPropertyResult.getResult(), 
+                      dataPropertyResult.getDatatype())); 
+                 } 
             }
             else if (result instanceof IndividualResult) {
                 owlManager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(factory.getOWLThing(),

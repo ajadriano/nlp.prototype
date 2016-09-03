@@ -5,15 +5,12 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ObjectPropertyResult;
 import owl.model.Result;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import owl.model.OWLExpression;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
+import owl.model.ObjectPropertyExpressionResult;
 
 /**
  *
@@ -39,7 +36,7 @@ public class ObjectInverseOfFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
-        return new ObjectPropertyResult(factory.getOWLObjectInverseOf((OWLObjectProperty)args[0]), false);
+        return new ObjectPropertyExpressionResult(factory.getOWLObjectInverseOf((OWLObjectProperty)args[0]));
     }
 
     @Override

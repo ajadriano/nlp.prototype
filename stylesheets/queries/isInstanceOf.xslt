@@ -12,6 +12,15 @@ IsInstanceOf(
 	<xsl:apply-templates select="NP[position()=2]"/>)
 </xsl:template>
 
+<xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NP[position()=1 and count(NNP|NNPS)>0]][JJ]">
+IsInstanceOf(
+	<xsl:call-template name="noun_phrase_to_individual">
+		<xsl:with-param name="NP" select="NP[position()=1]" />
+	</xsl:call-template>
+	<xsl:text> </xsl:text>
+	<xsl:apply-templates select="JJ"/>)
+</xsl:template>
+
 <xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NNP|NNPS][NP[.//DT]]">
 IsInstanceOf(
 	<xsl:call-template name="noun_to_individual">

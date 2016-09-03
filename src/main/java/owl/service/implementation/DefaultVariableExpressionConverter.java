@@ -8,10 +8,9 @@ package owl.service.implementation;
 import xsl.model.VariableExpression;
 import owl.service.VariableExpressionConverter;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 /**
  *
@@ -34,6 +33,12 @@ public class DefaultVariableExpressionConverter implements VariableExpressionCon
         }
         else if (type == IRI.class) {
             return IRI.create(ontologyIRI + "#" + expression.toString());
+        }
+        else if (type == OWL2Datatype.class) {
+            return OWL2Datatype.valueOf(expression.toString());
+        }
+        else if (type == OWLLiteral.class) {
+            return OWL2Datatype.valueOf(expression.toString());
         }
         
         return null;

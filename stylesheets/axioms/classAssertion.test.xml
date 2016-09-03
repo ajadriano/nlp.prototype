@@ -22,4 +22,8 @@
 		<output>ClassAssertion(Class(Wizard wizard) Individual(LilyPotter Lily Potter))</output>
                 <output>ClassAssertion(Class(Muggle muggle) Individual(PetuniaDursley Petunia Dursley))</output> 
         </test>
+        <test>
+		<input>Leia Organa is a beautiful woman.</input>
+		<output>ClassAssertion(ObjectIntersectionOf(Class(Woman woman) DataHasBoolValue(DataProperty(isBeautiful XSD_BOOLEAN is beautiful) true)) Individual(LeiaOrgana Leia Organa))</output>
+        </test>
 </tests>

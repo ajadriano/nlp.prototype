@@ -5,11 +5,17 @@
 
 <xsl:template match="NP[NP[*[position() = 1 and @det]]][SBAR[(WDT|WP)[position() = 1]][S]]">
 ObjectIntersectionOf(
-	<xsl:call-template name="noun_phrase_to_class">
-		<xsl:with-param name="NP" select="NP" />
-	</xsl:call-template>
+	<xsl:apply-templates select="NP"/>
 	<xsl:text> </xsl:text>
 	<xsl:apply-templates select="SBAR/S"/>)
 </xsl:template>
+
+<xsl:template match="NP[*[position()= 1 and @det] and JJ/@amod=.//*/@id]">
+ObjectIntersectionOf(
+	<xsl:apply-templates select="NN|NNS"/>
+        <xsl:text> </xsl:text>
+        <xsl:apply-templates select="JJ"/>)
+</xsl:template>
+
 
 </xsl:stylesheet>

@@ -5,27 +5,19 @@
  */
 package owl.model;
 
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class ObjectPropertyResult extends AnnotatedResult<OWLObjectPropertyExpression> {
+public class ObjectPropertyResult extends AnnotatedResult<OWLObjectProperty> {
     
-    private final boolean evaluate;
     private OWLObjectPropertyExpression inverseProperty;
     
-    public ObjectPropertyResult(OWLObjectPropertyExpression result, boolean evaluate) {
+    public ObjectPropertyResult(OWLObjectProperty result) {
         super(result);
-        this.evaluate = evaluate;
-    }
-
-    /**
-     * @return the evaluate
-     */
-    public boolean isEvaluate() {
-        return evaluate;
     }
 
     /**

@@ -18,6 +18,7 @@ import owl.service.implementation.queries.InstanceOfQuery;
 public enum ClassExpressions {
     Class (ClassFunction.getInstance()),
     ObjectProperty (ObjectPropertyFunction.getInstance()),
+    DataProperty (DataPropertyFunction.getInstance()),
     ObjectPropertyWithInverse (ObjectPropertyWithInverseFunction.getInstance()),
     ObjectInverseOf (ObjectInverseOfFunction.getInstance()),
     Individual (IndividualFunction.getInstance()),
@@ -46,7 +47,7 @@ public enum ClassExpressions {
     
     DataSomeValuesFrom (DataSomeValuesFromFunction.getInstance()),
     DataAllValuesFrom (DataSomeValuesFromFunction.getInstance()),
-    DataHasValue (DataHasValueFunction.getInstance()),
+    DataHasBoolValue (DataHasBoolValueFunction.getInstance()),
     
     DataMinCardinality (DataMinCardinalityFunction.getInstance()), 
     DataMaxCardinality (DataMaxCardinalityFunction.getInstance()), 
