@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+	<test>
+		<input>Mon Mothma is wealthy.</input>
+		<output>DataPropertyAssertion(DataProperty(isWealthy XSD_BOOLEAN is wealthy) Individual(MonMothma Mon Mothma) true)</output>
+	</test>
+        <test>
+		<input>Padme is wealthy.</input>
+		<output>DataPropertyAssertion(DataProperty(isWealthy XSD_BOOLEAN is wealthy) Individual(Padme Padme) true)</output>
+	</test>
+</tests>

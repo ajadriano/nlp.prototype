@@ -25,6 +25,7 @@
 <xsl:include href="stylesheets/axioms/equivalentClasses.xslt"/>
 <xsl:include href="stylesheets/axioms/classAssertion.xslt"/>
 <xsl:include href="stylesheets/axioms/objectPropertyAssertion.xslt"/>
+<xsl:include href="stylesheets/axioms/dataPropertyAssertion.xslt"/>
 <xsl:include href="stylesheets/axioms/objectPropertyDomainAndRange.xslt"/>
 <xsl:include href="stylesheets/axioms/subClassOf.xslt"/>
 <xsl:include href="stylesheets/axioms/disjointClasses.xslt"/>

@@ -45,8 +45,8 @@ import owl.model.QueryResult;
 import owl.model.Result;
 import java.util.Optional;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.reasoner.InferenceType;
-import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import owl.model.DataPropertyResult;
 
@@ -57,6 +57,7 @@ import owl.model.DataPropertyResult;
 public class OwlExecutionService implements ExecutionService {
 
     private final String directory;
+    private final boolean isReadOnly;
     private VariableExpressionConverter variableExpressionConverter;
     
     private OWLOntologyManager owlManager;
@@ -68,6 +69,12 @@ public class OwlExecutionService implements ExecutionService {
     
     public OwlExecutionService(String directory) {
         this.directory = directory;
+        this.isReadOnly = false;
+    }
+    
+    public OwlExecutionService(String directory, boolean isReadOnly) {
+        this.directory = directory;
+        this.isReadOnly = isReadOnly;
     }
     
     @Override
@@ -108,8 +115,10 @@ public class OwlExecutionService implements ExecutionService {
                 Result<?> result = execute((FunctionExpression)expression);
                 if (result != null) {
                     if (result instanceof AxiomResult) {
-                        owlManager.addAxiom(ontology, ((AxiomResult)result).getResult());
-                        reasoner.flush();
+                        boolean boolRes = reasoner.isEntailed(((AxiomResult)result).getResult());
+                        results.add(Boolean.toString(boolRes));
+                        //evaluateAxiom(((AxiomResult)result).getResult());
+                        //reasoner.flush();
                     }
                     else if (result instanceof ErrorResult) {
                         results.add(((ErrorResult)result).getResult());
@@ -166,44 +175,49 @@ public class OwlExecutionService implements ExecutionService {
         }
 
         result = function.execute(factory, reasoner, arguments.stream().toArray());         
-        if (!(isQuery)) {
-            if (result instanceof ObjectPropertyResult) {
-                ObjectPropertyResult objectPropertyResult = (ObjectPropertyResult)result;
-                
-                if (!owlManager.contains(objectPropertyResult.getResult().getIRI())) {
-                    owlManager.addAxiom(ontology, factory.getOWLSubObjectPropertyOfAxiom(
-                            objectPropertyResult.getResult(), factory.getOWLTopObjectProperty())); 
-
-                    if (objectPropertyResult.getInverseProperty() != null) {
-                        owlManager.addAxiom(ontology, factory.getOWLInverseObjectPropertiesAxiom(objectPropertyResult.getResult(), 
-                                objectPropertyResult.getInverseProperty()));
-                    }
-                }
-            }
-            if (result instanceof DataPropertyResult) {
-                DataPropertyResult dataPropertyResult = (DataPropertyResult)result;
-                
-                if (!owlManager.contains(dataPropertyResult.getResult().getIRI())) {
-                    owlManager.addAxiom(ontology, factory.getOWLSubDataPropertyOfAxiom(
-                      dataPropertyResult.getResult(), factory.getOWLTopDataProperty())); 
-                    owlManager.addAxiom(ontology, factory.getOWLDataPropertyRangeAxiom(dataPropertyResult.getResult(), 
-                      dataPropertyResult.getDatatype())); 
-                 } 
-            }
-            else if (result instanceof IndividualResult) {
-                owlManager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(factory.getOWLThing(),
-                    ((IndividualResult)result).getResult()));
-            }
-
-            if (result instanceof AnnotatedResult<?>) {
-                AnnotatedResult<?> annotatedResult = (AnnotatedResult<?>)result;
-                if (annotatedResult.getAnnotation() != null) {
-                    owlManager.addAxiom(ontology, annotatedResult.getAnnotation());
-                }
-            } 
+        if ((!(isQuery)) && (!(isReadOnly))) {
+            addExtraAxiom(result);
         }
         
         return result;
+    } 
+
+    private void addExtraAxiom(Result<?> result) {
+        if (result instanceof ObjectPropertyResult) {
+            ObjectPropertyResult objectPropertyResult = (ObjectPropertyResult)result;
+            
+            if (!owlManager.contains(objectPropertyResult.getResult().getIRI())) {
+                evaluateAxiom(factory.getOWLSubObjectPropertyOfAxiom(
+                        objectPropertyResult.getResult(), factory.getOWLTopObjectProperty()));
+                
+                if (objectPropertyResult.getInverseProperty() != null) {
+                    evaluateAxiom(factory.getOWLInverseObjectPropertiesAxiom(objectPropertyResult.getResult(),
+                            objectPropertyResult.getInverseProperty()));
+                }
+            }
+        }
+        if (result instanceof DataPropertyResult) {
+            DataPropertyResult dataPropertyResult = (DataPropertyResult)result;
+            
+            if (!owlManager.contains(dataPropertyResult.getResult().getIRI())) {
+                evaluateAxiom(factory.getOWLFunctionalDataPropertyAxiom(dataPropertyResult.getResult()));
+                evaluateAxiom(factory.getOWLSubDataPropertyOfAxiom(
+                        dataPropertyResult.getResult(), factory.getOWLTopDataProperty()));
+                evaluateAxiom(factory.getOWLDataPropertyRangeAxiom(dataPropertyResult.getResult(),
+                        dataPropertyResult.getDatatype())); 
+            }
+        }
+        else if (result instanceof IndividualResult) {
+            evaluateAxiom(factory.getOWLClassAssertionAxiom(factory.getOWLThing(),
+                    ((IndividualResult)result).getResult()));
+        }
+        
+        if (result instanceof AnnotatedResult<?>) {
+            AnnotatedResult<?> annotatedResult = (AnnotatedResult<?>)result;
+            if (annotatedResult.getAnnotation() != null) {
+                evaluateAxiom(annotatedResult.getAnnotation());
+            }
+        }
     }
 
     private ErrorResult GetExpressionArguments(List<Expression> expressionArgs, OWLExpression callingFunction, List<Object> arguments, boolean isQuery) {
@@ -234,6 +248,10 @@ public class OwlExecutionService implements ExecutionService {
         }
         
         return null;
+    }
+    
+    private void evaluateAxiom(OWLAxiom axiom) {
+        owlManager.addAxiom(ontology, axiom);
     }
 
     @Override
