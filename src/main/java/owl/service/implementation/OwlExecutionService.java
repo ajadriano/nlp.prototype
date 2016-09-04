@@ -172,7 +172,12 @@ public class OwlExecutionService implements ExecutionService {
         
         if (results.isEmpty())
         {
-            results.add("OK");
+            if (isReadOnly) {
+                results.add("Statement is satisfiable.");
+            }
+            else {
+                results.add("Updating knowledge base.");
+            }
         }
         
         return results;
