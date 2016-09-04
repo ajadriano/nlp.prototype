@@ -6,7 +6,6 @@
 package owl.model;
 
 import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 /**

@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,9 +45,12 @@ import uk.ac.manchester.cs.jfact.JFactFactory;
 import owl.model.QueryResult;
 import owl.model.Result;
 import java.util.Optional;
+import org.eclipse.core.runtime.Assert;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import org.semanticweb.owlapi.reasoner.InferenceType;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import owl.model.DataPropertyResult;
 
@@ -109,16 +113,34 @@ public class OwlExecutionService implements ExecutionService {
     @Override
     public List<String> execute(List<Expression> expressions) {
         List<String> results = new ArrayList();
+        List<OWLAxiom> axiomsCommitted = new ArrayList();
         
         for (Expression expression : expressions) {
             if (expression instanceof FunctionExpression) {
-                Result<?> result = execute((FunctionExpression)expression);
+                Result<?> result = execute((FunctionExpression)expression, axiomsCommitted);
                 if (result != null) {
                     if (result instanceof AxiomResult) {
-                        boolean boolRes = reasoner.isEntailed(((AxiomResult)result).getResult());
-                        results.add(Boolean.toString(boolRes));
-                        //evaluateAxiom(((AxiomResult)result).getResult());
-                        //reasoner.flush();
+                        
+                        try {
+                            if (!ontology.containsAxiom(((AxiomResult)result).getResult())) {
+                                evaluateAxiom(((AxiomResult)result).getResult(), axiomsCommitted);  
+                                reasoner.flush();
+                                if (reasoner.isConsistent() == false) {
+                                    owlManager.removeAxioms(ontology, axiomsCommitted.stream());
+                                    reasoner.flush();
+                                    Assert.isTrue(reasoner.isConsistent());
+                                    results.add("Statement/s are inconsistent with established facts.");
+                                    return results;
+                                }
+                            }
+                            
+                        } catch (InconsistentOntologyException ex) {
+                            owlManager.removeAxioms(ontology, axiomsCommitted.stream());
+                            reasoner.flush();
+                            Assert.isTrue(reasoner.isConsistent());
+                            results.add("Statement/s are inconsistent with established facts.");
+                            return results;
+                        }
                     }
                     else if (result instanceof ErrorResult) {
                         results.add(((ErrorResult)result).getResult());
@@ -151,16 +173,16 @@ public class OwlExecutionService implements ExecutionService {
         return results;
     } 
     
-    private Result<?> execute(FunctionExpression expression) {
+    private Result<?> execute(FunctionExpression expression, List<OWLAxiom> axiomsCommitted) {
         try { 
             OWLExpression function = ClassExpressions.valueOf(expression.getFunction()).getFunction();
-            return execute(function, expression.getArguments(), function instanceof OWLQueryExpression);
+            return execute(function, expression.getArguments(), function instanceof OWLQueryExpression, axiomsCommitted);
         } catch (Exception e) {
             return new ErrorResult(e.getMessage());
         }
     }
     
-    private Result<?> execute(OWLExpression function, List<Expression> expressionArgs, boolean isQuery) {
+    private Result<?> execute(OWLExpression function, List<Expression> expressionArgs, boolean isQuery, List<OWLAxiom> axiomsCommitted) {
         Result<?> result = null;
         
         Integer argumentCount = function.getArgumentCount();
@@ -169,64 +191,72 @@ public class OwlExecutionService implements ExecutionService {
         }           
 
         List<Object> arguments = new ArrayList();
-        result = GetExpressionArguments(expressionArgs, function, arguments, isQuery);
+        result = GetExpressionArguments(expressionArgs, function, arguments, isQuery, axiomsCommitted);
         if (result != null) {
             return result;
         }
 
         result = function.execute(factory, reasoner, arguments.stream().toArray());         
         if ((!(isQuery)) && (!(isReadOnly))) {
-            addExtraAxiom(result);
+            addExtraAxiom(result, axiomsCommitted);
         }
         
         return result;
     } 
 
-    private void addExtraAxiom(Result<?> result) {
+    private void addExtraAxiom(Result<?> result, List<OWLAxiom> axiomsCommitted) {
         if (result instanceof ObjectPropertyResult) {
             ObjectPropertyResult objectPropertyResult = (ObjectPropertyResult)result;
-            
-            if (!owlManager.contains(objectPropertyResult.getResult().getIRI())) {
-                evaluateAxiom(factory.getOWLSubObjectPropertyOfAxiom(
-                        objectPropertyResult.getResult(), factory.getOWLTopObjectProperty()));
-                
+            OWLAxiom axiom = factory.getOWLSubObjectPropertyOfAxiom(
+                        objectPropertyResult.getResult(), factory.getOWLTopObjectProperty());
+            if (!ontology.containsAxiom(axiom)) {
+                evaluateAxiom(axiom, axiomsCommitted);
                 if (objectPropertyResult.getInverseProperty() != null) {
                     evaluateAxiom(factory.getOWLInverseObjectPropertiesAxiom(objectPropertyResult.getResult(),
-                            objectPropertyResult.getInverseProperty()));
+                            objectPropertyResult.getInverseProperty()), axiomsCommitted);
                 }
             }
         }
         if (result instanceof DataPropertyResult) {
             DataPropertyResult dataPropertyResult = (DataPropertyResult)result;
-            
-            if (!owlManager.contains(dataPropertyResult.getResult().getIRI())) {
-                evaluateAxiom(factory.getOWLFunctionalDataPropertyAxiom(dataPropertyResult.getResult()));
-                evaluateAxiom(factory.getOWLSubDataPropertyOfAxiom(
-                        dataPropertyResult.getResult(), factory.getOWLTopDataProperty()));
+            OWLAxiom axiom = factory.getOWLSubDataPropertyOfAxiom(
+                    dataPropertyResult.getResult(), factory.getOWLTopDataProperty());
+
+            if (!ontology.containsAxiom(axiom)) {
+                evaluateAxiom(axiom, axiomsCommitted);
+
+                if (dataPropertyResult.getDatatype() == OWL2Datatype.XSD_BOOLEAN) {
+                    evaluateAxiom(factory.getOWLFunctionalDataPropertyAxiom(dataPropertyResult.getResult()), axiomsCommitted); 
+                }
+
                 evaluateAxiom(factory.getOWLDataPropertyRangeAxiom(dataPropertyResult.getResult(),
-                        dataPropertyResult.getDatatype())); 
+                    dataPropertyResult.getDatatype()), axiomsCommitted); 
             }
         }
-        else if (result instanceof IndividualResult) {
-            evaluateAxiom(factory.getOWLClassAssertionAxiom(factory.getOWLThing(),
-                    ((IndividualResult)result).getResult()));
+        
+        if (result instanceof IndividualResult) {
+            OWLAxiom axiom = factory.getOWLClassAssertionAxiom(factory.getOWLThing(),
+                    ((IndividualResult)result).getResult());
+            if (!ontology.containsAxiom(axiom)) {
+                evaluateAxiom(axiom, axiomsCommitted);
+            }
         }
         
         if (result instanceof AnnotatedResult<?>) {
             AnnotatedResult<?> annotatedResult = (AnnotatedResult<?>)result;
-            if (annotatedResult.getAnnotation() != null) {
-                evaluateAxiom(annotatedResult.getAnnotation());
+            if (annotatedResult.getAnnotation() != null && !ontology.containsAxiom(annotatedResult.getAnnotation())) {
+                evaluateAxiom(annotatedResult.getAnnotation(), axiomsCommitted);
             }
         }
     }
 
-    private ErrorResult GetExpressionArguments(List<Expression> expressionArgs, OWLExpression callingFunction, List<Object> arguments, boolean isQuery) {
+    private ErrorResult GetExpressionArguments(List<Expression> expressionArgs, OWLExpression callingFunction, List<Object> arguments, boolean isQuery, List<OWLAxiom> axiomsCommitted) {
         int argumentIndex = 0;
         for (Expression expressionArg : expressionArgs) {
             if (expressionArg instanceof FunctionExpression) {   
                 FunctionExpression functionExpression = (FunctionExpression)expressionArg;
                 OWLExpression function = ClassExpressions.valueOf(functionExpression.getFunction()).getFunction();
-                Result<?> expressionResult = execute(function, functionExpression.getArguments(), isQuery);
+                Result<?> expressionResult = execute(function, functionExpression.getArguments(), isQuery, axiomsCommitted);
                 if (expressionResult != null && callingFunction.getExpectedClass(argumentIndex).isAssignableFrom(expressionResult.getResult().getClass())) {
                     if (expressionResult instanceof ErrorResult) {
                         return (ErrorResult)expressionResult;
@@ -250,8 +280,9 @@ public class OwlExecutionService implements ExecutionService {
         return null;
     }
     
-    private void evaluateAxiom(OWLAxiom axiom) {
+    private void evaluateAxiom(OWLAxiom axiom, List<OWLAxiom> axiomsCommitted) {
         owlManager.addAxiom(ontology, axiom);
+        axiomsCommitted.add(axiom);
     }
 
     @Override

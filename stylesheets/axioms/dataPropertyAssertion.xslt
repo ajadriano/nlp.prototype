@@ -4,7 +4,7 @@
 <xsl:strip-space elements="*"/>
 
 <xsl:template match="S[count(S)=0][NP[(NNP|NNPS) and *[@nsubj]] and VP[VBZ[@cop and @lemma='be'] and count(RB[@neg])=0 and JJ]]">
-DataPropertyAssertion(
+DataBoolPropertyAssertion(
         <xsl:call-template name="adj_to_data_property">
             <xsl:with-param name="adj" select="VP/JJ" />
         </xsl:call-template>
@@ -17,7 +17,7 @@ DataPropertyAssertion(
 </xsl:template>
 
 <xsl:template match="S[count(S)=0][(NNP|NNPS)[@nsubj] and VP[VBZ[@cop and @lemma='be'] and count(RB[@neg])=0 and JJ]]">
-DataPropertyAssertion(
+DataBoolPropertyAssertion(
         <xsl:call-template name="adj_to_data_property">
             <xsl:with-param name="adj" select="VP/JJ" />
         </xsl:call-template>
@@ -30,7 +30,7 @@ DataPropertyAssertion(
 </xsl:template>
 
 <xsl:template match="S[count(S)=0][NP[(NNP|NNPS) and *[@nsubj]] and VP[VBZ[@cop and @lemma='be'] and count(RB[@neg])>0 and JJ]]">
-DataPropertyAssertion(
+DataBoolPropertyAssertion(
         <xsl:call-template name="adj_to_data_property">
             <xsl:with-param name="adj" select="VP/JJ" />
         </xsl:call-template>
@@ -43,7 +43,7 @@ DataPropertyAssertion(
 </xsl:template>
 
 <xsl:template match="S[count(S)=0][(NNP|NNPS)[@nsubj] and VP[VBZ[@cop and @lemma='be'] and count(RB[@neg])>0 and JJ]]">
-DataPropertyAssertion(
+DataBoolPropertyAssertion(
         <xsl:call-template name="adj_to_data_property">
             <xsl:with-param name="adj" select="VP/JJ" />
         </xsl:call-template>

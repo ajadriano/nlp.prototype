@@ -78,8 +78,8 @@ public enum ClassExpressions {
     ClassAssertion (ClassAssertionFunction.getInstance()),
     ObjectPropertyAssertion (ObjectPropertyAssertionFunction.getInstance()),
     NegativeObjectPropertyAssertion (NegativeObjectPropertyAssertionFunction.getInstance()),
-    DataPropertyAssertion (DataPropertyAssertionFunction.getInstance()),
-    NegativeDataPropertyAssertion (DataPropertyAssertionFunction.getInstance()),
+    DataBoolPropertyAssertion (DataBoolPropertyAssertionFunction.getInstance()),
+    NegativeDataPropertyAssertion (DataBoolPropertyAssertionFunction.getInstance()),
     
     Unknown (UnknownFunction.getInstance()),
     

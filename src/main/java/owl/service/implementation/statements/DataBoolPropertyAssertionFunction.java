@@ -10,7 +10,6 @@ import owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import owl.model.OWLExpression;
 
@@ -18,15 +17,15 @@ import owl.model.OWLExpression;
  *
  * @author ajadriano
  */
-public class DataPropertyAssertionFunction implements OWLExpression {
-    private static DataPropertyAssertionFunction instance = null;
+public class DataBoolPropertyAssertionFunction implements OWLExpression {
+    private static DataBoolPropertyAssertionFunction instance = null;
     
-    protected DataPropertyAssertionFunction() {
+    protected DataBoolPropertyAssertionFunction() {
     }
     
-    public static DataPropertyAssertionFunction getInstance() {
+    public static DataBoolPropertyAssertionFunction getInstance() {
         if(instance == null) {
-           instance = new DataPropertyAssertionFunction();
+           instance = new DataBoolPropertyAssertionFunction();
         }
         return instance;
     }
@@ -39,7 +38,7 @@ public class DataPropertyAssertionFunction implements OWLExpression {
             case 1:
                 return OWLIndividual.class;
             case 2:
-                return OWLLiteral.class;
+                return String.class;
             default:
                 break;
         }
@@ -49,7 +48,8 @@ public class DataPropertyAssertionFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
-        return new AxiomResult(factory.getOWLDataPropertyAssertionAxiom((OWLDataPropertyExpression)args[0], (OWLIndividual)args[1], (OWLLiteral)args[2]));
+        return new AxiomResult(factory.getOWLDataPropertyAssertionAxiom((OWLDataPropertyExpression)args[0], (OWLIndividual)args[1], 
+                factory.getOWLLiteral(Boolean.valueOf((String)args[2]))));
     }
 
     @Override
