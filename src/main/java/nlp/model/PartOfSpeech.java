@@ -74,6 +74,7 @@ public enum PartOfSpeech {
     WHNP ("Wh-noun phrase"),
     WHPP ("Wh-prepositional phrase"),
     PUNCT ("Punctuation"),
+    FRAG ("Fragment"),
     X ("Unknown");
     
     private final String description;

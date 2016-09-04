@@ -48,10 +48,10 @@ public class DirectSubClassOfQuery implements OWLQueryExpression {
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
         NodeSet<OWLClass> set = reasoner.getSubClasses((OWLClassExpression)args[1], false);
         if (set.containsEntity((OWLClass)args[0])) {
-            return new QueryResult(true);
+            return new QueryResult(Boolean.TRUE);
         }
         else {
-            return new QueryResult(false);
+            return new QueryResult(Boolean.FALSE);
         }
     }
 

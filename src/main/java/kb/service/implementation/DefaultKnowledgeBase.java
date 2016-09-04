@@ -59,9 +59,10 @@ public class DefaultKnowledgeBase implements KnowledgeBase, Interpreter {
         
         expressions.stream().forEach((expression) -> {
             sb.append(expression);
+            sb.append("\n");
          }); 
         
-        return sb.toString();
+        return sb.toString().trim();
     }
     
     @Override

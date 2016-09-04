@@ -26,7 +26,14 @@ GetInstances(ObjectHasValue(
 	</xsl:call-template>))
 </xsl:template>
 
-<xsl:template match="/ROOT/SBARQ[WP/@id=@root and SQ[VBZ[@cop] and NP]]">
+<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[*[@nsubj]] and SQ[VP[VBZ[@lemma='do']][S]]]">
+GetInstances(ObjectIntersectionOf(
+	<xsl:apply-templates select="WHNP/*[@nsubj]"/>
+        <xsl:text> </xsl:text>
+        <xsl:apply-templates select="SQ/VP/S"/>))
+</xsl:template>
+
+<xsl:template match="/ROOT/SBARQ[WP/@id=@root and SQ[(VBZ|VBP)[@cop] and NP]]">
 GetInstances(<xsl:apply-templates select="SQ/NP"/>)
 </xsl:template>
 

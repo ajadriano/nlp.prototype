@@ -15,4 +15,17 @@ public class QueryResult<T> extends Result<T> {
         super(result);
     }
     
+    public String getFormattedResult() {
+        
+        if (getResult() instanceof Boolean) {
+            if (getResult() == Boolean.TRUE) {
+                return "Yes";
+            }
+            if (getResult() == Boolean.FALSE) {
+                return "NO";
+            }
+        }
+        
+        return super.getResult().toString();
+    }
 }

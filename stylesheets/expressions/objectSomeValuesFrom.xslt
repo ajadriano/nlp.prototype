@@ -14,7 +14,7 @@ ObjectSomeValuesFrom(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="S[count(*)=1]/VP[(VB|VBZ)[@relcl][@lemma='have']][NP]">
+<xsl:template match="S[count(*)=1]/VP[(VB|VBZ)[@lemma='have']][NP]">
 ObjectSomeValuesFrom(
         <xsl:call-template name="noun_phrase_have_object_property">
 		<xsl:with-param name="NP" select="NP" />

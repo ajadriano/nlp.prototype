@@ -115,7 +115,7 @@ public class OwlExecutionService implements ExecutionService {
                         results.add(((ErrorResult)result).getResult());
                     }
                     else if (result instanceof QueryResult) {
-                        results.add(((QueryResult)result).getResult().toString());
+                        results.add(((QueryResult)result).getFormattedResult());
                     }
                     else if (result instanceof IRIListResult) {
                         for (IRI iri : ((IRIListResult)result).getResult()) {

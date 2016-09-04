@@ -48,10 +48,10 @@ public class InstanceOfQuery implements OWLQueryExpression {
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
         NodeSet<OWLNamedIndividual> set = reasoner.getInstances((OWLClassExpression)args[1], false);
         if (set.containsEntity((OWLNamedIndividual)args[0])) {
-            return new QueryResult(true);
+            return new QueryResult(Boolean.TRUE);
         }
         else {
-            return new QueryResult(false);
+            return new QueryResult(Boolean.FALSE);
         }
     }
 
