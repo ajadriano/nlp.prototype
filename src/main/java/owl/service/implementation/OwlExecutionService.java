@@ -140,6 +140,11 @@ public class OwlExecutionService implements ExecutionService {
                             Assert.isTrue(reasoner.isConsistent());
                             results.add("Statement/s are inconsistent with established facts.");
                             return results;
+                        } finally {
+                            if (isReadOnly) {
+                                owlManager.removeAxioms(ontology, axiomsCommitted.stream());
+                                reasoner.flush();
+                            }
                         }
                     }
                     else if (result instanceof ErrorResult) {
