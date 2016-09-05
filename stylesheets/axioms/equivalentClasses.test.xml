@@ -32,4 +32,12 @@
 		<input>The child of a wizard is any person that drives a vehicle.</input>
 		<output>EquivalentClasses(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard wizard)) ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(drive drives) Class(Vehicle vehicle))))</output>
 	</test>
+        <test>
+		<input>A slave is a person who is wealthy.</input>
+		<output>EquivalentClasses(Class(Slave slave) ObjectIntersectionOf(Class(Person person) DataHasBoolValue(DataProperty(isWealthy XSD_BOOLEAN is wealthy) true)))</output>
+	</test>
+        <test>
+		<input>A slave is a person who is not wealthy.</input>
+		<output>EquivalentClasses(Class(Slave slave) ObjectIntersectionOf(Class(Person person) DataHasBoolValue(DataProperty(isWealthy XSD_BOOLEAN is wealthy) false)))</output>
+	</test>
 </tests>

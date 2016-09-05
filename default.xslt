@@ -40,6 +40,7 @@
 <xsl:include href="stylesheets/expressions/objectUnionOf.xslt"/>
 <xsl:include href="stylesheets/expressions/objectSomeValuesFrom.xslt"/>
 <xsl:include href="stylesheets/expressions/objectMinCardinality.xslt"/>
+<xsl:include href="stylesheets/expressions/dataHasBoolValue.xslt"/>
 
 <xsl:include href="stylesheets/nounphrase.xslt"/>
  

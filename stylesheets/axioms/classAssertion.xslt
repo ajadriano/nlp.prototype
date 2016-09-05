@@ -3,9 +3,18 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="S[count(S)=0][NP[count(DT) = 0 and count(CC) = 0 and (NNP|NNPS)[@nsubj]] and VP[VBZ[@cop and @lemma='be'] and NP[count(PP)=0]]]">
+<xsl:template match="S[count(S)=0][NP[count(DT) = 0 and count(CC) = 0 and (NNP|NNPS)[@nsubj]] and VP[VBZ[@cop and @lemma='be'] and count(RB[@neg])=0 and NP[count(PP)=0]]]">
 ClassAssertion(
     <xsl:apply-templates select="VP/NP"/>
+    <xsl:text> </xsl:text>
+    <xsl:call-template name="noun_phrase_to_individual">
+            <xsl:with-param name="NP" select="NP" />
+    </xsl:call-template>)
+</xsl:template>
+
+<xsl:template match="S[count(S)=0][NP[count(DT) = 0 and count(CC) = 0 and (NNP|NNPS)[@nsubj]] and VP[VBZ[@cop and @lemma='be'] and count(RB[@neg])>0 and NP[count(PP)=0]]]">
+ClassAssertion(
+    ObjectComplementOf(<xsl:apply-templates select="VP/NP"/>)
     <xsl:text> </xsl:text>
     <xsl:call-template name="noun_phrase_to_individual">
             <xsl:with-param name="NP" select="NP" />
