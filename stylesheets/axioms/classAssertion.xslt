@@ -21,15 +21,15 @@ ClassAssertion(
     </xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="S[count(S)=0][VP/NNS/@id=@root and NP[count(DT) = 0 and count(CC) = 1 and (NNP|NNPS)[@nsubj]] and VP[(VBP|VBZ)[@cop and @lemma='be']]]">
+<xsl:template match="S[count(S)=0][VP/NP/*/@id=@root and NP[count(DT) = 0 and count(CC) = 1 and (NNP|NNPS)[@nsubj]] and VP[(VBP|VBZ)[@cop and @lemma='be']]]">
 ClassAssertion(
-    <xsl:apply-templates select="VP/NNS"/>
+    <xsl:apply-templates select="VP/NP"/>
     <xsl:text> </xsl:text>
     <xsl:call-template name="noun_phrase_to_individual_before_cc">
             <xsl:with-param name="NP" select="NP" />
     </xsl:call-template>)
 ClassAssertion(
-    <xsl:apply-templates select="VP/NNS"/>
+    <xsl:apply-templates select="VP/NP"/>
     <xsl:text> </xsl:text>
     <xsl:call-template name="noun_phrase_to_individual_after_cc">
             <xsl:with-param name="NP" select="NP" />

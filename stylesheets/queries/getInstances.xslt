@@ -4,7 +4,7 @@
 <xsl:strip-space elements="*"/>
 
 
-<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WP and SQ[VP/NP[*[@entity]]]]">
+<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[*[@nsubj]] and SQ[VP/NP[NNP|NNPS]]]">
 GetInstances(ObjectHasValue( 
         <xsl:call-template name="verb_to_object_property_no_annotation">
 		<xsl:with-param name="verb" select="SQ/VP/VBZ" />
@@ -15,16 +15,6 @@ GetInstances(ObjectHasValue(
 	</xsl:call-template>))
 </xsl:template>
 
-<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WP and SQ[VP/NNP[@entity]]]">
-GetInstances(ObjectHasValue( 
-        <xsl:call-template name="verb_to_object_property_no_annotation">
-		<xsl:with-param name="verb" select="SQ/VP/VBZ" />
-	</xsl:call-template> 
-        <xsl:text> </xsl:text>
-	<xsl:call-template name="noun_to_individual_no_annotation">
-		<xsl:with-param name="noun" select="SQ/VP/NNP" />
-	</xsl:call-template>))
-</xsl:template>
 
 <xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[*[@nsubj]] and SQ[VP[VBZ[@lemma='do']][S]]]">
 GetInstances(ObjectIntersectionOf(
@@ -33,7 +23,7 @@ GetInstances(ObjectIntersectionOf(
         <xsl:apply-templates select="SQ/VP/S"/>))
 </xsl:template>
 
-<xsl:template match="/ROOT/SBARQ[WP/@id=@root and SQ[(VBZ|VBP)[@cop] and NP]]">
+<xsl:template match="/ROOT/SBARQ[WHNP/*/@id=@root and SQ[(VBZ|VBP)[@cop] and NP]]">
 GetInstances(<xsl:apply-templates select="SQ/NP"/>)
 </xsl:template>
 

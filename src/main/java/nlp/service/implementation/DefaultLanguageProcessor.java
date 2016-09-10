@@ -171,9 +171,6 @@ public class DefaultLanguageProcessor implements LanguageProcessor {
             if (children[0].isLeaf()) {
                 return children[0];
             }
-            else {
-                return getLeaf(children[0]);
-            }
         }
         
         return null;

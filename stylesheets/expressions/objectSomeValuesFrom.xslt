@@ -3,6 +3,14 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
+<xsl:template match="NP[NP/NN/@lemma='anyone' and SBAR[WHNP[*[@nsubj]]][S]]">
+    <xsl:apply-templates select="SBAR/S"/>
+</xsl:template>
+
+<xsl:template match="NP[NP/NN/@lemma='everybody' and SBAR[WHNP[*[@nsubj]]][S]]">
+    <xsl:apply-templates select="SBAR/S"/>
+</xsl:template>
+
 <xsl:template match="S[count(*)=1]/VP[(VB|VBZ)[@relcl][@lemma!='have']][NP]">
 ObjectSomeValuesFrom(
         <xsl:call-template name="verb_to_object_property">

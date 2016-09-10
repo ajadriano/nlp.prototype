@@ -123,7 +123,7 @@ ObjectPropertyAssertion(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="S[count(S)=0][VP/VBZ/@id=@root and NNP|NNPS and VP[VBZ[@lemma='have'] and NP[DT and *[@dobj]]]]">
+<xsl:template match="S[count(S)=0][VP/VBZ/@id=@root and NP[(NNP|NNPS)[@nsubj]] and VP[VBZ[@lemma='have'] and NP[DT and *[@dobj]]]]">
 ObjectPropertyAssertion(
 	<xsl:call-template name="noun_phrase_have_object_property">
 		<xsl:with-param name="NP" select="VP/NP" />
@@ -131,8 +131,8 @@ ObjectPropertyAssertion(
 	<xsl:text> </xsl:text>
         AnonymousIndividual()
 	<xsl:text> </xsl:text>
-	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="NNP|NNPS" />
+	<xsl:call-template name="noun_phrase_to_individual">
+		<xsl:with-param name="NP" select="NP" />
 	</xsl:call-template>)
 </xsl:template>
 

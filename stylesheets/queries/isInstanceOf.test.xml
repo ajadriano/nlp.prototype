@@ -16,4 +16,8 @@
 		<input>Is Luke a Jedi Knight?</input>
 		<output>IsInstanceOf(Individual(Luke Luke) Class(JediKnight Jedi Knight))</output>
 	</test>
+        <test>
+		<input>Is Leia Organa wealthy?</input>
+		<output>IsInstanceOf(Individual(LeiaOrgana Leia Organa) DataHasBoolValue(DataProperty(isWealthy XSD_BOOLEAN is wealthy) true))</output>
+	</test>
 </tests>

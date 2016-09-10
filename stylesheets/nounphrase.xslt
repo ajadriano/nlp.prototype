@@ -42,10 +42,18 @@
         <xsl:with-param name="prp" select="." />
     </xsl:call-template>
 </xsl:template>
-<xsl:template match="JJ" priority="0">
+<xsl:template match="ADJP[preceding-sibling::RB[@neg]]">
     DataHasBoolValue(
         <xsl:call-template name="adj_to_data_property">
-            <xsl:with-param name="adj" select="." />
+            <xsl:with-param name="adj" select="JJ" />
+        </xsl:call-template>
+        <xsl:text> </xsl:text>
+        false)
+</xsl:template>
+<xsl:template match="ADJP">
+    DataHasBoolValue(
+        <xsl:call-template name="adj_to_data_property">
+            <xsl:with-param name="adj" select="JJ" />
         </xsl:call-template>
         <xsl:text> </xsl:text>
         true)
