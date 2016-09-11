@@ -41,6 +41,10 @@
 		<output>SubClassOf(Class(Person person) Class(Wizard wizard))</output>
 	</test>
         <test>
+		<input>A person cannot be a wizard.</input>
+		<output>SubClassOf(Class(Person person) ObjectComplementOf(Class(Wizard wizard)))</output>
+	</test>
+        <test>
 		<input>Each person can be a wizard, a muggle or a squib.</input>
 		<output>SubClassOf(Class(Person person) ObjectUnionOf(Class(Wizard wizard) Class(Muggle muggle) Class(Squib squib)))</output>
 	</test>
@@ -90,11 +94,11 @@
 	</test>
         <test>
 		<input>AJ likes anyone who likes dogs.</input>
-		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs)) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+		<output>SubClassOf(ObjectIntersectionOf(Thing() ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
 	</test>
         <test>
 		<input>Everybody that has a wand is a wizard.</input>
-		<output>SubClassOf(ObjectSomeValuesFrom(ObjectPropertyWithInverse(haveWand wandOf have wand) Thing()) Class(Wizard wizard))</output>
+		<output>SubClassOf(ObjectIntersectionOf(Thing() ObjectSomeValuesFrom(ObjectPropertyWithInverse(haveWand wandOf have wand) Thing())) Class(Wizard wizard))</output>
 	</test>
         <test>
 		<input>Leia likes to play the piano.</input>

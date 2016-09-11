@@ -3,7 +3,7 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="S[count(*)=1]/VP[(VB|VBZ)[@cop]][ADJP[*[@relcl]]]">
+<xsl:template match="VP[(VB|VBP|VBZ)[@cop and @lemma='be']][ADJP]">
     <xsl:apply-templates select="ADJP"/>
 </xsl:template>
 

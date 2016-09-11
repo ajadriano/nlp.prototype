@@ -3,14 +3,14 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="NP[NP[*[position() = 1 and @det]]][SBAR[WHNP[position() = 1]][S]]">
+<xsl:template match="NP[NP][SBAR[WHNP[*[@nsubj]]][S[count(*)=1][VP]]]">
 ObjectIntersectionOf(
 	<xsl:apply-templates select="NP"/>
 	<xsl:text> </xsl:text>
-	<xsl:apply-templates select="SBAR/S"/>)
+	<xsl:apply-templates select="SBAR/S/VP"/>)
 </xsl:template>
 
-<xsl:template match="NP[*[position()= 1 and @det] and JJ/@amod=.//*/@id]">
+<xsl:template match="NP[JJ/@amod=(NN|NNS)/@id]">
 ObjectIntersectionOf(
 	<xsl:apply-templates select="NN|NNS"/>
         <xsl:text> </xsl:text>
