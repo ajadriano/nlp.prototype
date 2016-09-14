@@ -5,7 +5,7 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ClassResult;
+import owl.model.ClassExpressionResult;
 import owl.model.Result;
 import java.util.Arrays;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -37,7 +37,7 @@ public class ObjectOneOfFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {        
-        return new ClassResult(factory.getOWLObjectOneOf(Arrays.copyOf(args, args.length, OWLIndividual[].class)));
+        return new ClassExpressionResult(factory.getOWLObjectOneOf(Arrays.copyOf(args, args.length, OWLIndividual[].class)));
     }
 
     @Override

@@ -5,7 +5,7 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ClassResult;
+import owl.model.ClassExpressionResult;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -36,7 +36,7 @@ public class ObjectComplementOfFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {          
-        return new ClassResult( factory.getOWLObjectComplementOf((OWLClassExpression)args[0]));
+        return new ClassExpressionResult( factory.getOWLObjectComplementOf((OWLClassExpression)args[0]));
     }
 
     @Override

@@ -6,7 +6,7 @@
 package owl.service.implementation.statements;
 
 import owl.model.AxiomResult;
-import owl.model.ClassResult;
+import owl.model.ClassExpressionResult;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
@@ -46,7 +46,7 @@ public class DataAllValuesFromFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
-        return new ClassResult(factory.getOWLDataAllValuesFrom((OWLDataPropertyExpression)args[0], (OWL2Datatype)args[1]));
+        return new ClassExpressionResult(factory.getOWLDataAllValuesFrom((OWLDataPropertyExpression)args[0], (OWL2Datatype)args[1]));
     }
 
     @Override

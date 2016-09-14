@@ -5,12 +5,12 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ClassResult;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
+import owl.model.ClassResult;
 import owl.model.OWLExpression;
 
 /**
@@ -52,10 +52,10 @@ public class ClassFunction implements OWLExpression {
                     sb.append(" ");
                 }
             }
-           
-            result.setAnnotation(factory.getOWLAnnotationAssertionAxiom(
-                factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), 
-                (IRI)args[0], factory.getOWLLiteral(sb.toString())));
+            
+            result.setAnnotationSubject((IRI)args[0]);
+            result.getAnnotations().add(factory.getOWLAnnotation(factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), 
+                factory.getOWLLiteral(sb.toString())));
         }
         
         return result;

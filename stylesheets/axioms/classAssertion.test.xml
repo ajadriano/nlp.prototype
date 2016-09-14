@@ -2,42 +2,42 @@
 <tests>
 	<test>
 		<input>Leia Organa is a lady.</input>
-		<output>ClassAssertion(Class(Lady lady) Individual(LeiaOrgana Leia Organa))</output>
+		<output>ClassAssertion(Class(Lady lady) NamedIndividual(LeiaOrgana Leia Organa))</output>
 	</test>
 	<test>
 		<input>Katniss Everdeen is a person who likes cats.</input>
-		<output>ClassAssertion(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Cat cats))) Individual(KatnissEverdeen Katniss Everdeen))</output>
+		<output>ClassAssertion(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Cat cats))) NamedIndividual(KatnissEverdeen Katniss Everdeen))</output>
 	</test>
 	<test>
 		<input>Katniss is a person who likes cats.</input>
-		<output>ClassAssertion(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Cat cats))) Individual(Katniss Katniss))</output>
+		<output>ClassAssertion(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Cat cats))) NamedIndividual(Katniss Katniss))</output>
 	</test>
         <test>
 		<input>Lily Potter and Petunia Dursley are persons.</input>
-		<output>ClassAssertion(Class(Person persons) Individual(LilyPotter Lily Potter))</output>
-                <output>ClassAssertion(Class(Person persons) Individual(PetuniaDursley Petunia Dursley))</output> 
+		<output>ClassAssertion(Class(Person persons) NamedIndividual(LilyPotter Lily Potter))</output>
+                <output>ClassAssertion(Class(Person persons) NamedIndividual(PetuniaDursley Petunia Dursley))</output> 
         </test>
         <test>
 		<input>Han Solo and Chewbacca are not trustworthy smugglers.</input>
-		<output>ClassAssertion(ObjectComplementOf(ObjectIntersectionOf(Class(Smuggler smugglers) DataHasBoolValue(DataProperty(isTrustworthy XSD_BOOLEAN is trustworthy) true))) Individual(HanSolo Han Solo))</output>
-                <output>ClassAssertion(ObjectComplementOf(ObjectIntersectionOf(Class(Smuggler smugglers) DataHasBoolValue(DataProperty(isTrustworthy XSD_BOOLEAN is trustworthy) true))) Individual(Chewbacca Chewbacca))</output> 
+		<output>ClassAssertion(ObjectComplementOf(ObjectIntersectionOf(Class(Smuggler smugglers) DataHasBoolValue(DataProperty(isTrustworthy XSD_BOOLEAN is trustworthy) true))) NamedIndividual(HanSolo Han Solo))</output>
+                <output>ClassAssertion(ObjectComplementOf(ObjectIntersectionOf(Class(Smuggler smugglers) DataHasBoolValue(DataProperty(isTrustworthy XSD_BOOLEAN is trustworthy) true))) NamedIndividual(Chewbacca Chewbacca))</output> 
         </test>
         <!--<test>
 		<input>Han Solo and Chewbacca are trustworthy.</input>
-		<output>ClassAssertion(DataHasBoolValue(DataProperty(isTrustworthy XSD_BOOLEAN is trustworthy) true) Individual(HanSolo Han Solo))</output>
-                <output>ClassAssertion(DataHasBoolValue(DataProperty(isTrustworthy XSD_BOOLEAN is trustworthy) true) Individual(Chewbacca Chewbacca))</output> 
+		<output>ClassAssertion(DataHasBoolValue(DataProperty(isTrustworthy XSD_BOOLEAN is trustworthy) true) NamedIndividual(HanSolo Han Solo))</output>
+                <output>ClassAssertion(DataHasBoolValue(DataProperty(isTrustworthy XSD_BOOLEAN is trustworthy) true) NamedIndividual(Chewbacca Chewbacca))</output> 
         </test>-->
         <test>
 		<input>Lily Potter is a wizard, but Petunia Dursley is a muggle.</input>
-		<output>ClassAssertion(Class(Wizard wizard) Individual(LilyPotter Lily Potter))</output>
-                <output>ClassAssertion(Class(Muggle muggle) Individual(PetuniaDursley Petunia Dursley))</output> 
+		<output>ClassAssertion(Class(Wizard wizard) NamedIndividual(LilyPotter Lily Potter))</output>
+                <output>ClassAssertion(Class(Muggle muggle) NamedIndividual(PetuniaDursley Petunia Dursley))</output> 
         </test>
         <test>
 		<input>Leia Organa is a beautiful woman.</input>
-		<output>ClassAssertion(ObjectIntersectionOf(Class(Woman woman) DataHasBoolValue(DataProperty(isBeautiful XSD_BOOLEAN is beautiful) true)) Individual(LeiaOrgana Leia Organa))</output>
+		<output>ClassAssertion(ObjectIntersectionOf(Class(Woman woman) DataHasBoolValue(DataProperty(isBeautiful XSD_BOOLEAN is beautiful) true)) NamedIndividual(LeiaOrgana Leia Organa))</output>
         </test>
         <test>
 		<input>Han Solo is not a honest smuggler.</input>
-		<output>ClassAssertion(ObjectComplementOf(ObjectIntersectionOf(Class(Smuggler smuggler) DataHasBoolValue(DataProperty(isHonest XSD_BOOLEAN is honest) true))) Individual(HanSolo Han Solo))</output>
+		<output>ClassAssertion(ObjectComplementOf(ObjectIntersectionOf(Class(Smuggler smuggler) DataHasBoolValue(DataProperty(isHonest XSD_BOOLEAN is honest) true))) NamedIndividual(HanSolo Han Solo))</output>
         </test>
 </tests>

@@ -5,7 +5,7 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ClassResult;
+import owl.model.ClassExpressionResult;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLIndividual;
@@ -44,7 +44,7 @@ public class ObjectHasValueFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {                
-        return new ClassResult(factory.getOWLObjectHasValue((OWLObjectPropertyExpression)args[0], (OWLIndividual)args[1]));
+        return new ClassExpressionResult(factory.getOWLObjectHasValue((OWLObjectPropertyExpression)args[0], (OWLIndividual)args[1]));
     }
 
     @Override

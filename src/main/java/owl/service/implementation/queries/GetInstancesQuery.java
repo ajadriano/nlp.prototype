@@ -5,17 +5,15 @@
  */
 package owl.service.implementation.queries;
 
-import owl.model.IRIListResult;
 import owl.model.OWLQueryExpression;
 import owl.model.Result;
-import java.util.ArrayList;
-import java.util.List;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import owl.model.Answers;
+import owl.model.QueryResult;
 
 /**
  *
@@ -41,18 +39,14 @@ public class GetInstancesQuery implements OWLQueryExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
-        List<IRI> answers = new ArrayList();
+        Answers answers = new Answers();
         
         NodeSet<OWLNamedIndividual> set = reasoner.getInstances((OWLClassExpression)args[0], false);
         set.entities().forEach(namedIndividual -> {
-            answers.add(namedIndividual.getIRI());
+            answers.getIndividuals().add(namedIndividual);
         });
         
-        if (answers.isEmpty()) {
-            answers.add(factory.getOWLNothing().getIRI());
-        }
-        
-        return new IRIListResult(answers);
+        return new QueryResult(answers);
     }
 
     @Override

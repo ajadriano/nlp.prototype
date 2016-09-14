@@ -6,7 +6,7 @@
 package owl.service.implementation.statements;
 
 import owl.model.AxiomResult;
-import owl.model.ClassResult;
+import owl.model.ClassExpressionResult;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import owl.model.Result;

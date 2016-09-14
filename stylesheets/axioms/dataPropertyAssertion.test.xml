@@ -2,18 +2,18 @@
 <tests>
 	<test>
 		<input>Mon Mothma is wealthy.</input>
-		<output>DataBoolPropertyAssertion(DataProperty(isWealthy XSD_BOOLEAN is wealthy) Individual(MonMothma Mon Mothma) true)</output>
+		<output>DataBoolPropertyAssertion(DataProperty(isWealthy XSD_BOOLEAN is wealthy) NamedIndividual(MonMothma Mon Mothma) true)</output>
 	</test>
         <test>
 		<input>Mon Mothma is not wealthy.</input>
-		<output>DataBoolPropertyAssertion(DataProperty(isWealthy XSD_BOOLEAN is wealthy) Individual(MonMothma Mon Mothma) false)</output>
+		<output>DataBoolPropertyAssertion(DataProperty(isWealthy XSD_BOOLEAN is wealthy) NamedIndividual(MonMothma Mon Mothma) false)</output>
 	</test>
         <test>
 		<input>Padme is wealthy.</input>
-		<output>DataBoolPropertyAssertion(DataProperty(isWealthy XSD_BOOLEAN is wealthy) Individual(Padme Padme) true)</output>
+		<output>DataBoolPropertyAssertion(DataProperty(isWealthy XSD_BOOLEAN is wealthy) NamedIndividual(Padme Padme) true)</output>
 	</test>
         <test>
 		<input>Padme is not wealthy.</input>
-		<output>DataBoolPropertyAssertion(DataProperty(isWealthy XSD_BOOLEAN is wealthy) Individual(Padme Padme) false)</output>
+		<output>DataBoolPropertyAssertion(DataProperty(isWealthy XSD_BOOLEAN is wealthy) NamedIndividual(Padme Padme) false)</output>
 	</test>
 </tests>

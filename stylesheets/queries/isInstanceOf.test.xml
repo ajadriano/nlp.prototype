@@ -2,22 +2,22 @@
 <tests>
 	<test>
 		<input>Is Harry Potter a wizard?</input>
-		<output>IsInstanceOf(Individual(HarryPotter Harry Potter) Class(Wizard wizard))</output>
+		<output>IsInstanceOf(NamedIndividual(HarryPotter Harry Potter) Class(Wizard wizard))</output>
 	</test>
 	<test>
 		<input>Is Harry a wizard?</input>
-		<output>IsInstanceOf(Individual(Harry Harry) Class(Wizard wizard))</output>
+		<output>IsInstanceOf(NamedIndividual(Harry Harry) Class(Wizard wizard))</output>
 	</test>
         <test>
 		<input>Is Luke Skywalker a Jedi Knight?</input>
-		<output>IsInstanceOf(Individual(LukeSkywalker Luke Skywalker) Class(JediKnight Jedi Knight))</output>
+		<output>IsInstanceOf(NamedIndividual(LukeSkywalker Luke Skywalker) Class(JediKnight Jedi Knight))</output>
 	</test>
         <test>
 		<input>Is Luke a Jedi Knight?</input>
-		<output>IsInstanceOf(Individual(Luke Luke) Class(JediKnight Jedi Knight))</output>
+		<output>IsInstanceOf(NamedIndividual(Luke Luke) Class(JediKnight Jedi Knight))</output>
 	</test>
         <test>
 		<input>Is Leia Organa wealthy?</input>
-		<output>IsInstanceOf(Individual(LeiaOrgana Leia Organa) DataHasBoolValue(DataProperty(isWealthy XSD_BOOLEAN is wealthy) true))</output>
+		<output>IsInstanceOf(NamedIndividual(LeiaOrgana Leia Organa) DataHasBoolValue(DataProperty(isWealthy XSD_BOOLEAN is wealthy) true))</output>
 	</test>
 </tests>

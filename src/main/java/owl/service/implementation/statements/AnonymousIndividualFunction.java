@@ -5,13 +5,10 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ClassResult;
 import owl.model.IndividualResult;
 import owl.model.Result;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 import owl.model.OWLExpression;
 
 /**

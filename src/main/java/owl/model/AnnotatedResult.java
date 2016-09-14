@@ -5,31 +5,43 @@
  */
 package owl.model;
 
-import org.semanticweb.owlapi.model.OWLAxiom;
+import java.util.ArrayList;
+import java.util.List;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationSubject;
 
 /**
  *
  * @author ajadriano
  */
 public class AnnotatedResult<T extends Object> extends Result<T> {    
-    private OWLAxiom annotation;
+    private final List<OWLAnnotation> annotations;
+    private OWLAnnotationSubject annotationSubject;
     
     public AnnotatedResult(T result) {
         super(result);
+        annotations = new ArrayList();
     }
 
     /**
-     * @return the annotation
+     * @return the annotations
      */
-    public OWLAxiom getAnnotation() {
-        return annotation;
+    public List<OWLAnnotation> getAnnotations() {
+        return annotations;
     }
 
     /**
-     * @param annotation the annotation to set
+     * @return the annotationSubject
      */
-    public void setAnnotation(OWLAxiom annotation) {
-        this.annotation = annotation;
+    public OWLAnnotationSubject getAnnotationSubject() {
+        return annotationSubject;
+    }
+
+    /**
+     * @param annotationSubject the annotationSubject to set
+     */
+    public void setAnnotationSubject(OWLAnnotationSubject annotationSubject) {
+        this.annotationSubject = annotationSubject;
     }
     
 }

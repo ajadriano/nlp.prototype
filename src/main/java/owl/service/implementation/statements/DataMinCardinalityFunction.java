@@ -5,7 +5,7 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ClassResult;
+import owl.model.ClassExpressionResult;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
@@ -50,10 +50,10 @@ public class DataMinCardinalityFunction implements OWLExpression {
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {   
         if (args.length == 2) {
-            return new ClassResult( factory.getOWLDataMinCardinality((Integer)args[0], (OWLDataPropertyExpression)args[1]));
+            return new ClassExpressionResult( factory.getOWLDataMinCardinality((Integer)args[0], (OWLDataPropertyExpression)args[1]));
         }
         else if (args.length == 3) {
-            return new ClassResult( factory.getOWLDataMinCardinality((Integer)args[0], (OWLDataPropertyExpression)args[1], (OWL2Datatype)args[2]));
+            return new ClassExpressionResult( factory.getOWLDataMinCardinality((Integer)args[0], (OWLDataPropertyExpression)args[1], (OWL2Datatype)args[2]));
         }        
            
         return null;

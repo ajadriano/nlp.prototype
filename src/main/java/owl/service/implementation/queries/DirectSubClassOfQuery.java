@@ -6,7 +6,7 @@
 package owl.service.implementation.queries;
 
 import owl.model.OWLQueryExpression;
-import owl.model.QueryResult;
+import owl.model.BooleanResult;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -48,10 +48,10 @@ public class DirectSubClassOfQuery implements OWLQueryExpression {
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
         NodeSet<OWLClass> set = reasoner.getSubClasses((OWLClassExpression)args[1], false);
         if (set.containsEntity((OWLClass)args[0])) {
-            return new QueryResult(Boolean.TRUE);
+            return new BooleanResult(Boolean.TRUE);
         }
         else {
-            return new QueryResult(Boolean.FALSE);
+            return new BooleanResult(Boolean.FALSE);
         }
     }
 

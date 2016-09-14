@@ -5,7 +5,7 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ClassResult;
+import owl.model.ClassExpressionResult;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -49,10 +49,10 @@ public class ObjectMaxCardinalityFunction implements OWLExpression {
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {   
         if (args.length == 2) {
-            return new ClassResult(factory.getOWLObjectMaxCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1]));
+            return new ClassExpressionResult(factory.getOWLObjectMaxCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1]));
         }
         else if (args.length == 3) {
-            return new ClassResult(factory.getOWLObjectMaxCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1], (OWLClassExpression)args[2]));
+            return new ClassExpressionResult(factory.getOWLObjectMaxCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1], (OWLClassExpression)args[2]));
         }        
            
         return null;

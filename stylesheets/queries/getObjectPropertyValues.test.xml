@@ -2,10 +2,10 @@
 <tests>
     	<test>
 		<input>Who does Luke Skywalker like?</input>
-		<output>GetObjectPropertyValues(Individual(LukeSkywalker) ObjectProperty(like))</output>
+		<output>GetObjectPropertyValues(NamedIndividual(LukeSkywalker) ObjectProperty(like))</output>
 	</test>
       	<test>
 		<input>Who does AJ like?</input>
-		<output>GetObjectPropertyValues(Individual(AJ) ObjectProperty(like))</output>
+		<output>GetObjectPropertyValues(NamedIndividual(AJ) ObjectProperty(like))</output>
 	</test>
 </tests>

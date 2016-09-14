@@ -14,23 +14,23 @@
 	</test>
 	<test>
 		<input>AJ likes dogs.</input>
-		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
 	</test>
         <test>
 		<input>AJ likes chicken.</input>
-		<output>SubClassOf(Class(Chicken chicken) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+		<output>SubClassOf(Class(Chicken chicken) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
 	</test>
 	<test>
 		<input>Adrian Joseph likes dogs.</input>
-		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AdrianJoseph Adrian Joseph)))</output>
+		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AdrianJoseph Adrian Joseph)))</output>
 	</test>
 	<test>
 		<input>AJ likes chicken pie.</input>
-		<output>SubClassOf(Class(ChickenPie chicken pie) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+		<output>SubClassOf(Class(ChickenPie chicken pie) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
 	</test>
 	<test>
 		<input>Adrian Joseph likes chicken pie.</input>
-		<output>SubClassOf(Class(ChickenPie chicken pie) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AdrianJoseph Adrian Joseph)))</output>
+		<output>SubClassOf(Class(ChickenPie chicken pie) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AdrianJoseph Adrian Joseph)))</output>
 	</test>
 	<test>
 		<input>Fried chicken is a chicken dish.</input>
@@ -90,11 +90,11 @@
 	</test>
         <test>
 		<input>AJ likes any person who likes dogs.</input>
-		<output>SubClassOf(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+		<output>SubClassOf(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
 	</test>
         <test>
 		<input>AJ likes anyone who likes dogs.</input>
-		<output>SubClassOf(ObjectIntersectionOf(Thing() ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) Individual(AJ AJ)))</output>
+		<output>SubClassOf(ObjectIntersectionOf(Thing() ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
 	</test>
         <test>
 		<input>Everybody that has a wand is a wizard.</input>
@@ -102,11 +102,11 @@
 	</test>
         <test>
 		<input>Leia likes to play the piano.</input>
-		<output>SubClassOf(Class(Piano piano) ObjectHasValue(ObjectInverseOf(ObjectProperty(likeToplay likes to play)) Individual(Leia Leia)))</output>
+		<output>SubClassOf(Class(Piano piano) ObjectHasValue(ObjectInverseOf(ObjectProperty(likeToplay likes to play)) NamedIndividual(Leia Leia)))</output>
 	</test>
         <!--<test>
 		<input>Leia Organa is the princess of Alderaan. She likes to play the piano.</input>
-		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(princessOf havePrincess princess of) Individual(LeiaOrgana Leia Organa) Individual(Alderaan Alderaan))</output>
-                <output>SubClassOf(Class(Piano piano) ObjectHasValue(ObjectInverseOf(ObjectProperty(likeToplay likes to play)) Individual(LeiaOrgana Leia Organa)))</output>
+		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(princessOf havePrincess princess of) NamedIndividual(LeiaOrgana Leia Organa) NamedIndividual(Alderaan Alderaan))</output>
+                <output>SubClassOf(Class(Piano piano) ObjectHasValue(ObjectInverseOf(ObjectProperty(likeToplay likes to play)) NamedIndividual(LeiaOrgana Leia Organa)))</output>
 	</test>-->
 </tests>

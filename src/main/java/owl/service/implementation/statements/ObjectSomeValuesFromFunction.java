@@ -5,7 +5,7 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ClassResult;
+import owl.model.ClassExpressionResult;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
@@ -45,7 +45,7 @@ public class ObjectSomeValuesFromFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
-        return new ClassResult(factory.getOWLObjectSomeValuesFrom((OWLObjectPropertyExpression)args[0], (OWLClassExpression)args[1])); 
+        return new ClassExpressionResult(factory.getOWLObjectSomeValuesFrom((OWLObjectPropertyExpression)args[0], (OWLClassExpression)args[1])); 
     }
 
     @Override

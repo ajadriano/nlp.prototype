@@ -2,38 +2,38 @@
 <tests>
 	<test>
 		<input>Han Solo likes Leia Organa.</input>
-		<output>ObjectPropertyAssertion(ObjectProperty(like likes) Individual(HanSolo Han Solo) Individual(LeiaOrgana Leia Organa))</output>
+		<output>ObjectPropertyAssertion(ObjectProperty(like likes) NamedIndividual(HanSolo Han Solo) NamedIndividual(LeiaOrgana Leia Organa))</output>
 	</test>
 	<test>
 		<input>Han likes Leia.</input>
-		<output>ObjectPropertyAssertion(ObjectProperty(like likes) Individual(Han Han) Individual(Leia Leia))</output>
+		<output>ObjectPropertyAssertion(ObjectProperty(like likes) NamedIndividual(Han Han) NamedIndividual(Leia Leia))</output>
 	</test>
 	<test>
 		<input>Han likes Leia Organa.</input>
-		<output>ObjectPropertyAssertion(ObjectProperty(like likes) Individual(Han Han) Individual(LeiaOrgana Leia Organa))</output>
+		<output>ObjectPropertyAssertion(ObjectProperty(like likes) NamedIndividual(Han Han) NamedIndividual(LeiaOrgana Leia Organa))</output>
 	</test>
 	<test>
 		<input>Han Solo likes Leia.</input>
-		<output>ObjectPropertyAssertion(ObjectProperty(like likes) Individual(HanSolo Han Solo) Individual(Leia Leia))</output>
+		<output>ObjectPropertyAssertion(ObjectProperty(like likes) NamedIndividual(HanSolo Han Solo) NamedIndividual(Leia Leia))</output>
 	</test>
 	<test>
 		<input>Darth Vader is the father of Luke Skywalker.</input>
-		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(fatherOf haveFather father of) Individual(DarthVader Darth Vader) Individual(LukeSkywalker Luke Skywalker))</output>
+		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(fatherOf haveFather father of) NamedIndividual(DarthVader Darth Vader) NamedIndividual(LukeSkywalker Luke Skywalker))</output>
 	</test>
 	<test>
 		<input>Darth Vader is the father of Luke.</input>
-		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(fatherOf haveFather father of) Individual(DarthVader Darth Vader) Individual(Luke Luke))</output>
+		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(fatherOf haveFather father of) NamedIndividual(DarthVader Darth Vader) NamedIndividual(Luke Luke))</output>
 	</test>
 	<test>
 		<input>Darth is the father of Luke Skywalker.</input>
-		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(fatherOf haveFather father of) Individual(Darth Darth) Individual(LukeSkywalker Luke Skywalker))</output>
+		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(fatherOf haveFather father of) NamedIndividual(Darth Darth) NamedIndividual(LukeSkywalker Luke Skywalker))</output>
 	</test>
 	<test>
 		<input>Darth is the father of Luke.</input>
-		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(fatherOf haveFather father of) Individual(Darth Darth) Individual(Luke Luke))</output>
+		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(fatherOf haveFather father of) NamedIndividual(Darth Darth) NamedIndividual(Luke Luke))</output>
 	</test>
         <test>
 		<input>AJ has a wand.</input>
-		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(haveWand wandOf have wand) AnonymousIndividual() Individual(AJ AJ))</output>
+		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(haveWand wandOf have wand) AnonymousIndividual() NamedIndividual(AJ AJ))</output>
 	</test>
 </tests>

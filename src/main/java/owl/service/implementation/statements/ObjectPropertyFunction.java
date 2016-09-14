@@ -52,10 +52,10 @@ public class ObjectPropertyFunction implements OWLExpression {
                     sb.append(" ");
                 }
             }
-             
-            result.setAnnotation(factory.getOWLAnnotationAssertionAxiom(
-                factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), 
-                (IRI)args[0], factory.getOWLLiteral(sb.toString())));
+            
+            result.setAnnotationSubject((IRI)args[0]);
+            result.getAnnotations().add(factory.getOWLAnnotation(factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), 
+                factory.getOWLLiteral(sb.toString())));
         }
         
         return result;

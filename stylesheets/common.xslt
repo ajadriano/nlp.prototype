@@ -196,7 +196,7 @@
 
 <xsl:template name="noun_to_individual">
 	<xsl:param name="noun" />
-	Individual(		
+	NamedIndividual(		
 	<xsl:value-of select="$noun"/>
 	<xsl:text> </xsl:text>
 	<xsl:value-of select="$noun"/>)
@@ -204,7 +204,7 @@
 
 <xsl:template name="pronoun_to_individual">
 	<xsl:param name="prp" />
-	Individual(		
+	NamedIndividual(		
 	<xsl:value-of select="translate(//COREF[@id=$prp/@id],' ','')"/>
 	<xsl:text> </xsl:text>
 	<xsl:value-of select="//COREF[@id=$prp/@id]"/>)
@@ -213,7 +213,7 @@
 
 <xsl:template name="noun_to_individual_no_annotation">
 	<xsl:param name="noun" />
-	Individual(		
+	NamedIndividual(		
 	<xsl:value-of select="$noun"/>)
 </xsl:template>
 
@@ -221,7 +221,7 @@
    <xsl:param name="NP" />
    <xsl:choose>
       <xsl:when test="$NP/*[position()=1 and @det]">
-      Individual(
+      NamedIndividual(
    		<xsl:for-each select="$NP/*[position()>1]">
                     <xsl:value-of select="."/>
    		</xsl:for-each>
@@ -232,7 +232,7 @@
    		</xsl:for-each>)
       </xsl:when>
       <xsl:otherwise>
-      Individual(
+      NamedIndividual(
    		<xsl:for-each select="$NP/*">
                     <xsl:value-of select="."/>
    		</xsl:for-each>
@@ -249,7 +249,7 @@
    <xsl:param name="NP" />
    <xsl:choose>
       <xsl:when test="$NP/*[position()=1 and @det]">
-      Individual(
+      NamedIndividual(
    		<xsl:for-each select="$NP/CC/preceding-sibling::*[position()>1]">
                     <xsl:value-of select="."/>
    		</xsl:for-each>
@@ -260,7 +260,7 @@
    		</xsl:for-each>)
       </xsl:when>
       <xsl:otherwise>
-      Individual(
+      NamedIndividual(
    		<xsl:for-each select="$NP/CC/preceding-sibling::*">
                     <xsl:value-of select="."/>
    		</xsl:for-each>
@@ -277,7 +277,7 @@
    <xsl:param name="NP" />
    <xsl:choose>
       <xsl:when test="$NP/*[position()=1 and @det]">
-      Individual(
+      NamedIndividual(
    		<xsl:for-each select="$NP/CC/following-sibling::*[position()>1]">
                     <xsl:value-of select="."/>
    		</xsl:for-each>
@@ -288,7 +288,7 @@
    		</xsl:for-each>)
       </xsl:when>
       <xsl:otherwise>
-      Individual(
+      NamedIndividual(
    		<xsl:for-each select="$NP/CC/following-sibling::*">
                     <xsl:value-of select="."/>
    		</xsl:for-each>
@@ -305,13 +305,13 @@
    <xsl:param name="NP" />
    <xsl:choose>
       <xsl:when test="$NP/*[position()=1 and @det]">
-      Individual(
+      NamedIndividual(
    		<xsl:for-each select="$NP/*[position()>1]">
                     <xsl:value-of select="."/>
    		</xsl:for-each>)
       </xsl:when>
       <xsl:otherwise>
-      Individual(
+      NamedIndividual(
    		<xsl:for-each select="$NP/*">
                     <xsl:value-of select="."/>
    		</xsl:for-each>)

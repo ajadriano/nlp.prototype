@@ -5,7 +5,7 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.ClassResult;
+import owl.model.ClassExpressionResult;
 import java.util.Arrays;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -37,7 +37,7 @@ public class ObjectIntersectionOfFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {          
-        return new ClassResult(factory.getOWLObjectIntersectionOf(Arrays.copyOf(args, args.length, OWLClassExpression[].class))); 
+        return new ClassExpressionResult(factory.getOWLObjectIntersectionOf(Arrays.copyOf(args, args.length, OWLClassExpression[].class))); 
     }
 
     @Override

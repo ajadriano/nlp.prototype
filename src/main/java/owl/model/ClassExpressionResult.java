@@ -5,15 +5,15 @@
  */
 package owl.model;
 
-import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class ClassResult extends AnnotatedResult<OWLClass> {
+public class ClassExpressionResult extends AnnotatedResult<OWLClassExpression> {
     
-    public ClassResult(OWLClass result) {
+    public ClassExpressionResult(OWLClassExpression result) {
         super(result);
     }
     

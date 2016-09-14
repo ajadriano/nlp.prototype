@@ -9,23 +9,10 @@ package owl.model;
  *
  * @author ajadriano
  */
-public class QueryResult<T> extends Result<T> {
+public class QueryResult extends Result<Answers> {
     
-    public QueryResult(T result) {
+    public QueryResult(Answers result) {
         super(result);
     }
     
-    public String getFormattedResult() {
-        
-        if (getResult() instanceof Boolean) {
-            if (getResult() == Boolean.TRUE) {
-                return "Yes";
-            }
-            if (getResult() == Boolean.FALSE) {
-                return "NO";
-            }
-        }
-        
-        return super.getResult().toString();
-    }
 }

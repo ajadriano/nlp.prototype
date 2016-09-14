@@ -21,7 +21,7 @@ public enum ClassExpressions {
     DataProperty (DataPropertyFunction.getInstance()),
     ObjectPropertyWithInverse (ObjectPropertyWithInverseFunction.getInstance()),
     ObjectInverseOf (ObjectInverseOfFunction.getInstance()),
-    Individual (IndividualFunction.getInstance()),
+    NamedIndividual (NamedIndividualFunction.getInstance()),
     
     Thing (ThingFunction.getInstance()),
     AnonymousIndividual (AnonymousIndividualFunction.getInstance()),

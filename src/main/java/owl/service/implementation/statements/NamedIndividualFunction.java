@@ -5,27 +5,27 @@
  */
 package owl.service.implementation.statements;
 
-import owl.model.IndividualResult;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
+import owl.model.NamedIndividualResult;
 import owl.model.OWLExpression;
 
 /**
  *
  * @author ajadriano
  */
-public class IndividualFunction implements OWLExpression {
-    private static IndividualFunction instance = null;
+public class NamedIndividualFunction implements OWLExpression {
+    private static NamedIndividualFunction instance = null;
     
-    protected IndividualFunction() {
+    protected NamedIndividualFunction() {
     }
     
-    public static IndividualFunction getInstance() {
+    public static NamedIndividualFunction getInstance() {
         if(instance == null) {
-           instance = new IndividualFunction();
+           instance = new NamedIndividualFunction();
         }
         return instance;
     }
@@ -41,7 +41,7 @@ public class IndividualFunction implements OWLExpression {
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
-        IndividualResult result = new IndividualResult(factory.getOWLNamedIndividual((IRI)args[0])); 
+        NamedIndividualResult result = new NamedIndividualResult(factory.getOWLNamedIndividual((IRI)args[0])); 
         
         if (args.length > 1) {
             StringBuilder sb = new StringBuilder();
@@ -53,9 +53,9 @@ public class IndividualFunction implements OWLExpression {
                 }
             }
            
-            result.setAnnotation(factory.getOWLAnnotationAssertionAxiom(
-                factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), 
-                (IRI)args[0], factory.getOWLLiteral(sb.toString())));
+            result.setAnnotationSubject((IRI)args[0]);
+            result.getAnnotations().add(factory.getOWLAnnotation(factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), 
+                factory.getOWLLiteral(sb.toString())));
         }
         
         return result;

@@ -14,7 +14,7 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
  */
 public class ObjectPropertyResult extends AnnotatedResult<OWLObjectProperty> {
     
-    private OWLObjectPropertyExpression inverseProperty;
+    private OWLObjectProperty inverseProperty;
     
     public ObjectPropertyResult(OWLObjectProperty result) {
         super(result);
@@ -23,14 +23,14 @@ public class ObjectPropertyResult extends AnnotatedResult<OWLObjectProperty> {
     /**
      * @return the inverseProperty
      */
-    public OWLObjectPropertyExpression getInverseProperty() {
+    public OWLObjectProperty getInverseProperty() {
         return inverseProperty;
     }
 
     /**
      * @param inverseProperty the inverseProperty to set
      */
-    public void setInverseProperty(OWLObjectPropertyExpression inverseProperty) {
+    public void setInverseProperty(OWLObjectProperty inverseProperty) {
         this.inverseProperty = inverseProperty;
     }
     
