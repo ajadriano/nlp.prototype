@@ -22,6 +22,7 @@ import org.w3c.dom.Document;
 import kb.service.KnowledgeBase;
 import kb.service.KnowledgeBaseManager;
 import kb.service.implementation.DefaultKnowledgeBaseManager;
+import test.KnowledgeBaseTestExecutor;
 
 /**
  *
@@ -55,7 +56,7 @@ public class AdminShell {
             return debugXsl(file);
         }
         else if ("kb".equals(mode)){
-            return loadKnowledgeBase(knowledgeBaseManager.getDebugKb(file));
+            return loadKnowledgeBase(knowledgeBaseManager.getDebugKb(file), true);
         }
         
         return "";
@@ -147,7 +148,7 @@ public class AdminShell {
         return "";
     }
     
-    public String loadKnowledgeBase(KnowledgeBase kb) {        
+    public String loadKnowledgeBase(KnowledgeBase kb, boolean isDebug) {        
         try {
             kb.initialize();
         } catch (KnowledgeBaseException | IOException ex) {
@@ -181,6 +182,19 @@ public class AdminShell {
                     System.out.println("Invalid operation.");
                 }
             }
+            else if (isDebug && input.startsWith("test")) {
+                String[] commandArr = input.split("\\s+");
+                if (commandArr.length  == 2) {
+                    KnowledgeBaseTestExecutor executor = new KnowledgeBaseTestExecutor(kb);
+                    executor.execute(commandArr[1]);
+                }
+                else {
+                    System.out.println("Invalid operation.");
+                }
+            }
+            else if (isDebug && input.equals("clear")) {
+               kb.clear();
+            }
         } while (!"quit".equals(input));     
         
         kb.save();
@@ -202,10 +216,10 @@ public class AdminShell {
                     }
                 case "load" : 
                     if (args.length == 2) {
-                        return loadKnowledgeBase(knowledgeBaseManager.get(args[1]));
+                        return loadKnowledgeBase(knowledgeBaseManager.get(args[1]), false);
                     }
                     else if (args.length == 3) {
-                        return loadKnowledgeBase(knowledgeBaseManager.get(args[1], args[2]));
+                        return loadKnowledgeBase(knowledgeBaseManager.get(args[1], args[2]), false);
                     }
                 case "debug" : 
                     if (args.length == 2) {

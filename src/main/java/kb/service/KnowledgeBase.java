@@ -5,16 +5,18 @@
  */
 package kb.service;
 
+import common.Interpreter;
 import java.io.IOException;
 
 /**
  *
  * @author ajadriano
  */
-public interface KnowledgeBase {
+public interface KnowledgeBase extends Interpreter {
     String getName();
     
     void initialize() throws KnowledgeBaseException, IOException;
+    void clear();
     String tell(String message);
     String loadFile(String file) throws IOException;
     void save();

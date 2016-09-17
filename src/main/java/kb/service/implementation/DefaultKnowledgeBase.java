@@ -83,6 +83,11 @@ public class DefaultKnowledgeBase implements KnowledgeBase, Interpreter {
     }
     
     @Override
+    public void clear() {
+        System.out.println("Not supported.");
+    }
+    
+    @Override
     public String loadFile(String file) throws IOException {
         return tell(getContents(file));
     }

@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface ExecutionService {
     void initialize(String ontology);
+    void clear();
     List<String> execute(List<Expression> expressions);
     void commit();
 }

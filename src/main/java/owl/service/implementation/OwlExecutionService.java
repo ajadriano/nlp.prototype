@@ -90,30 +90,12 @@ public class OwlExecutionService implements ExecutionService {
     @Override
     public void initialize(String ontologyName) {
         this.ontologyName = ontologyName;
-        owlManager = OWLManager.createOWLOntologyManager();
-        ontologyIRI = IRI.create("http://www.semanticweb.org/ontologies/" + this.ontologyName);
-        
-        try {
-            File f = new File(directory + this.ontologyName + "/ontology.owl");
-            if(f.exists()) { 
-                ontology = owlManager.loadOntologyFromOntologyDocument(f);
-            }
-            else {
-                ontology = owlManager.createOntology(ontologyIRI);
-            }
-                
-            
-        } catch (OWLOntologyCreationException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        OWLReasonerFactory reasonerFactory = new JFactFactory();
-        
-        OWLReasonerConfiguration config = new SimpleConfiguration(50000);        
-        reasoner = reasonerFactory.createReasoner(ontology, config);
-        reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
-        factory = owlManager.getOWLDataFactory();
-        variableExpressionConverter = new DefaultVariableExpressionConverter(factory, ontologyIRI);
+        initializeOntology();
+    }
+    
+    @Override
+    public void clear() {
+        initializeOntology();
     }
     
     @Override
@@ -205,7 +187,32 @@ public class OwlExecutionService implements ExecutionService {
         }
         
         return results;
-    } 
+    }
+    
+    private void initializeOntology() {
+        owlManager = OWLManager.createOWLOntologyManager();
+        ontologyIRI = IRI.create("http://www.semanticweb.org/ontologies/" + this.ontologyName);
+        
+        try {
+            File f = new File(directory + this.ontologyName + "/ontology.owl");
+            if(f.exists()) { 
+                ontology = owlManager.loadOntologyFromOntologyDocument(f);
+            }
+            else {
+                ontology = owlManager.createOntology(ontologyIRI);
+            }
+        } catch (OWLOntologyCreationException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        OWLReasonerFactory reasonerFactory = new JFactFactory();
+        
+        OWLReasonerConfiguration config = new SimpleConfiguration(50000);        
+        reasoner = reasonerFactory.createReasoner(ontology, config);
+        reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
+        factory = owlManager.getOWLDataFactory();
+        variableExpressionConverter = new DefaultVariableExpressionConverter(factory, ontologyIRI);
+    }
     
     private Result<?> execute(FunctionExpression expression, List<OWLAxiom> axiomsCommitted) {
         try { 
@@ -319,7 +326,6 @@ public class OwlExecutionService implements ExecutionService {
     
     private boolean evaluateAxiom(OWLAxiom axiom, List<OWLAxiom> axiomsCommitted) {
         if (axiom != null && !ontology.containsAxiom(axiom)) {
-            System.out.println(axiom.toString());
             owlManager.addAxiom(ontology, axiom);
             axiomsCommitted.add(axiom);
             return true;

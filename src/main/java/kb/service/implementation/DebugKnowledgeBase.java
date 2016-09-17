@@ -28,4 +28,9 @@ public class DebugKnowledgeBase extends DefaultKnowledgeBase {
     @Override
     public void save() {
     }
+    
+    @Override
+    public void clear() {
+        executionService.clear();
+    }
 }
