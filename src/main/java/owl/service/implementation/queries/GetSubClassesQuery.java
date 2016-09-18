@@ -36,23 +36,18 @@ public class GetSubClassesQuery implements OWLQueryExpression {
     
     @Override
     public Class getExpectedClass(int argumentIndex) {
-        if (argumentIndex == 0) {
-            return OWLClass.class;
-        }
-        else if (argumentIndex == 1) {
-            return OWLClassExpression.class;
-        }
-        
-        return null;
+        return OWLClassExpression.class;
     }
     
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {
         Answers answers = new Answers();
         
-        NodeSet<OWLClass> set = reasoner.getSubClasses((OWLClassExpression)args[1], false);
+        NodeSet<OWLClass> set = reasoner.getSubClasses((OWLClassExpression)args[0], false);
         set.entities().forEach(subclass -> {
-            answers.getClasses().add(subclass);
+            if (subclass != factory.getOWLNothing() && subclass != factory.getOWLThing()) {
+               answers.getClasses().add(subclass); 
+            }
         });
         
         return new QueryResult(answers);
@@ -60,6 +55,6 @@ public class GetSubClassesQuery implements OWLQueryExpression {
 
     @Override
     public Integer getArgumentCount() {
-        return 2;
+        return 1;
     }
 }
