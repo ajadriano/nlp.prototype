@@ -20,7 +20,7 @@ SubClassOf(
 </xsl:template>
 
 <!-- x verb y -->
-<xsl:template match="S[count(S)=0][VP/(VB|VBZ|VBP)/@id=@root and NP[NN|NNS] and VP[(VB|VBZ|VBP)[@lemma!='have']] and VP[NP]]">
+<xsl:template match="S[count(S)=0][VP//(VB|VBZ|VBP)/@id=@root and NP[NN|NNS] and VP[(VB|VBZ|VBP)[@lemma!='have']]]">
 SubClassOf(
 	<xsl:apply-templates select="NP"/>
 	<xsl:text> </xsl:text>

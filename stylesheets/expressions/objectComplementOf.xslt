@@ -6,6 +6,9 @@
 <xsl:template match="VP[(VB|VBP|VBZ)[@cop and @lemma='be']][NP[preceding-sibling::RB[@neg]]]">
    ObjectComplementOf(<xsl:apply-templates select="NP"/>)
 </xsl:template>
+<xsl:template match="VP[(VB|VBP|VBZ)[@lemma='do']][VP[preceding-sibling::RB[@neg]]]">
+   ObjectComplementOf(<xsl:apply-templates select="VP"/>)
+</xsl:template>
 <xsl:template match="VP[preceding-sibling::RB[@neg]][(VB|VBP|VBZ)[@cop and @lemma='be']][NP]">
    ObjectComplementOf(<xsl:apply-templates select="NP"/>)
 </xsl:template>
