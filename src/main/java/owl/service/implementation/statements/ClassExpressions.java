@@ -32,7 +32,7 @@ public enum ClassExpressions {
     ObjectOneOf (ObjectOneOfFunction.getInstance()),
     
     ObjectSomeValuesFrom (ObjectSomeValuesFromFunction.getInstance()),
-    ObjectAllValuesFrom (ObjectSomeValuesFromFunction.getInstance()),
+    ObjectAllValuesFrom (ObjectAllValuesFromFunction.getInstance()),
     ObjectHasValue (ObjectHasValueFunction.getInstance()),
     ObjectHasSelf (ObjectHasSelfFunction.getInstance()),
     

@@ -93,8 +93,16 @@
 		<output>SubClassOf(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
 	</test>
         <test>
+		<input>AJ likes any person who likes only dogs.</input>
+		<output>SubClassOf(ObjectIntersectionOf(Class(Person person) ObjectAllValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
+	</test>
+        <test>
 		<input>AJ likes anyone who likes dogs.</input>
 		<output>SubClassOf(ObjectIntersectionOf(Thing() ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
+	</test>
+        <test>
+		<input>AJ likes anyone who only likes dogs.</input>
+		<output>SubClassOf(ObjectIntersectionOf(Thing() ObjectAllValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
 	</test>
         <test>
 		<input>Everybody that has a wand is a wizard.</input>
@@ -103,6 +111,10 @@
         <test>
 		<input>Leia likes to play the piano.</input>
 		<output>SubClassOf(Class(Piano piano) ObjectHasValue(ObjectInverseOf(ObjectProperty(likeToplay likes to play)) NamedIndividual(Leia Leia)))</output>
+	</test>
+        <test>
+		<input>A wizard has a wand.</input>
+		<output>SubClassOf(Class(Wizard wizard) ObjectSomeValuesFrom(ObjectPropertyWithInverse(haveWand wandOf have wand) Thing()))</output>
 	</test>
         <!--<test>
 		<input>Leia Organa is the princess of Alderaan. She likes to play the piano.</input>

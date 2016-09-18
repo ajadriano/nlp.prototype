@@ -35,6 +35,7 @@ import edu.stanford.nlp.ling.CoreAnnotations.EndIndexAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.IndexAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.NamedEntityTagAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.NormalizedNamedEntityTagAnnotation;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.semgraph.SemanticGraphCoreAnnotations;
@@ -185,18 +186,30 @@ public class DefaultLanguageProcessor implements LanguageProcessor {
             
             String text = coreLabel.get(OriginalTextAnnotation.class);
             int index = coreLabel.get(IndexAnnotation.class);
+            
+            WordToken wordToken;
+            
             if (isPunctuation(grammarService, index)) {
-                return new WordToken(index, parentToken, text, coreLabel.get(LemmaAnnotation.class), 
+                wordToken = new WordToken(index, parentToken, text, coreLabel.get(LemmaAnnotation.class), 
                        EnumHelper.toNamedEntityTag(coreLabel.get(NamedEntityTagAnnotation.class)), 
                        new PartOfSpeechInfo(PartOfSpeech.PUNCT),
                        coreLabel.get(CorefClusterIdAnnotation.class));
             }
             else {
                 PartOfSpeechInfo info = EnumHelper.toPartOfSpeech(coreLabel.get(PartOfSpeechAnnotation.class));     
-                return new WordToken(index, parentToken, text, coreLabel.get(LemmaAnnotation.class), 
+                wordToken = new WordToken(index, parentToken, text, coreLabel.get(LemmaAnnotation.class), 
                         EnumHelper.toNamedEntityTag(coreLabel.get(NamedEntityTagAnnotation.class)), info,
                         coreLabel.get(CorefClusterIdAnnotation.class));
             }
+            
+            if (coreLabel.containsKey(NormalizedNamedEntityTagAnnotation.class)) {
+                String normalizedNer = coreLabel.get(NormalizedNamedEntityTagAnnotation.class);
+                if (normalizedNer != null) {
+                    wordToken.setEntityValue(normalizedNer);
+                }
+            }
+            
+            return wordToken;
         }
         return null;
     }

@@ -107,90 +107,44 @@
 
 <xsl:template name="noun_phrase_of_object_property">
    <xsl:param name="NP" />
-   <xsl:choose>
-      <xsl:when test="$NP/*[position()=1 and @det]">
-      ObjectPropertyWithInverse(
-   		<xsl:for-each select="$NP/*[position()>1]/@lemma">
-      		<xsl:call-template name="word_to_iri_lowercase">
-                    <xsl:with-param name="text" select="." />
-                </xsl:call-template>
-   		</xsl:for-each>Of
-   		<xsl:text> </xsl:text>
-                have<xsl:for-each select="$NP/*[position()>1]/@lemma">
-      		<xsl:call-template name="word_to_iri">
-                    <xsl:with-param name="text" select="." />
-                </xsl:call-template>
-   		</xsl:for-each>
-   		<xsl:text> </xsl:text>
-   		<xsl:for-each select="$NP/*[position()>1]">
-      		<xsl:value-of select="."/>
-                    <xsl:text> </xsl:text>
-   		</xsl:for-each> of)
-      </xsl:when>
-      <xsl:otherwise>
-      ObjectPropertyWithInverse(
-   		<xsl:for-each select="$NP/*/@lemma">
-      		<xsl:call-template name="word_to_iri_lowercase">
-                    <xsl:with-param name="text" select="." />
-	   	</xsl:call-template>
-   		</xsl:for-each>Of
-   		<xsl:text> </xsl:text>
-                have<xsl:for-each select="$NP/*/@lemma">
-      		<xsl:call-template name="word_to_iri">
-                    <xsl:with-param name="text" select="." />
-	   	</xsl:call-template>
-   		</xsl:for-each>
-   		<xsl:text> </xsl:text>
-   		<xsl:for-each select="$NP/*">
-      		<xsl:value-of select="."/>
-                    <xsl:text> </xsl:text>
-   		</xsl:for-each> of)
-      </xsl:otherwise>
-   </xsl:choose>
+   ObjectPropertyWithInverse(
+        <xsl:for-each select="$NP/(NN|NNS)/@lemma">
+        <xsl:call-template name="word_to_iri_lowercase">
+            <xsl:with-param name="text" select="." />
+        </xsl:call-template>
+        </xsl:for-each>Of
+        <xsl:text> </xsl:text>
+        have<xsl:for-each select="$NP/(NN|NNS)/@lemma">
+        <xsl:call-template name="word_to_iri">
+            <xsl:with-param name="text" select="." />
+        </xsl:call-template>
+        </xsl:for-each>
+        <xsl:text> </xsl:text>
+        <xsl:for-each select="$NP/(NN|NNS)">
+        <xsl:value-of select="."/>
+            <xsl:text> </xsl:text>
+        </xsl:for-each> of)
 </xsl:template>
 
 <xsl:template name="noun_phrase_have_object_property">
    <xsl:param name="NP" />
-   <xsl:choose>
-      <xsl:when test="$NP/*[position()=1 and @det]">
-      ObjectPropertyWithInverse(
-   		have<xsl:for-each select="$NP/*[position()>1]/@lemma">
-      		<xsl:call-template name="word_to_iri">
-                    <xsl:with-param name="text" select="." />
-                </xsl:call-template>
-   		</xsl:for-each>
-   		<xsl:text> </xsl:text>
-                <xsl:for-each select="$NP/*[position()>1]/@lemma">
-      		<xsl:call-template name="word_to_iri_lowercase">
-                    <xsl:with-param name="text" select="." />
-                </xsl:call-template>
-   		</xsl:for-each>Of
-   		<xsl:text> </xsl:text>
-   		have <xsl:for-each select="$NP/*[position()>1]">
-      		<xsl:value-of select="."/>
-                    <xsl:text> </xsl:text>
-   		</xsl:for-each>)
-      </xsl:when>
-      <xsl:otherwise>
-      ObjectPropertyWithInverse(
-   		have<xsl:for-each select="$NP/*/@lemma">
-      		<xsl:call-template name="word_to_iri">
-                    <xsl:with-param name="text" select="." />
-	   	</xsl:call-template>
-   		</xsl:for-each>
-   		<xsl:text> </xsl:text>
-                <xsl:for-each select="$NP/*/@lemma">
-      		<xsl:call-template name="word_to_iri_lowercase">
-                    <xsl:with-param name="text" select="." />
-	   	</xsl:call-template>
-   		</xsl:for-each>Of
-   		<xsl:text> </xsl:text>
-   		have <xsl:for-each select="$NP/*">
-      		<xsl:value-of select="."/>
-                    <xsl:text> </xsl:text>
-   		</xsl:for-each>)
-      </xsl:otherwise>
-   </xsl:choose>
+   ObjectPropertyWithInverse(
+        have<xsl:for-each select="$NP/(NN|NNS)/@lemma">
+        <xsl:call-template name="word_to_iri">
+            <xsl:with-param name="text" select="." />
+        </xsl:call-template>
+        </xsl:for-each>
+        <xsl:text> </xsl:text>
+        <xsl:for-each select="$NP/(NN|NNS)/@lemma">
+        <xsl:call-template name="word_to_iri_lowercase">
+            <xsl:with-param name="text" select="." />
+        </xsl:call-template>
+        </xsl:for-each>Of
+        <xsl:text> </xsl:text>
+        have <xsl:for-each select="$NP/(NN|NNS)">
+        <xsl:value-of select="."/>
+            <xsl:text> </xsl:text>
+        </xsl:for-each>)
 </xsl:template>
 
 

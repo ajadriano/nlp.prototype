@@ -40,4 +40,12 @@
 		<input>A slave is a person who is not wealthy.</input>
 		<output>EquivalentClasses(Class(Slave slave) ObjectIntersectionOf(Class(Person person) DataHasBoolValue(DataProperty(isWealthy XSD_BOOLEAN is wealthy) false)))</output>
 	</test>
+        <test>
+		<input>A wizard is a person who has at most four wands.</input>
+		<output>EquivalentClasses(Class(Wizard wizard) ObjectIntersectionOf(Class(Person person) ObjectMaxCardinality(&lt;4.0 ObjectPropertyWithInverse(haveWand wandOf have wands))))</output>
+	</test>
+        <test>
+		<input>A wizard is a person who has at least ten wands.</input>
+		<output>EquivalentClasses(Class(Wizard wizard) ObjectIntersectionOf(Class(Person person) ObjectMinCardinality(&gt;=10.0 ObjectPropertyWithInverse(haveWand wandOf have wands))))</output>
+	</test>
 </tests>

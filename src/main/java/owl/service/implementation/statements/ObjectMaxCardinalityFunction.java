@@ -34,7 +34,7 @@ public class ObjectMaxCardinalityFunction implements OWLExpression {
     public Class getExpectedClass(int argumentIndex) {
         switch (argumentIndex) {
             case 0:
-                return Integer.class;
+                return String.class;
             case 1:
                 return OWLObjectPropertyExpression.class;
             case 2:
@@ -49,13 +49,33 @@ public class ObjectMaxCardinalityFunction implements OWLExpression {
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {   
         if (args.length == 2) {
-            return new ClassExpressionResult(factory.getOWLObjectMaxCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1]));
+            return new ClassExpressionResult(factory.getOWLObjectMaxCardinality(getInteger((String)args[0]), (OWLObjectPropertyExpression)args[1]));
         }
         else if (args.length == 3) {
-            return new ClassExpressionResult(factory.getOWLObjectMaxCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1], (OWLClassExpression)args[2]));
+            return new ClassExpressionResult(factory.getOWLObjectMaxCardinality(getInteger((String)args[0]), (OWLObjectPropertyExpression)args[1], (OWLClassExpression)args[2]));
         }        
            
         return null;
+    }
+    
+    private Integer getInteger(String value) {        
+        if (value.startsWith("<=") ||
+            value.startsWith(">=") ||
+            value.startsWith("==") ||
+            value.startsWith("<>") ||
+            value.startsWith("!=")) {
+            Double doubleValue = Double.parseDouble(value.substring(2));
+            return doubleValue.intValue();
+        }
+        if (value.startsWith("=") ||
+            value.startsWith("<") ||
+            value.startsWith(">")) {
+            Double doubleValue = Double.parseDouble(value.substring(1));
+            return doubleValue.intValue();
+        }
+        
+        Double doubleValue = Double.parseDouble(value);
+        return doubleValue.intValue();
     }
 
     @Override

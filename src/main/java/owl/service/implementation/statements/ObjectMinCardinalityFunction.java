@@ -34,7 +34,7 @@ public class ObjectMinCardinalityFunction implements OWLExpression {
     public Class getExpectedClass(int argumentIndex) {
         switch (argumentIndex) {
             case 0:
-                return Integer.class;
+                return String.class;
             case 1:
                 return OWLObjectPropertyExpression.class;
             case 2:
@@ -49,10 +49,10 @@ public class ObjectMinCardinalityFunction implements OWLExpression {
     @Override
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {   
         if (args.length == 2) {
-            return new ClassExpressionResult(factory.getOWLObjectMinCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1]));
+            return new ClassExpressionResult(factory.getOWLObjectMinCardinality(getInteger((String)args[0]), (OWLObjectPropertyExpression)args[1]));
         }
         else if (args.length == 3) {
-            return new ClassExpressionResult(factory.getOWLObjectMinCardinality((Integer)args[0], (OWLObjectPropertyExpression)args[1], (OWLClassExpression)args[2]));
+            return new ClassExpressionResult(factory.getOWLObjectMinCardinality(getInteger((String)args[0]), (OWLObjectPropertyExpression)args[1], (OWLClassExpression)args[2]));
         }        
            
         return null;
@@ -61,5 +61,25 @@ public class ObjectMinCardinalityFunction implements OWLExpression {
     @Override
     public Integer getArgumentCount() {
         return 2;
-    }   
+    }
+    
+    private Integer getInteger(String value) {        
+        if (value.startsWith("<=") ||
+            value.startsWith(">=") ||
+            value.startsWith("==") ||
+            value.startsWith("<>") ||
+            value.startsWith("!=")) {
+            Double doubleValue = Double.parseDouble(value.substring(2));
+            return doubleValue.intValue();
+        }
+        if (value.startsWith("=") ||
+            value.startsWith("<") ||
+            value.startsWith(">")) {
+            Double doubleValue = Double.parseDouble(value.substring(1));
+            return doubleValue.intValue();
+        }
+        
+        Double doubleValue = Double.parseDouble(value);
+        return doubleValue.intValue();
+    }
 }

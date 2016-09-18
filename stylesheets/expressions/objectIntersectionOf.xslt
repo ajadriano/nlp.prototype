@@ -3,7 +3,7 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="NP[NP][SBAR[WHNP[*[@nsubj]]][S[count(*)=1][VP]]]">
+<xsl:template match="NP[NP][SBAR[WHNP[*[@nsubj]]][S[VP]]]">
 ObjectIntersectionOf(
 	<xsl:apply-templates select="NP"/>
 	<xsl:text> </xsl:text>

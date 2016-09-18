@@ -3,16 +3,16 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="VP[(VB|VBZ)[@lemma='have']][NP]">
+<xsl:template match="VP[(VB|VBZ)[@lemma='have']][NP[count(QP)=0 and count(CD)=0]]">
 ObjectSomeValuesFrom(
         <xsl:call-template name="noun_phrase_have_object_property">
-		<xsl:with-param name="NP" select="NP" />
+            <xsl:with-param name="NP" select="NP" />
 	</xsl:call-template>
    	<xsl:text> </xsl:text>
    	Thing())
 </xsl:template>
 
-<xsl:template match="VP[(VB|VBZ)[@lemma!='be' and @lemma!='have']][NP]">
+<xsl:template match="VP[count(preceding-sibling::ADVP[RB])=0 and (VB|VBZ)[@lemma!='be' and @lemma!='have']][NP[count(RB[@lemma='only'])=0]]">
 ObjectSomeValuesFrom(
     <xsl:call-template name="verb_to_object_property">
             <xsl:with-param name="verb" select="(VB|VBZ)" />

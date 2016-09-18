@@ -13,6 +13,7 @@ public enum NamedEntityTag {
     PERSON,
     ORGANIZATION,
     LOCATION,
+    NUMBER,
     UNKNOWN,
     O
 }

@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  *
@@ -25,6 +24,7 @@ public class WordToken extends Token {
     private final Integer coreference;
     
     private boolean grammarRoot;
+    private String numericalValue;
     
     public WordToken(int index, Token parentToken, String text, String lemma, 
             NamedEntityTag namedEntityTag,
@@ -129,6 +129,10 @@ public class WordToken extends Token {
             element.setAttribute("entity", namedEntityTag.toString());
         }
         
+        if (numericalValue != null) {           
+            element.setAttribute("number", numericalValue);
+        }
+        
         if (coreference != null) {
             element.setAttribute("coref", coreference.toString());
         }
@@ -145,5 +149,19 @@ public class WordToken extends Token {
      */
     public Integer getCoreference() {        
         return coreference;
+    }
+
+    /**
+     * @return the entityValue
+     */
+    public String getEntityValue() {
+        return numericalValue;
+    }
+
+    /**
+     * @param entityValue the entityValue to set
+     */
+    public void setEntityValue(String entityValue) {
+        this.numericalValue = entityValue;
     }
 }

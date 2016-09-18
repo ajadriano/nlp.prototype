@@ -3,7 +3,7 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="S[count(S)=0][VP/(VBP|VBZ)/@id=@root and NP[NN|NNS] and VP[(VBP|VBZ)[@lemma!='have']] and VP[NP]]">
+<xsl:template match="S[count(S)=0][VP/(VBP|VBZ)/@id=@root and NP[NN|NNS] and VP[(VBP|VBZ)[@lemma!='have']] and VP[NP[NN|NNS]]]">
 ObjectPropertyDomain(
 	<xsl:call-template name="verb_to_object_property">
 		<xsl:with-param name="verb" select="VP/(VBP|VBZ)" />
