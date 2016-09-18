@@ -42,8 +42,20 @@ public class AdminShell {
     public String createKnowledgeBase(String name) {
         try {
             knowledgeBaseManager.create(name);
-            return "Domain created.";
+            return "Knowledge base " + name + " created";
         } catch (KnowledgeBaseException ex) {
+            return ex.getMessage();
+        }
+    }
+    
+    public String importKnowledgeBase(String name, String file) {
+        try {
+            KnowledgeBase kb = knowledgeBaseManager.get(name);
+            kb.initialize();
+            kb.loadFile(file);
+            kb.save();
+            return "Successfully imported";
+        } catch (IOException | KnowledgeBaseException ex) {
             return ex.getMessage();
         }
     }
@@ -169,19 +181,6 @@ public class AdminShell {
             if (input.trim().endsWith(".") || input.trim().endsWith("?")) {
                 System.out.println(kb.tell(input));
             }     
-            else if (input.startsWith("load")) {
-                String[] commandArr = input.split("\\s+");
-                if (commandArr.length  == 2) {
-                    try {
-                        System.out.println(kb.loadFile(commandArr[1]));
-                    } catch (IOException ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-                else {
-                    System.out.println("Invalid operation.");
-                }
-            }
             else if (isDebug && input.startsWith("test")) {
                 String[] commandArr = input.split("\\s+");
                 if (commandArr.length  == 2) {
@@ -209,7 +208,7 @@ public class AdminShell {
     
     public String execute(String[] args) {
         if (args.length > 0) {
-            switch (args[0]) {
+            switch (args[0]) {         
                 case "create" : 
                     if (args.length == 2) {
                         return createKnowledgeBase(args[1]); 
@@ -220,6 +219,10 @@ public class AdminShell {
                     }
                     else if (args.length == 3) {
                         return loadKnowledgeBase(knowledgeBaseManager.get(args[1], args[2]), false);
+                    }
+                case "import" : 
+                    if (args.length == 3) {
+                        return importKnowledgeBase(args[1], args[2]);
                     }
                 case "debug" : 
                     if (args.length == 2) {

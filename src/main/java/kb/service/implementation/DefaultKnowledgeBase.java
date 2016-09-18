@@ -57,12 +57,14 @@ public class DefaultKnowledgeBase implements KnowledgeBase, Interpreter {
         StringBuilder sb = new StringBuilder();
         List<String> expressions = interpretByLine(message); 
         
-        expressions.stream().forEach((expression) -> {
-            sb.append(expression);
-            sb.append("\n");
-         }); 
+        for (int i = 0; i < expressions.size(); i++) {
+            sb.append(expressions.get(i));
+            if (i < expressions.size() - 1) {
+               sb.append(", "); 
+            } 
+        }
         
-        return sb.toString().trim();
+        return sb.toString();
     }
     
     @Override
