@@ -5,6 +5,7 @@
  */
 package owl.service.implementation.queries;
 
+import org.semanticweb.owlapi.model.OWLClass;
 import owl.model.OWLQueryExpression;
 import owl.model.Result;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -41,9 +42,16 @@ public class GetInstancesQuery implements OWLQueryExpression {
     public Result<?> execute(OWLDataFactory factory, OWLReasoner reasoner, Object... args) {  
         Answers answers = new Answers();
         
-        NodeSet<OWLNamedIndividual> set = reasoner.getInstances((OWLClassExpression)args[0], false);
-        set.entities().forEach(namedIndividual -> {
+        NodeSet<OWLNamedIndividual> individualSet = reasoner.getInstances((OWLClassExpression)args[0], false);
+        individualSet.entities().forEach(namedIndividual -> {
             answers.getIndividuals().add(namedIndividual);
+        });
+        
+        NodeSet<OWLClass> subClassSet = reasoner.getSubClasses((OWLClassExpression)args[0], false);
+        subClassSet.entities().forEach(subclass -> {
+            if (subclass != factory.getOWLNothing() && subclass != factory.getOWLThing()) {
+               answers.getClasses().add(subclass); 
+            }
         });
         
         return new QueryResult(answers);

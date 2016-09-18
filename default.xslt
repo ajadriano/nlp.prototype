@@ -26,7 +26,6 @@
 <xsl:include href="stylesheets/axioms/classAssertion.xslt"/>
 <xsl:include href="stylesheets/axioms/objectPropertyAssertion.xslt"/>
 <xsl:include href="stylesheets/axioms/dataPropertyAssertion.xslt"/>
-<xsl:include href="stylesheets/axioms/objectPropertyDomainAndRange.xslt"/>
 <xsl:include href="stylesheets/axioms/subClassOf.xslt"/>
 <xsl:include href="stylesheets/axioms/disjointClasses.xslt"/>
 <!-- queries -->
@@ -34,6 +33,7 @@
 <xsl:include href="stylesheets/queries/isInstanceOf.xslt"/>
 <xsl:include href="stylesheets/queries/getObjectPropertyValues.xslt"/>
 <xsl:include href="stylesheets/queries/getInstances.xslt"/>
+<xsl:include href="stylesheets/queries/getSubClasses.xslt"/>
 <!-- phrases -->
 <xsl:include href="stylesheets/expressions/objectHasValue.xslt"/>
 <xsl:include href="stylesheets/expressions/objectIntersectionOf.xslt"/>

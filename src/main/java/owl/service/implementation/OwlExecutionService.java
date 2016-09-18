@@ -165,7 +165,7 @@ public class OwlExecutionService implements ExecutionService {
                         }
                         
                         if (queryResult.getResult().getIndividuals().isEmpty() &&
-                            queryResult.getResult().getIndividuals().isEmpty()) {
+                            queryResult.getResult().getClasses().isEmpty()) {
                             results.add("None");
                         }
                     }

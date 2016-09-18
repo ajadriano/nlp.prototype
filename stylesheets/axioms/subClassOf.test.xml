@@ -140,6 +140,22 @@
 		<input>Cows are animals that eat only grass.</input>
 		<output>SubClassOf(Class(Cow Cows) ObjectIntersectionOf(Class(Animal animals) ObjectAllValuesFrom(ObjectProperty(eat eat) Class(Grass grass))))</output>
 	</test>
+        <test>
+		<input>Poets write poems.</input>
+		<output>SubClassOf(Class(Poet Poets) ObjectSomeValuesFrom(ObjectProperty(write write) Class(Poem poems)))</output>
+	</test>
+        <test>
+		<input>Cows eat grass.</input>
+		<output>SubClassOf(Class(Cow Cows) ObjectSomeValuesFrom(ObjectProperty(eat eat) Class(Grass grass)))</output>
+	</test>
+        <test>
+		<input>A cow eats only grass.</input>
+		<output>SubClassOf(Class(Cow cow) ObjectAllValuesFrom(ObjectProperty(eat eats) Class(Grass grass)))</output>
+	</test>
+        <test>
+		<input>A cow only eats grass.</input>
+		<output>SubClassOf(Class(Cow cow) ObjectAllValuesFrom(ObjectProperty(eat eats) Class(Grass grass)))</output>
+	</test>
         <!--<test>
 		<input>Leia Organa is the princess of Alderaan. She likes to play the piano.</input>
 		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(princessOf havePrincess princess of) NamedIndividual(LeiaOrgana Leia Organa) NamedIndividual(Alderaan Alderaan))</output>

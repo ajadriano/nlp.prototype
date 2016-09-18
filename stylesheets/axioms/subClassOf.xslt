@@ -19,6 +19,14 @@ SubClassOf(
 	<xsl:apply-templates select="VP"/>)
 </xsl:template>
 
+<!-- x verb y -->
+<xsl:template match="S[count(S)=0][VP/(VB|VBZ|VBP)/@id=@root and NP[NN|NNS] and VP[(VB|VBZ|VBP)[@lemma!='have']] and VP[NP]]">
+SubClassOf(
+	<xsl:apply-templates select="NP"/>
+	<xsl:text> </xsl:text>
+	<xsl:apply-templates select="VP"/>)
+</xsl:template>
+
 <xsl:template match="S[count(S)=0][NP[count(NP)=0 and count(CC)>0 and count(NNS)>0] and VP[VBP[position()=1 and @cop]][NP]]">
 <xsl:for-each select="NP/NNS">
 SubClassOf(

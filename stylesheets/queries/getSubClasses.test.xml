@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+	<test>
+		<input>What type of animal eats plants?</input>
+		<output>GetSubClasses(ObjectIntersectionOf(Class(Animal animal) ObjectSomeValuesFrom(ObjectProperty(eat eats) Class(Plant plants))))</output>
+	</test>
+        <test>
+		<input>What kind of plant eats animals?</input>
+		<output>GetSubClasses(ObjectIntersectionOf(Class(Plant plant) ObjectSomeValuesFrom(ObjectProperty(eat eats) Class(Animal animals))))</output>
+	</test>  
+</tests>
