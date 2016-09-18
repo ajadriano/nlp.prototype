@@ -67,7 +67,9 @@ SubClassOf(
             <xsl:with-param name="xcomp" select="VP/S/VP/VP/VB" />
 	</xsl:call-template>) 
         <xsl:text> </xsl:text>
-        <xsl:apply-templates select="*[.//@nsubj]"/>))
+        <xsl:call-template name="noun_phrase_to_individual">
+            <xsl:with-param name="NP" select="*[.//@nsubj]" />
+        </xsl:call-template>))
 </xsl:template>
 
 </xsl:stylesheet>

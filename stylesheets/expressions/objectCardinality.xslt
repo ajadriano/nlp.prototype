@@ -30,4 +30,13 @@ ObjectExactCardinality(
 	</xsl:call-template>)
 </xsl:template>
 
+<xsl:template match="VP[(VBP|VBZ)[@lemma='have'] and NP[CD/@nummod=(NN|NNS)/@id and count(RB)=0]]">
+ObjectExactCardinality(
+        <xsl:value-of select="NP/CD/@number"/>
+        <xsl:text> </xsl:text>
+	<xsl:call-template name="noun_phrase_have_object_property">
+            <xsl:with-param name="NP" select="NP" />
+	</xsl:call-template>)
+</xsl:template>
+
 </xsl:stylesheet>

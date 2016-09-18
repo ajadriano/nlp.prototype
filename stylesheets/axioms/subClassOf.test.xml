@@ -116,6 +116,10 @@
 		<input>A wizard has a wand.</input>
 		<output>SubClassOf(Class(Wizard wizard) ObjectSomeValuesFrom(ObjectPropertyWithInverse(haveWand wandOf have wand) Thing()))</output>
 	</test>
+        <test>
+		<input>A wizard has three wands.</input>
+		<output>SubClassOf(Class(Wizard wizard) ObjectExactCardinality(3.0 ObjectPropertyWithInverse(haveWand wandOf have wands)))</output>
+	</test>
         <!--<test>
 		<input>Leia Organa is the princess of Alderaan. She likes to play the piano.</input>
 		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(princessOf havePrincess princess of) NamedIndividual(LeiaOrgana Leia Organa) NamedIndividual(Alderaan Alderaan))</output>
