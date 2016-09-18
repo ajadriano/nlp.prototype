@@ -120,6 +120,26 @@
 		<input>A wizard has three wands.</input>
 		<output>SubClassOf(Class(Wizard wizard) ObjectExactCardinality(3.0 ObjectPropertyWithInverse(haveWand wandOf have wands)))</output>
 	</test>
+        <test>
+		<input>A wizard has exactly three wands.</input>
+		<output>SubClassOf(Class(Wizard wizard) ObjectExactCardinality(3.0 ObjectPropertyWithInverse(haveWand wandOf have wands)))</output>
+	</test>
+        <test>
+		<input>A wizard has at least three wands.</input>
+		<output>SubClassOf(Class(Wizard wizard) ObjectMinCardinality(&gt;=3.0 ObjectPropertyWithInverse(haveWand wandOf have wands)))</output>
+	</test>
+        <test>
+		<input>A wizard has at most four wands.</input>
+		<output>SubClassOf(Class(Wizard wizard) ObjectMaxCardinality(&lt;4.0 ObjectPropertyWithInverse(haveWand wandOf have wands)))</output>
+	</test>
+        <test>
+		<input>Cows are animals that eat grass.</input>
+		<output>SubClassOf(Class(Cow Cows) ObjectIntersectionOf(Class(Animal animals) ObjectSomeValuesFrom(ObjectProperty(eat eat) Class(Grass grass))))</output>
+	</test>
+        <test>
+		<input>Cows are animals that eat only grass.</input>
+		<output>SubClassOf(Class(Cow Cows) ObjectIntersectionOf(Class(Animal animals) ObjectAllValuesFrom(ObjectProperty(eat eat) Class(Grass grass))))</output>
+	</test>
         <!--<test>
 		<input>Leia Organa is the princess of Alderaan. She likes to play the piano.</input>
 		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(princessOf havePrincess princess of) NamedIndividual(LeiaOrgana Leia Organa) NamedIndividual(Alderaan Alderaan))</output>

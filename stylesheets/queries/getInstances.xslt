@@ -4,7 +4,7 @@
 <xsl:strip-space elements="*"/>
 
 
-<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[*[@nsubj]] and SQ[VP/NP[NNP|NNPS]]]">
+<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[(WP|WDT)[@nsubj]] and SQ[VP[NP[NNP|NNPS|PRP]]]]">
 GetInstances(ObjectHasValue( 
         <xsl:call-template name="verb_to_object_property_no_annotation">
 		<xsl:with-param name="verb" select="SQ/VP/VBZ" />
@@ -16,11 +16,23 @@ GetInstances(ObjectHasValue(
 </xsl:template>
 
 
-<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[*[@nsubj]] and SQ[VP[VBZ[@lemma='do']][S]]]">
+<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[(WP|WDT)[@nsubj]] and SQ[VP[NP[NN|NNS]]]]">
+GetInstances(
+    <xsl:apply-templates select="SQ/VP"/>)
+</xsl:template>
+
+<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[(NN|NNS|NP)[.//@nsubj]] and SQ[VP[VBZ[@lemma='do']][S]]]">
 GetInstances(ObjectIntersectionOf(
-	<xsl:apply-templates select="WHNP/*[@nsubj]"/>
+	<xsl:apply-templates select="WHNP"/>
         <xsl:text> </xsl:text>
         <xsl:apply-templates select="SQ/VP/S"/>))
+</xsl:template>
+
+<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[(NN|NNS|NP)[.//@nsubj]] and SQ[VP[VBZ[@lemma!='do']]]]">
+GetInstances(ObjectIntersectionOf(
+	<xsl:apply-templates select="WHNP"/>
+        <xsl:text> </xsl:text>
+        <xsl:apply-templates select="SQ/VP"/>))
 </xsl:template>
 
 <xsl:template match="/ROOT/SBARQ[WHNP/*/@id=@root and SQ[(VBZ|VBP)[@cop] and NP]]">

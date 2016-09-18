@@ -3,6 +3,14 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
+<!--x are y that..-->
+<xsl:template match="S[count(S)=0][NP[count(DT)=0 and NNS[@nsubj]] and VP[(VBZ|VBP)[@cop and @lemma='be'] and NP[NP][SBAR] and count(*)=2]]">
+SubClassOf(
+	<xsl:apply-templates select="NP"/>
+	<xsl:text> </xsl:text>
+	<xsl:apply-templates select="VP/NP"/>)
+</xsl:template>
+
 <!-- each x can be a y -->
 <xsl:template match="S[count(S)=0][NP[*[@det and position()=1]][*[@nsubj]] and VP[MD[@aux] and VP[(VB|VBP)[position()=1 and @cop]][NP[count(SBAR)=0]]]]">
 SubClassOf(
@@ -36,14 +44,14 @@ SubClassOf(
 	<xsl:apply-templates select="VP"/>)
 </xsl:template>
 
-<xsl:template match="S[count(S)=0][NP[name(*[1])='DT' and (NNP|NNPS)[@nsubj]] and VP[(VBP|VBZ)[position()=1 and @cop]][NP[count(SBAR)=0]]]">
+<xsl:template match="S[count(S)=0][NP[name(*[1])='DT' and (NNP|NNPS|PRP)[@nsubj]] and VP[(VBP|VBZ)[position()=1 and @cop]][NP[count(SBAR)=0]]]">
 SubClassOf(
 	<xsl:apply-templates select="NP"/>
 	<xsl:text> </xsl:text>
 	<xsl:apply-templates select="VP"/>)
 </xsl:template>
 
-<xsl:template match="S[count(S)=0][VP/VBZ/@id=@root and NP[NNP|NNPS] and VP[count(*[@lemma='have'])=0 and NP[count(NNP|NNPS)=0]]]">
+<xsl:template match="S[count(S)=0][VP/VBZ/@id=@root and NP[NNP|NNPS|PRP] and VP[count(*[@lemma='have'])=0 and NP[count(NNP|NNPS|PRP)=0]]]">
 SubClassOf(
 	<xsl:apply-templates select="VP/NP"/>
 	<xsl:text> </xsl:text>
@@ -57,7 +65,7 @@ SubClassOf(
         </xsl:call-template>))
 </xsl:template>
 
-<xsl:template match="S[count(S)=0][VP/(VB|VBZ)/@id=@root and VP/(VB|VBZ)/@id=VP/S/VP/VP/VB/@xcomp and *[.//@nsubj] and VP[S/VP[TO and VP/NP[count(*[@entity])=0]]]]">
+<xsl:template match="S[count(S)=0][VP/(VB|VBZ)/@id=@root and VP/(VB|VBZ)/@id=VP/S/VP/VP/VB/@xcomp and NP[NNP|NNPS|PRP] and VP[S/VP[TO and VP/NP[count(*[@entity])=0]]]]">
 SubClassOf(
 	<xsl:apply-templates select="VP/S/VP/VP/NP"/>
 	<xsl:text> </xsl:text>
@@ -68,7 +76,7 @@ SubClassOf(
 	</xsl:call-template>) 
         <xsl:text> </xsl:text>
         <xsl:call-template name="noun_phrase_to_individual">
-            <xsl:with-param name="NP" select="*[.//@nsubj]" />
+            <xsl:with-param name="NP" select="NP" />
         </xsl:call-template>))
 </xsl:template>
 

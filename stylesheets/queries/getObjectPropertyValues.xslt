@@ -4,7 +4,7 @@
 <xsl:strip-space elements="*"/>
 
 
-<xsl:template match="/ROOT/SBARQ[SQ/VP/(VB|VBZ)/@id=@root and WHNP and SQ[NP[NNP|NNPS]]]">
+<xsl:template match="/ROOT/SBARQ[SQ/VP/(VB|VBZ)/@id=@root and WHNP and SQ[NP[NNP|NNPS|PRP]]]">
 GetObjectPropertyValues(
 	<xsl:call-template name="noun_phrase_to_individual_no_annotation">
 		<xsl:with-param name="NP" select="SQ/NP" />

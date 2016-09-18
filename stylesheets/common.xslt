@@ -75,34 +75,17 @@
 
 <xsl:template name="noun_phrase_to_class">
    <xsl:param name="NP" />
-   <xsl:choose>
-      <xsl:when test="$NP/*[position()=1 and @det]">
-      Class(
-   		<xsl:for-each select="$NP/*[position()>1]/@lemma">
-      		<xsl:call-template name="word_to_iri">
-                    <xsl:with-param name="text" select="." />
-	   	</xsl:call-template>
-   		</xsl:for-each>
-   		<xsl:text> </xsl:text>
-   		<xsl:for-each select="$NP/*[position()>1]">
-      		<xsl:value-of select="."/>
-	   		<xsl:text> </xsl:text>
-   		</xsl:for-each>)
-      </xsl:when>
-      <xsl:otherwise>
-      Class(
-   		<xsl:for-each select="$NP/*/@lemma">
-      		<xsl:call-template name="word_to_iri">
-                    <xsl:with-param name="text" select="." />
-	   	</xsl:call-template>
-   		</xsl:for-each>
-   		<xsl:text> </xsl:text>
-   		<xsl:for-each select="$NP/*">
-      		<xsl:value-of select="."/>
-	   		<xsl:text> </xsl:text>
-   		</xsl:for-each>)
-      </xsl:otherwise>
-   </xsl:choose>
+   Class(
+        <xsl:for-each select="$NP/(NN|NNS|NNP|NNPS|JJ)/@lemma">
+        <xsl:call-template name="word_to_iri">
+            <xsl:with-param name="text" select="." />
+        </xsl:call-template>
+        </xsl:for-each>
+        <xsl:text> </xsl:text>
+        <xsl:for-each select="$NP/(NN|NNS|NNP|NNPS|JJ)">
+        <xsl:value-of select="."/>
+                <xsl:text> </xsl:text>
+        </xsl:for-each>)
 </xsl:template>
 
 <xsl:template name="noun_phrase_of_object_property">
@@ -174,28 +157,23 @@
 <xsl:template name="noun_phrase_to_individual">
    <xsl:param name="NP" />
    <xsl:choose>
-      <xsl:when test="$NP/*[position()=1 and @det]">
-      NamedIndividual(
-   		<xsl:for-each select="$NP/*[position()>1]">
-                    <xsl:value-of select="."/>
-   		</xsl:for-each>
-   		<xsl:text> </xsl:text>
-   		<xsl:for-each select="$NP/*[position()>1]">
-                    <xsl:value-of select="."/>
-                    <xsl:text> </xsl:text>
-   		</xsl:for-each>)
-      </xsl:when>
-      <xsl:otherwise>
-      NamedIndividual(
-   		<xsl:for-each select="$NP/*">
-                    <xsl:value-of select="."/>
-   		</xsl:for-each>
-   		<xsl:text> </xsl:text>
-   		<xsl:for-each select="$NP/*">
-                    <xsl:value-of select="."/>
-                    <xsl:text> </xsl:text>
-   		</xsl:for-each>)
-      </xsl:otherwise>
+       <xsl:when test="$NP[PRP]">
+           NamedIndividual(		
+            <xsl:value-of select="translate(//COREF[@id=$NP/PRP/@coref],' ','')"/>
+            <xsl:text> </xsl:text>
+            <xsl:value-of select="//COREF[@id=$NP/PRP/@coref]"/>)
+       </xsl:when>
+       <xsl:otherwise>
+           NamedIndividual(
+            <xsl:for-each select="$NP/(NNP|NNPS)">
+                <xsl:value-of select="."/>       
+            </xsl:for-each>
+            <xsl:text> </xsl:text>
+            <xsl:for-each select="$NP/(NNP|NNPS)">
+                <xsl:value-of select="."/>
+                <xsl:text> </xsl:text>
+            </xsl:for-each>)
+       </xsl:otherwise>
    </xsl:choose>
 </xsl:template>
 

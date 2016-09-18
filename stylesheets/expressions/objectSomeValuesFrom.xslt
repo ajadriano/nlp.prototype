@@ -12,10 +12,10 @@ ObjectSomeValuesFrom(
    	Thing())
 </xsl:template>
 
-<xsl:template match="VP[count(preceding-sibling::ADVP[RB])=0 and (VB|VBZ)[@lemma!='be' and @lemma!='have']][NP[count(RB[@lemma='only'])=0]]">
+<xsl:template match="VP[count(preceding-sibling::ADVP[RB])=0 and (VB|VBZ|VBP)[@lemma!='be' and @lemma!='have']][NP[count(RB[@lemma='only'])=0]]">
 ObjectSomeValuesFrom(
     <xsl:call-template name="verb_to_object_property">
-            <xsl:with-param name="verb" select="(VB|VBZ)" />
+            <xsl:with-param name="verb" select="(VB|VBZ|VBP)" />
     </xsl:call-template>
     <xsl:text> </xsl:text>
     <xsl:apply-templates select="NP"/>)

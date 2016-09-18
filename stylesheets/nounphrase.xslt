@@ -3,13 +3,19 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="NP[count(SBAR)=0 and count(NP)=0 and count(JJ)=1 and count(NN|NNS|NNP|NNPS)=0 and count(CC)=0]">
+<xsl:template match="NP[count(*)=2 and count(DT)=1 and count(JJ)=1]">
    <xsl:call-template name="noun_phrase_to_class">
         <xsl:with-param name="NP" select="." />
+   </xsl:call-template>
+</xsl:template>
+
+<xsl:template match="NP[count(SBAR)=0 and count(NP)=0 and count(JJ)=0 and count(NN[@lemma!='everybody' and @lemma!='anyone']|NNS|NNP|NNPS)>0 and count(CC)=0]">
+   <xsl:call-template name="noun_phrase_to_class">
+	<xsl:with-param name="NP" select="." />
     </xsl:call-template>
 </xsl:template>
 
-<xsl:template match="NP[count(SBAR)=0 and count(NP)=0 and count(JJ)=0 and count(NN|NNS|NNP|NNPS)>1 and count(CC)=0]">
+<xsl:template match="WHNP[count(NN|NNS|NNP|NNPS)>0]">
    <xsl:call-template name="noun_phrase_to_class">
 	<xsl:with-param name="NP" select="." />
     </xsl:call-template>

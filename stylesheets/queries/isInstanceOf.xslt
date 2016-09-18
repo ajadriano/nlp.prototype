@@ -3,7 +3,7 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NP[position()=1 and count(NNP|NNPS)>0]][NP[.//DT and position()=2]]">
+<xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NP[position()=1 and count(NNP|NNPS|PRP)>0]][NP[.//DT and position()=2]]">
 IsInstanceOf(
 	<xsl:call-template name="noun_phrase_to_individual">
 		<xsl:with-param name="NP" select="NP[position()=1]" />
@@ -12,7 +12,7 @@ IsInstanceOf(
 	<xsl:apply-templates select="NP[position()=2]"/>)
 </xsl:template>
 
-<xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NP[position()=1 and count(NNP|NNPS)>0]][ADJP]">
+<xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NP[position()=1 and count(NNP|NNPS|PRP)>0]][ADJP]">
 IsInstanceOf(
 	<xsl:call-template name="noun_phrase_to_individual">
 		<xsl:with-param name="NP" select="NP[position()=1]" />
@@ -21,10 +21,10 @@ IsInstanceOf(
 	<xsl:apply-templates select="ADJP"/>)
 </xsl:template>
 
-<xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NNP|NNPS][NP[.//DT]]">
+<xsl:template match="/ROOT/SQ[VBZ[@lemma='be']][NNP|NNPS|PRP][NP[.//DT]]">
 IsInstanceOf(
 	<xsl:call-template name="noun_to_individual">
-		<xsl:with-param name="noun" select="NNP|NNPS" />
+		<xsl:with-param name="noun" select="NNP|NNPS|PRP" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:apply-templates select="NP"/>)
