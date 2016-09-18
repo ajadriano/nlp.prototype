@@ -3,7 +3,7 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="VP[(VB|VBZ)[@lemma='have']][NP[count(QP)=0 and count(CD)=0]]">
+<xsl:template match="VP[(VB|VBZ|VBP)[@lemma='have']][NP[count(QP)=0 and count(CD)=0]]">
 ObjectSomeValuesFrom(
         <xsl:call-template name="noun_phrase_have_object_property">
             <xsl:with-param name="NP" select="NP" />

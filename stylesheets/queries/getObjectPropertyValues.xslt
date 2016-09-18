@@ -4,14 +4,14 @@
 <xsl:strip-space elements="*"/>
 
 
-<xsl:template match="/ROOT/SBARQ[SQ/VP/(VB|VBZ)/@id=@root and WHNP and SQ[NP[NNP|NNPS|PRP]]]">
+<xsl:template match="/ROOT/SBARQ[SQ/VP/(VB|VBZ|VBP)/@id=@root and WHNP and SQ[NP[NNP|NNPS|PRP]]]">
 GetObjectPropertyValues(
 	<xsl:call-template name="noun_phrase_to_individual_no_annotation">
 		<xsl:with-param name="NP" select="SQ/NP" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:call-template name="verb_to_object_property_no_annotation">
-		<xsl:with-param name="verb" select="SQ/VP/(VB|VBZ)" />
+		<xsl:with-param name="verb" select="SQ/VP/(VB|VBZ|VBP)" />
 	</xsl:call-template>)
 </xsl:template>
 

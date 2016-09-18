@@ -4,10 +4,10 @@
 <xsl:strip-space elements="*"/>
 
 
-<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[(WP|WDT)[@nsubj]] and SQ[VP[NP[NNP|NNPS|PRP]]]]">
+<xsl:template match="/ROOT/SBARQ[SQ/VP/(VB|VBZ|VBP)/@id=@root and WHNP[(WP|WDT)[@nsubj]] and SQ[VP[NP[NNP|NNPS|PRP]]]]">
 GetInstances(ObjectHasValue( 
         <xsl:call-template name="verb_to_object_property_no_annotation">
-		<xsl:with-param name="verb" select="SQ/VP/VBZ" />
+		<xsl:with-param name="verb" select="SQ/VP/(VB|VBZ|VBP)" />
 	</xsl:call-template> 
         <xsl:text> </xsl:text>
 	<xsl:call-template name="noun_phrase_to_individual_no_annotation">
@@ -16,26 +16,26 @@ GetInstances(ObjectHasValue(
 </xsl:template>
 
 
-<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[(WP|WDT)[@nsubj]] and SQ[VP[NP[NN|NNS]]]]">
+<xsl:template match="/ROOT/SBARQ[SQ/VP/(VB|VBZ|VBP)/@id=@root and WHNP[(WP|WDT)[@nsubj]] and SQ[VP[NP[NN|NNS]]]]">
 GetInstances(
     <xsl:apply-templates select="SQ/VP"/>)
 </xsl:template>
 
-<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[(NN|NNS|NP)[.//@nsubj]] and SQ[VP[VBZ[@lemma='do']][S]]]">
+<xsl:template match="/ROOT/SBARQ[SQ/VP/(VB|VBZ|VBP)/@id=@root and WHNP[(NN|NNS|NP)[.//@nsubj]] and SQ[VP[(VB|VBZ|VBP)[@lemma='do']][S]]]">
 GetInstances(ObjectIntersectionOf(
 	<xsl:apply-templates select="WHNP"/>
         <xsl:text> </xsl:text>
         <xsl:apply-templates select="SQ/VP/S"/>))
 </xsl:template>
 
-<xsl:template match="/ROOT/SBARQ[SQ/VP/VBZ/@id=@root and WHNP[(NN|NNS|NP)[.//@nsubj]] and SQ[VP[VBZ[@lemma!='do']]]]">
+<xsl:template match="/ROOT/SBARQ[SQ/VP/(VB|VBZ|VBP)/@id=@root and WHNP[(NN|NNS|NP)[.//@nsubj]] and SQ[VP[(VB|VBZ|VBP)[@lemma!='do']]]]">
 GetInstances(ObjectIntersectionOf(
 	<xsl:apply-templates select="WHNP"/>
         <xsl:text> </xsl:text>
         <xsl:apply-templates select="SQ/VP"/>))
 </xsl:template>
 
-<xsl:template match="/ROOT/SBARQ[WHNP/*/@id=@root and SQ[(VBZ|VBP)[@cop] and NP]]">
+<xsl:template match="/ROOT/SBARQ[WHNP/*/@id=@root and SQ[(VB|VBZ|VBP)[@cop] and NP]]">
 GetInstances(<xsl:apply-templates select="SQ/NP"/>)
 </xsl:template>
 

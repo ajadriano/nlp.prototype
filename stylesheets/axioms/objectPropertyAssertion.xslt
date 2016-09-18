@@ -3,10 +3,10 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="S[count(S)=0][VP/VBZ/@id=@root and NP[NNP|NNPS|PRP] and VP[NP[NNP|NNPS|PRP]]]">
+<xsl:template match="S[count(S)=0][VP/(VB|VBZ|VBP)/@id=@root and NP[NNP|NNPS|PRP] and VP[NP[NNP|NNPS|PRP]]]">
 ObjectPropertyAssertion(
 	<xsl:call-template name="verb_to_object_property">
-		<xsl:with-param name="verb" select="VP/VBZ" />
+		<xsl:with-param name="verb" select="VP/(VB|VBZ|VBP)" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:call-template name="noun_phrase_to_individual">
@@ -18,7 +18,7 @@ ObjectPropertyAssertion(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="S[count(S)=0][NP[NNP|NNPS|PRP and *[@nsubj]] and VP[VBZ[@cop and @lemma='be'] and count(RB[@neg])=0][NP[NP[NN|NNS] and PP[IN][NP[NNP|NNPS|PRP]]]]]">
+<xsl:template match="S[count(S)=0][NP[NNP|NNPS|PRP and *[@nsubj]] and VP[(VB|VBZ|VBP)[@cop and @lemma='be'] and count(RB[@neg])=0][NP[NP[NN|NNS] and PP[IN][NP[NNP|NNPS|PRP]]]]]">
 ObjectPropertyAssertion(
         <xsl:call-template name="noun_phrase_of_object_property">
 		<xsl:with-param name="NP" select="VP/NP/NP" />
@@ -33,7 +33,7 @@ ObjectPropertyAssertion(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="S[count(S)=0][NP[NNP|NNPS|PRP and *[@nsubj]] and VP[VBZ[@cop and @lemma='be'] and count(RB[@neg])>0][NP[NP[NN|NNS] and PP[IN][NP[NNP|NNPS|PRP]]]]]">
+<xsl:template match="S[count(S)=0][NP[NNP|NNPS|PRP and *[@nsubj]] and VP[(VB|VBZ|VBP)[@cop and @lemma='be'] and count(RB[@neg])>0][NP[NP[NN|NNS] and PP[IN][NP[NNP|NNPS|PRP]]]]]">
 NegativeObjectPropertyAssertion(
         <xsl:call-template name="noun_phrase_of_object_property">
 		<xsl:with-param name="NP" select="VP/NP/NP" />
@@ -48,7 +48,7 @@ NegativeObjectPropertyAssertion(
 	</xsl:call-template>)
 </xsl:template>
 
-<xsl:template match="S[count(S)=0][VP/VBZ/@id=@root and NP[(NNP|NNPS|PRP)[@nsubj]] and VP[VBZ[@lemma='have'] and NP[DT and *[@dobj]]]]">
+<xsl:template match="S[count(S)=0][VP/(VB|VBZ|VBP)/@id=@root and NP[(NNP|NNPS|PRP)[@nsubj]] and VP[(VB|VBZ|VBP)[@lemma='have'] and NP[DT and *[@dobj]]]]">
 ObjectPropertyAssertion(
 	<xsl:call-template name="noun_phrase_have_object_property">
 		<xsl:with-param name="NP" select="VP/NP" />
