@@ -1,5 +1,0 @@
-A driver is any person that drives a vehicle. 
-All buses are vehicles. 
-A bus driver is any person that drives a bus. 
-Drivers are adults. 
-A grown-up is any person that is an adult.
