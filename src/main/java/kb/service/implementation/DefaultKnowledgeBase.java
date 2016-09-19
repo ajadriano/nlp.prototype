@@ -75,7 +75,7 @@ public class DefaultKnowledgeBase implements KnowledgeBase, Interpreter {
 
     @Override
     public void initialize() throws KnowledgeBaseException, IOException  {
-        File file = new File("../domains/" + name);
+        File file = new File("domains/" + name);
         if (!file.exists()) {
             throw new KnowledgeBaseException("Domain does not exist.");
         }

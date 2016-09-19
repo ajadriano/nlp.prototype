@@ -1,0 +1,295 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/starwars#"
+     xml:base="http://www.semanticweb.org/ontologies/starwars"
+     xmlns:starwars="http://www.semanticweb.org/ontologies/starwars#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/starwars"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#havePrincess -->
+
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/starwars#havePrincess"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#loveToplay -->
+
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/starwars#loveToplay">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">loves to play</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#own -->
+
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/starwars#own">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">owns</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#princessOf -->
+
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/starwars#princessOf">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/ontologies/starwars#havePrincess"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">princess of</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#isWealthy -->
+
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ontologies/starwars#isWealthy">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">is wealthy</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#JediKnight -->
+
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/starwars#JediKnight">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jedi Knight</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#Kingdom -->
+
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/starwars#Kingdom">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kingdom</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#Person -->
+
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/starwars#Person">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">person</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#Piano -->
+
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/starwars#Piano">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">piano</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#Smuggler -->
+
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/starwars#Smuggler">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/starwars#isWealthy"/>
+                <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Smugglers</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">smuggler</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#Spaceship -->
+
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/starwars#Spaceship">
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">spaceship</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#Alderaan -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/starwars#Alderaan">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/starwars#Kingdom"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Alderaan</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#Coruscant -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/starwars#Coruscant">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/starwars#Kingdom"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Coruscant</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#HanSolo -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/starwars#HanSolo">
+        <rdf:type>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/starwars#Smuggler"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/starwars#own"/>
+                        <owl:hasValue rdf:resource="http://www.semanticweb.org/ontologies/starwars#MilleniumFalcon"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdf:type>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Han Solo</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#LeiaOrgana -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/starwars#LeiaOrgana">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/starwars#loveToplay"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/starwars#Piano"/>
+            </owl:Restriction>
+        </rdf:type>
+        <princessOf rdf:resource="http://www.semanticweb.org/ontologies/starwars#Alderaan"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Leia Organa</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#LukeSkywalker -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/starwars#LukeSkywalker">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/starwars#JediKnight"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Luke Skywalker</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#MilleniumFalcon -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/starwars#MilleniumFalcon">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/starwars#Spaceship"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Millenium Falcon</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#Naboo -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/starwars#Naboo">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/starwars#Kingdom"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Naboo</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/starwars#PadmeAmidala -->
+
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/starwars#PadmeAmidala">
+        <princessOf rdf:resource="http://www.semanticweb.org/ontologies/starwars#Naboo"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Padme Amidala</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+
+    <owl:Restriction>
+        <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/starwars#princessOf"/>
+        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/starwars#Kingdom"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/starwars#Person"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/starwars#isWealthy"/>
+                        <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</owl:hasValue>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Restriction>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 5.0.0.20160228-2008) https://github.com/owlcs/owlapi/ -->
+
+
