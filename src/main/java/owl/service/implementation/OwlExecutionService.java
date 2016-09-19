@@ -105,7 +105,6 @@ public class OwlExecutionService implements ExecutionService {
                 Result<?> result = execute((FunctionExpression)expression, axiomsCommitted);
                 if (result != null) {
                     if (result instanceof AxiomResult) {
-                        
                         try {
                             if (evaluateAxiom(((AxiomResult)result).getResult(), axiomsCommitted)) {
                                 reasoner.flush();

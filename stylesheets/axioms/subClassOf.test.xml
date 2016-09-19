@@ -116,6 +116,14 @@
 		<input>A cow only eats grass.</input>
 		<output>SubClassOf(Class(Cow cow) ObjectAllValuesFrom(ObjectProperty(eat eats) Class(Grass grass)))</output>
 	</test>
+        <test>
+		<input>Smugglers are wealthy.</input>
+		<output>SubClassOf(Class(Smuggler Smugglers) DataHasBoolValue(DataProperty(isWealthy XSD_BOOLEAN is wealthy) true))</output>
+	</test>
+        <test>
+		<input>Smugglers are not wealthy.</input>
+		<output>SubClassOf(Class(Smuggler Smugglers) DataHasBoolValue(DataProperty(isWealthy XSD_BOOLEAN is wealthy) false))</output>
+	</test>
         <!--<test>
 		<input>Leia Organa is the princess of Alderaan. She likes to play the piano.</input>
 		<output>ObjectPropertyAssertion(ObjectPropertyWithInverse(princessOf havePrincess princess of) NamedIndividual(LeiaOrgana Leia Organa) NamedIndividual(Alderaan Alderaan))</output>

@@ -4,11 +4,11 @@
 <xsl:strip-space elements="*"/>
 
 <!--x are y that..-->
-<xsl:template match="S[count(S)=0][NP[count(DT)=0 and NNS[@nsubj]] and VP[(VB|VBZ|VBP)[@cop and @lemma='be'] and NP[NP][SBAR] and count(*)=2]]">
+<xsl:template match="S[count(S)=0][NP[count(DT)=0 and NNS[@nsubj]] and VP[(VB|VBZ|VBP)[@cop and @lemma='be'] and (NP[NP][SBAR])|ADJP]]">
 SubClassOf(
 	<xsl:apply-templates select="NP"/>
 	<xsl:text> </xsl:text>
-	<xsl:apply-templates select="VP/NP"/>)
+	<xsl:apply-templates select="VP"/>)
 </xsl:template>
 
 <!-- each x can be a y -->
