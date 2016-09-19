@@ -44,7 +44,6 @@ public class KnowledgeBaseTestExecutor {
             Document doc = docBuilder.parse(new FileInputStream(testFile));
             XPath xPath = XPathFactory.newInstance().newXPath();
             
-            System.out.println("Collating all statements...");
             NodeList testNodes = (NodeList)xPath.evaluate("//test", doc.getDocumentElement(), XPathConstants.NODESET);
             for (int i = 0; i < testNodes.getLength(); ++i) {
                 Element test = (Element) testNodes.item(i);  
@@ -54,6 +53,13 @@ public class KnowledgeBaseTestExecutor {
                 }   
                 else {
                     String description = test.getAttribute("description");
+                    
+                    System.out.println("Executing test [" + description + "]");
+                    
+                    if (test.hasAttribute("import")) {
+                        System.out.println("Importing test file " + test.getAttribute("import"));
+                        knowledgeBase.loadFile(test.getAttribute("import"));
+                    }
                     
                     NodeList nodeInputs = (NodeList)xPath.evaluate("input", test, XPathConstants.NODESET);   
                     NodeList nodeOutputs = (NodeList)xPath.evaluate("output", test, XPathConstants.NODESET);  

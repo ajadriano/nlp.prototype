@@ -55,7 +55,7 @@ public class InstanceOfQuery implements OWLQueryExpression {
                 return new BooleanResult(Boolean.FALSE);
             }
         } catch (Exception ex) {
-            return new BooleanResult(Boolean.FALSE);
+            return new BooleanResult(null);
         }
     }
 

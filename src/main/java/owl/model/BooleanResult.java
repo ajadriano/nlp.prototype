@@ -17,12 +17,16 @@ public class BooleanResult<T> extends Result<T> {
     
     public String getFormattedResult() {
         
+        if (getResult() == null) {
+            return "Unknown";
+        }
+        
         if (getResult() instanceof Boolean) {
             if (getResult() == Boolean.TRUE) {
                 return "Yes";
             }
             if (getResult() == Boolean.FALSE) {
-                return "NO";
+                return "No";
             }
         }
         
