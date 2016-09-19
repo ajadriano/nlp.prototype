@@ -24,6 +24,11 @@ public class DefaultKnowledgeBaseManager implements KnowledgeBaseManager {
     public DefaultKnowledgeBaseManager(Services services, String directory) {
         this.services = services;
         this.directory = directory;
+        
+        File file = new File(directory);
+        if (!file.exists()) {
+            file.mkdir();
+        }
     }
 
     @Override
