@@ -7,3 +7,4 @@ Naboo is a kingdom.
 Coruscant is a kingdom.
 Han Solo is a smuggler who owns the Millenium Falcon.
 The Millenium Falcon is a spaceship.
+Smugglers are not wealthy.

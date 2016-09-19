@@ -13,6 +13,8 @@
         <output>Leia Organa, Padme Amidala</output>
         <input>A slave is a person who is not wealthy. Padme Amidala is a slave.</input>
         <output>Statement/s are inconsistent with established facts.</output>
+        <input>Han Solo is wealthy.</input>
+        <output>Statement/s are inconsistent with established facts.</output>
     </test>
     <test description="test 2">
         <input>Is Leia Organa wealthy?</input>
