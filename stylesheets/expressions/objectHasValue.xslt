@@ -14,4 +14,15 @@ ObjectHasValue(
     </xsl:call-template>)
 </xsl:template>
 
+<xsl:template match="VP[count(preceding-sibling::ADVP[RB])=0 and (VB|VBZ|VBP)[@lemma!='be' and @lemma!='have']][NP[count(RB[@lemma='only'])=0 and count(.//(NNP|NNPS))>0]]">
+ObjectHasValue(
+    <xsl:call-template name="verb_to_object_property">
+            <xsl:with-param name="verb" select="(VB|VBZ|VBP)" />
+    </xsl:call-template>
+    <xsl:text> </xsl:text>
+    <xsl:call-template name="noun_phrase_to_individual">
+        <xsl:with-param name="NP" select="NP" />
+    </xsl:call-template>)
+</xsl:template>
+
 </xsl:stylesheet>

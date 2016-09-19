@@ -5,3 +5,5 @@ The princess of a kingdom is a wealthy person.
 Padme Amidala is the princess of Naboo.
 Naboo is a kingdom.
 Coruscant is a kingdom.
+Han Solo is a smuggler who owns the Millenium Falcon.
+The Millenium Falcon is a spaceship.

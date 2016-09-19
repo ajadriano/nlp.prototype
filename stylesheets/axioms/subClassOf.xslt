@@ -52,7 +52,7 @@ SubClassOf(
 	<xsl:apply-templates select="VP"/>)
 </xsl:template>
 
-<xsl:template match="S[count(S)=0][NP[name(*[1])='DT' and (NNP|NNPS|PRP)[@nsubj]] and VP[(VB|VBZ|VBP)[position()=1 and @cop]][NP[count(SBAR)=0]]]">
+<xsl:template match="S[count(S)=0][NP[DT[@lemma='a'] and (NNP|NNPS|PRP)[@nsubj]] and VP[(VB|VBZ|VBP)[position()=1 and @cop]][NP[count(SBAR)=0]]]">
 SubClassOf(
 	<xsl:apply-templates select="NP"/>
 	<xsl:text> </xsl:text>

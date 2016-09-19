@@ -3,6 +3,14 @@
     <test description="test 1" import="sampletextcorpus1.txt">
         <input>Is Leia Organa wealthy?</input>
         <output>Yes</output>
+        <input>Which kingdom has a princess?</input>
+        <output>Alderaan, Naboo</output>
+        <input>Who owns a spaceship?</input>
+        <output>Han Solo</output>
+        <input>Is the Millenium Falcon a spaceship?</input>
+        <output>Yes</output>
+        <input>Who are the princesses of a kingdom?</input>
+        <output>Leia Organa, Padme Amidala</output>
     </test>
     <test description="test 2">
         <input>Is Leia Organa wealthy?</input>

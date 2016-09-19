@@ -4,6 +4,14 @@
 		<input>Leia Organa is a lady.</input>
 		<output>ClassAssertion(Class(Lady lady) NamedIndividual(LeiaOrgana Leia Organa))</output>
 	</test>
+        <test>
+		<input>The Millenium Falcon is a spaceship.</input>
+		<output>ClassAssertion(Class(Spaceship spaceship) NamedIndividual(MilleniumFalcon Millenium Falcon))</output>
+	</test>
+        <test>
+		<input>Han Solo is a smuggler who owns the Millenium Falcon.</input>
+		<output>ClassAssertion(ObjectIntersectionOf(Class(Smuggler smuggler) ObjectHasValue(ObjectProperty(own owns) NamedIndividual(MilleniumFalcon Millenium Falcon))) NamedIndividual(HanSolo Han Solo))</output>
+	</test>
 	<test>
 		<input>Katniss Everdeen is a person who likes cats.</input>
 		<output>ClassAssertion(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Cat cats))) NamedIndividual(KatnissEverdeen Katniss Everdeen))</output>

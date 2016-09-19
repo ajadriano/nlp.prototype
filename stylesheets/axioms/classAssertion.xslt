@@ -3,7 +3,7 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="S[count(S)=0][NP[count(DT) = 0 and count(CC) = 0 and (NNP|NNPS|PRP)[@nsubj]] and VP[(VB|VBZ|VBP)[@cop and @lemma='be'] and NP[count(PP)=0]]]">
+<xsl:template match="S[count(S)=0][NP[count(DT[@lemma='a']) = 0 and count(CC) = 0 and (NNP|NNPS|PRP)[@nsubj]] and VP[(VB|VBZ|VBP)[@cop and @lemma='be'] and NP[count(PP)=0]]]">
 ClassAssertion(
     <xsl:apply-templates select="VP"/>
     <xsl:text> </xsl:text>
