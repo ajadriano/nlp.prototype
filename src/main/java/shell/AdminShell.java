@@ -208,6 +208,19 @@ public class AdminShell {
                     System.out.println("Invalid operation.");
                 }
             }
+            else if (isDebug && input.startsWith("import")) {
+                String[] commandArr = input.split("\\s+");
+                if (commandArr.length  == 2) {
+                    try {
+                        kb.loadFile(commandArr[1]);
+                    } catch (IOException ex) {
+                        return ex.getMessage();
+                    }
+                }
+                else {
+                    System.out.println("Invalid operation.");
+                }
+            }
             else if (isDebug && input.equals("clear")) {
                kb.clear();
             }

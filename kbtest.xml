@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tests>
-    <test description="test 1" import="sampletextcorpus.txt">
+    <test description="test 1" import="sampletext.txt">
         <input>Is Leia Organa wealthy?</input>
         <output>Yes</output>
         <input>Who is the princess of Alderaan?</input>
@@ -17,8 +17,6 @@
         <output>Statement/s are inconsistent with established facts.</output>
         <input>Han Solo is wealthy.</input>
         <output>Statement/s are inconsistent with established facts.</output>
-        <input>Is Luke Skywalker a Jedi Knight?</input>
-        <output>Yes</output>
     </test>
     <test description="test 2">
         <input>Is Leia Organa wealthy?</input>

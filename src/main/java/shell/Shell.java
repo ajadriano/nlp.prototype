@@ -5,6 +5,7 @@
  */
 package shell;
 
+import edu.stanford.nlp.util.logging.RedwoodConfiguration;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,7 +16,6 @@ import java.io.InputStreamReader;
  */
 public class Shell {
     public static void main(String args[]) throws IOException {
-        //RedwoodConfiguration.empty().capture(System.out).apply();
         AdminShell adminShell = new AdminShell();
         adminShell.initialize();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
