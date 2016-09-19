@@ -5,6 +5,8 @@
  */
 package kb.service;
 
+import java.util.List;
+
 /**
  *
  * @author ajadriano
@@ -14,6 +16,8 @@ public interface KnowledgeBaseManager {
     String getDirectory();
     
     void create(String name) throws KnowledgeBaseException; 
+    void remove(String name) throws KnowledgeBaseException; 
+    List<String> list();
     KnowledgeBase get(String name);
     KnowledgeBase get(String name, String xsltFile);
     

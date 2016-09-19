@@ -10,6 +10,8 @@ import kb.service.KnowledgeBase;
 import kb.service.KnowledgeBaseException;
 import kb.service.KnowledgeBaseManager;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -44,6 +46,37 @@ public class DefaultKnowledgeBaseManager implements KnowledgeBaseManager {
             throw new KnowledgeBaseException("Knowledge base exists.");
         }
     }
+    
+    @Override
+    public void remove(String name) throws KnowledgeBaseException {
+        File file = new File(directory + name);
+        if (file.exists()) {
+            deleteDirectory(file);
+        }
+        else {
+            throw new KnowledgeBaseException("Knowledge base does not exists.");
+        }
+    }
+    
+    @Override
+    public List<String> list() {
+        List<String> domains = new ArrayList();
+        
+        File dir = new File(directory);
+        
+        if(dir.exists()){
+            File[] files = dir.listFiles();
+            if(null!=files){
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        domains.add(file.getName());
+                    }
+                }
+            }
+        }
+        
+        return domains;
+    }
 
     @Override
     public KnowledgeBase get(String name) {
@@ -63,5 +96,22 @@ public class DefaultKnowledgeBaseManager implements KnowledgeBaseManager {
     @Override
     public KnowledgeBase getDebugKb(String xsltFile) {
         return new DebugKnowledgeBase(services, xsltFile);
+    }
+    
+    //http://stackoverflow.com/questions/3775694/deleting-folder-from-java
+    public void deleteDirectory(File directory) {
+        if(directory.exists()){
+            File[] files = directory.listFiles();
+            if(null!=files){
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        deleteDirectory(file);
+                    } else {
+                        file.delete();
+                    }
+                }
+            }
+        }
+        directory.delete();
     }
 }

@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.w3c.dom.Document;
@@ -36,7 +37,7 @@ public class AdminShell {
     public void initialize() {
         services = new DefaultServices();
         services.initialize();
-        knowledgeBaseManager = new DefaultKnowledgeBaseManager(services, "../domains/");
+        knowledgeBaseManager = new DefaultKnowledgeBaseManager(services, "domains/");
     }
     
     public String createKnowledgeBase(String name) {
@@ -46,6 +47,22 @@ public class AdminShell {
         } catch (KnowledgeBaseException ex) {
             return ex.getMessage();
         }
+    }
+    
+    public String removeKnowledgeBase(String name) {
+        try {
+            knowledgeBaseManager.remove(name);
+            return "Knowledge base " + name + " removed";
+        } catch (KnowledgeBaseException ex) {
+            return ex.getMessage();
+        }
+    }
+    
+    public void listKnowledgeBases() {
+        List<String> domains = knowledgeBaseManager.list();
+        domains.stream().forEach((domain) -> {
+            System.out.println(domain);
+        });
     }
     
     public String importKnowledgeBase(String name, String file) {
@@ -213,6 +230,13 @@ public class AdminShell {
                     if (args.length == 2) {
                         return createKnowledgeBase(args[1]); 
                     }
+                case "remove" : 
+                    if (args.length == 2) {
+                        return removeKnowledgeBase(args[1]); 
+                    }
+                case "list" : 
+                    listKnowledgeBases();
+                    return "";
                 case "load" : 
                     if (args.length == 2) {
                         return loadKnowledgeBase(knowledgeBaseManager.get(args[1]), false);
