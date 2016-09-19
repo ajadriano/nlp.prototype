@@ -13,26 +13,6 @@
 		<output>SubClassOf(Class(Driver Drivers) Class(Adult adults))</output>
 	</test>
 	<test>
-		<input>AJ likes dogs.</input>
-		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
-	</test>
-        <test>
-		<input>AJ likes chicken.</input>
-		<output>SubClassOf(Class(Chicken chicken) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
-	</test>
-	<test>
-		<input>Adrian Joseph likes dogs.</input>
-		<output>SubClassOf(Class(Dog dogs) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AdrianJoseph Adrian Joseph)))</output>
-	</test>
-	<test>
-		<input>AJ likes chicken pie.</input>
-		<output>SubClassOf(Class(ChickenPie chicken pie) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
-	</test>
-	<test>
-		<input>Adrian Joseph likes chicken pie.</input>
-		<output>SubClassOf(Class(ChickenPie chicken pie) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AdrianJoseph Adrian Joseph)))</output>
-	</test>
-	<test>
 		<input>Fried chicken is a chicken dish.</input>
 		<output>SubClassOf(Class(FriedChicken Fried chicken) Class(ChickenDish chicken dish))</output>
 	</test>
@@ -89,28 +69,8 @@
 		<output>SubClassOf(ObjectSomeValuesFrom(ObjectProperty(childOf child of) Class(Wizard wizard)) Class(Squib squib))</output>
 	</test>
         <test>
-		<input>AJ likes any person who likes dogs.</input>
-		<output>SubClassOf(ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
-	</test>
-        <test>
-		<input>AJ likes any person who likes only dogs.</input>
-		<output>SubClassOf(ObjectIntersectionOf(Class(Person person) ObjectAllValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
-	</test>
-        <test>
-		<input>AJ likes anyone who likes dogs.</input>
-		<output>SubClassOf(ObjectIntersectionOf(Thing() ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
-	</test>
-        <test>
-		<input>AJ likes anyone who only likes dogs.</input>
-		<output>SubClassOf(ObjectIntersectionOf(Thing() ObjectAllValuesFrom(ObjectProperty(like likes) Class(Dog dogs))) ObjectHasValue(ObjectInverseOf(ObjectProperty(like likes)) NamedIndividual(AJ AJ)))</output>
-	</test>
-        <test>
 		<input>Everybody that has a wand is a wizard.</input>
 		<output>SubClassOf(ObjectIntersectionOf(Thing() ObjectSomeValuesFrom(ObjectPropertyWithInverse(haveWand wandOf have wand) Thing())) Class(Wizard wizard))</output>
-	</test>
-        <test>
-		<input>Leia likes to play the piano.</input>
-		<output>SubClassOf(Class(Piano piano) ObjectHasValue(ObjectInverseOf(ObjectProperty(likeToplay likes to play)) NamedIndividual(Leia Leia)))</output>
 	</test>
         <test>
 		<input>A wizard has a wand.</input>

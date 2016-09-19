@@ -40,4 +40,44 @@
 		<input>Han Solo is not a honest smuggler.</input>
 		<output>ClassAssertion(ObjectComplementOf(ObjectIntersectionOf(Class(Smuggler smuggler) DataHasBoolValue(DataProperty(isHonest XSD_BOOLEAN is honest) true))) NamedIndividual(HanSolo Han Solo))</output>
         </test>
+        <test>
+		<input>AJ likes dogs.</input>
+		<output>ClassAssertion(ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs)) NamedIndividual(AJ AJ))</output>
+	</test>
+        <test>
+		<input>AJ likes chicken.</input>
+		<output>ClassAssertion(ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Chicken chicken)) NamedIndividual(AJ AJ))</output>
+	</test>
+	<test>
+		<input>Adrian Joseph likes dogs.</input>
+		<output>ClassAssertion(ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs)) NamedIndividual(AdrianJoseph Adrian Joseph))</output>
+	</test>
+	<test>
+		<input>AJ likes chicken pie.</input>
+		<output>ClassAssertion(ObjectSomeValuesFrom(ObjectProperty(like likes) Class(ChickenPie chicken pie)) NamedIndividual(AJ AJ))</output>
+	</test>
+	<test>
+		<input>Adrian Joseph likes chicken pie.</input>
+		<output>ClassAssertion(ObjectSomeValuesFrom(ObjectProperty(like likes) Class(ChickenPie chicken pie)) NamedIndividual(AdrianJoseph Adrian Joseph))</output>
+	</test>
+        <test>
+		<input>AJ likes any person who likes dogs.</input>
+		<output>ClassAssertion(ObjectSomeValuesFrom(ObjectProperty(like likes) ObjectIntersectionOf(Class(Person person) ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs)))) NamedIndividual(AJ AJ))</output>
+	</test>
+        <test>
+		<input>AJ likes any person who likes only dogs.</input>
+		<output>ClassAssertion(ObjectSomeValuesFrom(ObjectProperty(like likes) ObjectIntersectionOf(Class(Person person) ObjectAllValuesFrom(ObjectProperty(like likes) Class(Dog dogs)))) NamedIndividual(AJ AJ))</output>
+	</test>
+        <test>
+		<input>AJ likes anyone who likes dogs.</input>
+		<output>ClassAssertion(ObjectSomeValuesFrom(ObjectProperty(like likes) ObjectIntersectionOf(Thing() ObjectSomeValuesFrom(ObjectProperty(like likes) Class(Dog dogs)))) NamedIndividual(AJ AJ))</output>
+	</test>
+        <test>
+		<input>AJ likes anyone who only likes dogs.</input>
+		<output>ClassAssertion(ObjectSomeValuesFrom(ObjectProperty(like likes) ObjectIntersectionOf(Thing() ObjectAllValuesFrom(ObjectProperty(like likes) Class(Dog dogs)))) NamedIndividual(AJ AJ))</output>
+	</test>
+        <test>
+		<input>Leia likes to play the piano.</input>
+		<output>ClassAssertion(ObjectSomeValuesFrom(ObjectProperty(likeToplay likes to play) Class(Piano piano)) NamedIndividual(Leia Leia))</output>
+	</test>
 </tests>

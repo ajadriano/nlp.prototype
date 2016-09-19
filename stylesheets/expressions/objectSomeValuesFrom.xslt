@@ -21,6 +21,16 @@ ObjectSomeValuesFrom(
     <xsl:apply-templates select="NP"/>)
 </xsl:template>
 
+<xsl:template match="VP[(VB|VBZ|VBP)/@id=S/VP/VP/(VB|VBZ|VBP)/@xcomp and S/VP[TO and VP/NP[count(NNP|NNPS)=0]]]">
+ObjectSomeValuesFrom(
+    <xsl:call-template name="verb_and_xcomp_to_object_property">
+        <xsl:with-param name="verb" select="(VB|VBZ|VBP)" />
+        <xsl:with-param name="xcomp" select="S/VP/VP/(VB|VBZ|VBP)" />
+    </xsl:call-template>
+    <xsl:text> </xsl:text>
+    <xsl:apply-templates select="S/VP/VP/NP"/>)
+</xsl:template>
+
 <xsl:template match="NP[NP[POS and *[@poss]] and NN|NNS]">
 ObjectSomeValuesFrom(
     <xsl:call-template name="noun_to_object_property_of">

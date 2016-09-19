@@ -27,4 +27,13 @@ ClassAssertion(
     </xsl:call-template>)
 </xsl:template>
 
+<xsl:template match="S[count(S)=0][VP/(VB|VBZ|VBP)/@id=@root and NP[NNP|NNPS|PRP] and VP[count(*[@lemma='have'])=0 and count(.//NP[NNP|NNPS|PRP]) = 0]]">
+ClassAssertion(
+    <xsl:apply-templates select="VP"/>
+    <xsl:text> </xsl:text>
+    <xsl:call-template name="noun_phrase_to_individual">
+            <xsl:with-param name="NP" select="NP" />
+    </xsl:call-template>)
+</xsl:template>
+
 </xsl:stylesheet>
