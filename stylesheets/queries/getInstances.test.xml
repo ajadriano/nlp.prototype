@@ -10,7 +10,7 @@
 	</test> 
         <test>
 		<input>Who is the princess of Alderaan?</input>
-		<output>GetInstances(ObjectHasValue(ObjectProperty(princessOf princess of) NamedIndividual(Alderaan)))</output>
+		<output>GetInstances(ObjectHasValue(ObjectProperty(princessOf princess of) NamedIndividual(Alderaan Alderaan)))</output>
 	</test>  
         <test>
 		<input>Which kingdom does have a princess?</input>

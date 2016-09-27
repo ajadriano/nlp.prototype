@@ -3,10 +3,10 @@
 <xsl:output method="text" indent="no"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:template match="S[count(S)=0][VP/(VB|VBZ|VBP)/@id=@root and NP[NNP|NNPS|PRP] and VP[NP[NNP|NNPS|PRP]]]">
+<xsl:template match="S[count(S)=0][VP/(VB|VBZ|VBP|VBD)/@id=@root and NP[NNP|NNPS|PRP] and VP[NP[NNP|NNPS|PRP]]]">
 ObjectPropertyAssertion(
 	<xsl:call-template name="verb_to_object_property">
-		<xsl:with-param name="verb" select="VP/(VB|VBZ|VBP)" />
+		<xsl:with-param name="verb" select="VP/(VB|VBZ|VBP|VBD)" />
 	</xsl:call-template>
 	<xsl:text> </xsl:text>
 	<xsl:call-template name="noun_phrase_to_individual">

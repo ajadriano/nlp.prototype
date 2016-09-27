@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +43,7 @@ import uk.ac.manchester.cs.jfact.JFactFactory;
 import owl.model.BooleanResult;
 import owl.model.Result;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.eclipse.core.runtime.Assert;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -127,6 +129,14 @@ public class OwlExecutionService implements ExecutionService {
                             if (isReadOnly) {
                                 owlManager.removeAxioms(ontology, axiomsCommitted.stream());
                                 reasoner.flush();
+                            }
+                            else {
+                                List<OWLNamedIndividual> individuals = ontology.individualsInSignature().collect(Collectors.toList());
+                                if (individuals.size() > 1) {
+                                   owlManager.removeAxioms(ontology, ontology.differentIndividualAxioms(individuals.get(0)));
+                                   owlManager.addAxiom(ontology, factory.getOWLDifferentIndividualsAxiom(individuals));
+                                   reasoner.flush(); 
+                                }
                             }
                         }
                     }
